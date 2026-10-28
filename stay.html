@@ -1,28 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Where To Stay | Prayagraj Tourism</title>
-    <script src="https://jsdelivr.net"></script>
-    <link href="https://googleapis.com" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Stay | Prayagraj Tourism</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<style>body{font-family:Poppins,sans-serif}h1,h2,h3,.logo{font-family:'Playfair Display',serif}</style>
 </head>
-<body class="bg-amber-50/20 text-stone-800">
-    <nav class="bg-white shadow-sm border-b border-amber-100 p-5"><div class="max-w-7xl mx-auto flex justify-between items-center"><a href="index.html" class="font-serif text-2xl font-bold tracking-widest text-amber-700">PRAYAGRAJ</a><a href="index.html" class="text-amber-700">← Home</a></div></nav>
-
-    <main class="max-w-4xl mx-auto px-4 py-12 space-y-6">
-        <h1 class="font-serif text-4xl font-bold text-stone-900 border-b border-amber-400 pb-2">Accommodation Guide</h1>
-        
-        <div class="space-y-4">
-            <div class="bg-white p-6 rounded-2xl shadow-xs border border-amber-100">
-                <h3 class="font-bold text-lg text-amber-800">Civil Lines (Premium & Central)</h3>
-                <p class="text-stone-600 text-sm mt-1">Ideal for standard tourists looking for premium hotels, high-end restaurants, accessible transportation, and shopping complexes.</p>
-            </div>
-            <div class="bg-white p-6 rounded-2xl shadow-xs border border-amber-100">
-                <h3 class="font-bold text-lg text-amber-800">Jhulpur & Sangam Areas (Pilgrim Luxury Tents)</h3>
-                <p class="text-stone-600 text-sm mt-1">During mega festival periods, massive luxury tent cities pop up closer to the riverfront offering immersive devotional stays.</p>
-            </div>
-        </div>
-    </main>
+<body class="bg-orange-50 text-gray-800">
+<header class="bg-orange-700 text-white sticky top-0 z-[1100]">
+  <nav class="max-w-6xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-2">
+    <a href="index.html" class="logo text-xl font-bold">Prayagraj Tourism</a>
+    <div class="flex flex-wrap gap-4 text-sm">
+      <a href="index.html">Home</a><a href="about.html">About</a><a href="attractions.html">Attractions</a>
+      <a href="kumbh.html">Kumbh Mela</a><a href="food.html">Food</a><a href="stay.html">Stay</a><a href="plan-trip.html">Plan Trip</a>
+    </div>
+  </nav>
+</header>
+<main class="max-w-6xl mx-auto px-4 py-12">
+  <h1 class="text-4xl font-bold text-orange-800">Where to Stay</h1>
+  <div id="cards" class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-6"></div>
+  <div id="map" class="h-[400px] rounded-xl shadow z-0 mt-10"></div>
+</main>
+<footer class="bg-orange-900 text-orange-100 text-center py-6 text-sm">© 2026 Prayagraj Tourism. Map data © OpenStreetMap contributors.</footer>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+const areas=[
+ {n:'Civil Lines',img:'civil-lines.jpg',c:[25.4533,81.8392],d:'Modern hotels, restaurants and shopping. Good all-round base.'},
+ {n:'Near Railway Station',img:'station.jpg',c:[25.4475,81.8271],d:'Budget hotels and lodges, easy for arrivals and departures.'},
+ {n:'Sangam side',img:'sangam-stay.jpg',c:[25.4250,81.8880],d:'Guest houses close to the holy bathing area.'},
+ {n:'Kumbh tent city',img:'tents.jpg',c:[25.4220,81.8850],d:'Temporary tents during the Mela. Book early.'}
+];
+const map=L.map('map').setView([25.4400,81.8500],13);
+L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'&copy; OpenStreetMap contributors'}).addTo(map);
+areas.forEach(p=>{
+ L.marker(p.c).addTo(map).bindPopup(`<b>${p.n}</b><br><a target="_blank" href="https://www.google.com/maps/dir/?api=1&destination=${p.c[0]},${p.c[1]}">Get directions</a>`);
+ document.getElementById('cards').insertAdjacentHTML('beforeend',`
+  <div class="bg-white rounded-xl shadow overflow-hidden"><img src="images/${p.img}" onerror="this.src='https://placehold.co/500x300?text=${encodeURIComponent(p.n)}'" alt="${p.n}" class="w-full h-40 object-cover"><div class="p-4"><h3 class="text-lg font-bold">${p.n}</h3><p class="text-sm mt-1">${p.d}</p></div></div>`);
+});
+</script>
 </body>
 </html>
