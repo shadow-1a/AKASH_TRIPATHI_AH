@@ -1,46 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Plan Your Trip | Prayagraj Tourism</title>
-    <script src="https://jsdelivr.net"></script>
-    <link href="https://googleapis.com" rel="stylesheet">
-    <style>body { font-family: 'Poppins', sans-serif; } .heading-font { font-family: 'Cinzel', serif; }</style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Plan Your Trip | Prayagraj Tourism</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<style>body{font-family:Poppins,sans-serif}h1,h2,h3,.logo{font-family:'Playfair Display',serif}</style>
 </head>
-<body class="bg-amber-50/20 text-stone-800">
-    <nav class="bg-white shadow-sm border-b border-amber-100 p-5">
-        <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <a href="index.html" class="heading-font text-2xl font-bold tracking-widest text-amber-700">PRAYAGRAJ</a>
-            <a href="index.html" class="text-amber-700 hover:underline">← Home</a>
-        </div>
-    </nav>
-
-    <main class="max-w-xl mx-auto px-4 py-12">
-        <div class="bg-white rounded-3xl p-8 shadow-xl border border-amber-100">
-            <h2 class="heading-font text-2xl font-bold text-center text-stone-900 mb-2">Plan Your Custom Itinerary</h2>
-            <p class="text-stone-500 text-xs text-center mb-6">Drop your details below and our official guides will assist your planning.</p>
-            
-            <form class="space-y-4" onsubmit="event.preventDefault(); alert('Thank you! Our travel expert will reach out within 24 hours.');">
-                <div>
-                    <label class="block text-xs font-semibold uppercase text-stone-600 mb-1">Full Name</label>
-                    <input type="text" required class="w-full border border-stone-200 rounded-xl p-3 text-sm focus:outline-amber-500">
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold uppercase text-stone-600 mb-1">Travel Dates</label>
-                    <input type="date" required class="w-full border border-stone-200 rounded-xl p-3 text-sm focus:outline-amber-500">
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold uppercase text-stone-600 mb-1">Traveler Count</label>
-                    <select class="w-full border border-stone-200 rounded-xl p-3 text-sm focus:outline-amber-500">
-                        <option>1 Member (Solo)</option>
-                        <option>2-4 Members (Family)</option>
-                        <option>5+ Members (Group)</option>
-                    </select>
-                </div>
-                <button type="submit" class="w-full bg-amber-600 hover:bg-amber-700 text-white font-semibold py-3 rounded-xl shadow-md transition-all">Submit Request</button>
-            </form>
-        </div>
-    </main>
+<body class="bg-orange-50 text-gray-800">
+<header class="bg-orange-700 text-white sticky top-0 z-[1100]">
+  <nav class="max-w-6xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-2">
+    <a href="index.html" class="logo text-xl font-bold">Prayagraj Tourism</a>
+    <div class="flex flex-wrap gap-4 text-sm">
+      <a href="index.html">Home</a><a href="about.html">About</a><a href="attractions.html">Attractions</a>
+      <a href="kumbh.html">Kumbh Mela</a><a href="food.html">Food</a><a href="stay.html">Stay</a><a href="plan-trip.html">Plan Trip</a>
+    </div>
+  </nav>
+</header>
+<main class="max-w-5xl mx-auto px-4 py-12">
+  <h1 class="text-4xl font-bold text-orange-800">Plan Your Trip</h1>
+  <div class="bg-white rounded-xl shadow p-6 mt-6">
+    <label class="font-medium">Number of days
+      <select id="days" class="border rounded ml-2 p-1"><option>1</option><option>2</option><option>3</option></select>
+    </label>
+    <p class="font-medium mt-4">Choose places to visit:</p>
+    <div id="choices" class="grid sm:grid-cols-2 gap-2 mt-2 text-sm"></div>
+    <button id="go" class="bg-orange-600 text-white px-5 py-2 rounded-full mt-5">Make my plan</button>
+  </div>
+  <div id="plan" class="mt-6"></div>
+  <div id="map" class="h-[400px] rounded-xl shadow z-0 mt-6"></div>
+</main>
+<footer class="bg-orange-900 text-orange-100 text-center py-6 text-sm">© 2026 Prayagraj Tourism. Map data © OpenStreetMap contributors.</footer>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+const places=[
+ {n:'Triveni Sangam',c:[25.4300,81.8870]},{n:'Allahabad Fort',c:[25.4284,81.8750]},
+ {n:'Bade Hanuman Mandir',c:[25.4290,81.8800]},{n:'Anand Bhawan',c:[25.4527,81.8497]},
+ {n:'Khusro Bagh',c:[25.4440,81.8300]},{n:'Chandrashekhar Azad Park',c:[25.4580,81.8500]}
+];
+const map=L.map('map').setView([25.4358,81.8463],12);
+L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'&copy; OpenStreetMap contributors'}).addTo(map);
+let layer=L.layerGroup().addTo(map);
+document.getElementById('choices').innerHTML=places.map((p,i)=>`<label class="flex items-center gap-2"><input type="checkbox" value="${i}" checked> ${p.n}</label>`).join('');
+document.getElementById('go').onclick=()=>{
+ const sel=[...document.querySelectorAll('#choices input:checked')].map(x=>places[x.value]);
+ const days=+document.getElementById('days').value;
+ if(!sel.length)return alert('Select at least one place');
+ const per=Math.ceil(sel.length/days);
+ let html='';layer.clearLayers();
+ for(let d=0;d<days;d++){
+  const part=sel.slice(d*per,(d+1)*per);
+  if(!part.length)break;
+  html+=`<div class="bg-white rounded-xl shadow p-5 mb-3"><h3 class="text-xl font-bold">Day ${d+1}</h3><ol class="list-decimal pl-5 mt-2">${part.map(p=>`<li>${p.n}</li>`).join('')}</ol>
+  <a target="_blank" class="text-blue-600 text-sm underline" href="https://www.google.com/maps/dir/${part.map(p=>p.c.join(',')).join('/')}">Open Day ${d+1} route in Google Maps</a></div>`;
+ }
+ document.getElementById('plan').innerHTML=html;
+ sel.forEach(p=>L.marker(p.c).addTo(layer).bindPopup(p.n));
+ map.fitBounds(L.latLngBounds(sel.map(p=>p.c)).pad(0.3));
+};
+</script>
 </body>
 </html>
