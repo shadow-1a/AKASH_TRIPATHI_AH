@@ -1,35 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Local Flavours | Prayagraj Tourism</title>
-    <script src="https://jsdelivr.net"></script>
-    <link href="https://googleapis.com" rel="stylesheet">
-    <style>body { font-family: 'Poppins', sans-serif; } .heading-font { font-family: 'Cinzel', serif; }</style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Food | Prayagraj Tourism</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<style>body{font-family:Poppins,sans-serif}h1,h2,h3,.logo{font-family:'Playfair Display',serif}</style>
 </head>
-<body class="bg-amber-50/20 text-stone-800">
-    <nav class="bg-white shadow-sm border-b border-amber-100 p-5">
-        <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <a href="index.html" class="heading-font text-2xl font-bold tracking-widest text-amber-700">PRAYAGRAJ</a>
-            <a href="index.html" class="text-amber-700 hover:underline">← Home</a>
-        </div>
-    </nav>
-
-    <main class="max-w-5xl mx-auto px-4 py-12">
-        <h1 class="heading-font text-4xl font-bold text-stone-900 mb-4 border-b-2 border-amber-500 pb-3">Culinary Journey</h1>
-        <p class="text-stone-600 mb-8">Prayagraj offers an incredible street food culture that every traveler must indulge in.</p>
-
-        <div class="grid md:grid-cols-2 gap-8">
-            <div class="p-6 bg-white rounded-2xl shadow-sm border border-stone-100">
-                <h3 class="text-xl font-bold text-amber-800 mb-2">Allahabadi Kachori-Sabzi</h3>
-                <p class="text-stone-600 text-sm">Crispy, deep-fried dal-stuffed kachoris served with a spicy, aromatic potato curry. A quintessential local breakfast staple best enjoyed around Loknath lane.</p>
-            </div>
-            <div class="p-6 bg-white rounded-2xl shadow-sm border border-stone-100">
-                <h3 class="text-xl font-bold text-amber-800 mb-2">Famous Allahabadi Guava</h3>
-                <p class="text-stone-600 text-sm">Renowned across the nation for their exceptional quality, specifically the deep red-core variety ('Surkha') that is sweet, crisp, and fresh.</p>
-            </div>
-        </div>
-    </main>
+<body class="bg-orange-50 text-gray-800">
+<header class="bg-orange-700 text-white sticky top-0 z-[1100]">
+  <nav class="max-w-6xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-2">
+    <a href="index.html" class="logo text-xl font-bold">Prayagraj Tourism</a>
+    <div class="flex flex-wrap gap-4 text-sm">
+      <a href="index.html">Home</a><a href="about.html">About</a><a href="attractions.html">Attractions</a>
+      <a href="kumbh.html">Kumbh Mela</a><a href="food.html">Food</a><a href="stay.html">Stay</a><a href="plan-trip.html">Plan Trip</a>
+    </div>
+  </nav>
+</header>
+<main class="max-w-6xl mx-auto px-4 py-12">
+  <h1 class="text-4xl font-bold text-orange-800">Food of Prayagraj</h1>
+  <h2 class="text-2xl font-bold mt-8">Must-try dishes</h2>
+  <div id="dishes" class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-4"></div>
+  <h2 class="text-2xl font-bold mt-12">Where to eat (areas)</h2>
+  <p class="text-sm text-gray-600">Pins show food areas; locations are approximate.</p>
+  <div id="map" class="h-[400px] rounded-xl shadow z-0 mt-4"></div>
+</main>
+<footer class="bg-orange-900 text-orange-100 text-center py-6 text-sm">© 2026 Prayagraj Tourism. Map data © OpenStreetMap contributors.</footer>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+const dishes=[
+ {n:'Kachori Sabzi',img:'kachori.jpg',d:'Crispy kachori with spicy potato curry, a classic breakfast.'},
+ {n:'Imarti',img:'imarti.jpg',d:'Sweet, syrupy, flower-shaped dessert.'},
+ {n:'Chaat',img:'chaat.jpg',d:'Tikki, golgappa and papdi chaat from street stalls.'},
+ {n:'Lassi and Rabri',img:'lassi.jpg',d:'Thick, creamy and perfect after a day of sightseeing.'}
+];
+dishes.forEach(p=>document.getElementById('dishes').insertAdjacentHTML('beforeend',`
+ <div class="bg-white rounded-xl shadow overflow-hidden"><img src="images/${p.img}" onerror="this.src='https://placehold.co/500x300?text=${encodeURIComponent(p.n)}'" alt="${p.n}" class="w-full h-40 object-cover"><div class="p-4"><h3 class="text-lg font-bold">${p.n}</h3><p class="text-sm mt-1">${p.d}</p></div></div>`));
+const spots=[
+ {n:'Civil Lines food street',c:[25.4533,81.8392]},
+ {n:'Chowk and Loknath Gali area',c:[25.4410,81.8270]},
+ {n:'Katra market area',c:[25.4560,81.8450]},
+ {n:'Near Sangam',c:[25.4310,81.8830]}
+];
+const map=L.map('map').setView([25.4450,81.8400],13);
+L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'&copy; OpenStreetMap contributors'}).addTo(map);
+spots.forEach(p=>L.marker(p.c).addTo(map).bindPopup(`<b>${p.n}</b><br><a target="_blank" href="https://www.google.com/maps/dir/?api=1&destination=${p.c[0]},${p.c[1]}">Get directions</a>`));
+</script>
 </body>
 </html>
