@@ -69,7 +69,7 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:110px}
 <section id="origin" class="py-14 border-t border-orange-950">
   <h2 class="text-4xl font-bold text-orange-500">Where Did the Kumbh Mela Originate?</h2>
   <div class="grid md:grid-cols-2 gap-8 mt-6 items-center">
-    <div class="h-80 rounded-2xl overflow-hidden shadow-lg order-2 md:order-1"><img data-q="Samudra Manthan churning of the ocean painting" alt="Samudra Manthan" class="w-full h-full object-cover"></div>
+    <div class="h-80 rounded-2xl overflow-hidden shadow-lg order-2 md:order-1"><img data-q="Samudra Manthan churning of the ocean" alt="Samudra Manthan" class="w-full h-full object-cover"></div>
     <div class="space-y-4 text-orange-100/90 leading-relaxed order-1 md:order-2">
       <h3 class="text-2xl font-bold text-amber-400">The legend of Samudra Manthan</h3>
       <p>According to Hindu mythology, the gods (Devas) and demons (Asuras) once churned the cosmic ocean to obtain amrit, the nectar of immortality. When the golden pot (kumbh) of nectar emerged, a fierce struggle began over it.</p>
@@ -82,7 +82,7 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:110px}
   <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 mt-4">
     <div class="group bg-[#120a07] rounded-2xl overflow-hidden shadow-lg"><div class="h-40 overflow-hidden"><img data-q="Triveni Sangam Allahabad" alt="Prayagraj" class="w-full h-full object-cover group-hover:scale-110 transition duration-700"></div><div class="p-4"><h4 class="font-bold text-lg">Prayagraj</h4><p class="text-sm text-orange-100/80">Ganga, Yamuna and Saraswati (Sangam)</p></div></div>
     <div class="group bg-[#120a07] rounded-2xl overflow-hidden shadow-lg"><div class="h-40 overflow-hidden"><img data-q="Har Ki Pauri Haridwar" alt="Haridwar" class="w-full h-full object-cover group-hover:scale-110 transition duration-700"></div><div class="p-4"><h4 class="font-bold text-lg">Haridwar</h4><p class="text-sm text-orange-100/80">River Ganga, Har Ki Pauri</p></div></div>
-    <div class="group bg-[#120a07] rounded-2xl overflow-hidden shadow-lg"><div class="h-40 overflow-hidden"><img data-q="Ram Ghat Ujjain Shipra river" alt="Ujjain" class="w-full h-full object-cover group-hover:scale-110 transition duration-700"></div><div class="p-4"><h4 class="font-bold text-lg">Ujjain</h4><p class="text-sm text-orange-100/80">River Shipra</p></div></div>
+    <div class="group bg-[#120a07] rounded-2xl overflow-hidden shadow-lg"><div class="h-40 overflow-hidden"><img data-q="Ram Ghat Ujjain Shipra" alt="Ujjain" class="w-full h-full object-cover group-hover:scale-110 transition duration-700"></div><div class="p-4"><h4 class="font-bold text-lg">Ujjain</h4><p class="text-sm text-orange-100/80">River Shipra</p></div></div>
     <div class="group bg-[#120a07] rounded-2xl overflow-hidden shadow-lg"><div class="h-40 overflow-hidden"><img data-q="Ramkund Nashik Godavari" alt="Nashik" class="w-full h-full object-cover group-hover:scale-110 transition duration-700"></div><div class="p-4"><h4 class="font-bold text-lg">Nashik</h4><p class="text-sm text-orange-100/80">River Godavari</p></div></div>
   </div>
 </section>
@@ -154,7 +154,7 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:110px}
     <div class="group relative h-48 rounded-2xl overflow-hidden"><img data-q="Allahabad High Court" alt="Allahabad High Court" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition duration-700"><p class="absolute bottom-2 left-3 text-sm font-semibold drop-shadow">Allahabad High Court</p></div>
     <div class="group relative h-48 rounded-2xl overflow-hidden"><img data-q="Chandrashekhar Azad Park Allahabad" alt="Azad Park" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition duration-700"><p class="absolute bottom-2 left-3 text-sm font-semibold drop-shadow">Azad Park</p></div>
     <div class="group relative h-48 rounded-2xl overflow-hidden"><img data-q="Ganga aarti Prayagraj" alt="Ganga Aarti" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition duration-700"><p class="absolute bottom-2 left-3 text-sm font-semibold drop-shadow">Ganga Aarti</p></div>
-    <div class="group relative h-48 rounded-2xl overflow-hidden"><img data-q="Allahabad University" alt="University of Allahabad" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition duration-700"><p class="absolute bottom-2 left-3 text-sm font-semibold drop-shadow">Allahabad University</p></div>
+    <div class="group relative h-48 rounded-2xl overflow-hidden"><img data-q="University of Allahabad" alt="University of Allahabad" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition duration-700"><p class="absolute bottom-2 left-3 text-sm font-semibold drop-shadow">Allahabad University</p></div>
   </div>
 </section>
 
@@ -183,10 +183,17 @@ html{scroll-behavior:smooth}section[id]{scroll-margin-top:110px}
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
-/* photo loader */
-const cache={};
-function svgPlaceholder(t){const s=`<svg xmlns="http://www.w3.org/2000/svg" width="900" height="600"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ea580c"/><stop offset="1" stop-color="#7c2d12"/></linearGradient></defs><rect width="900" height="600" fill="url(#g)"/><text x="450" y="320" font-size="54" font-family="Arial" fill="#fff" text-anchor="middle">${t}</text></svg>`;return 'data:image/svg+xml;charset=utf-8,'+encodeURIComponent(s);}
-async function findPhoto(q){
-  if(q in cache)return cache[q];let url=null;
-  try{const a=await(await fetch('https://commons.wikimedia.org/w/api.php?action=query&generator=search&gsrnamespace=6&gsrlimit=10&gsrsearch='+encodeURIComponent(q)+'&prop=imageinfo&iiprop=url|mime&iiurlwidth=1200&format=json&origin=*')).json();
-   const pg=Object.values((a.
+/* ================= PHOTO LOADER (self-contained) ================= */
+(function () {
+  var MAX = 4, active = 0, queue = [], memo = {};
+  var SIZE = 960; // standard Wikimedia thumbnail size
+
+  function svg(t) {
+    var s = '<svg xmlns="http://www.w3.org/2000/svg" width="900" height="600"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ea580c"/><stop offset="1" stop-color="#7c2d12"/></linearGradient></defs><rect width="900" height="600" fill="url(#g)"/><text x="450" y="320" font-size="54" font-family="Arial" fill="#fff" text-anchor="middle">' + t + '</text></svg>';
+    return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(s);
+  }
+  function canLoad(u) {
+    return new Promise(function (res) {
+      var i = new Image(), done = false;
+      function end(v) { if (!done) { done = true; res(v); } }
+      i.onload = functio
