@@ -3,45 +3,190 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Kumbh Mela Guide | Prayagraj Tourism</title>
+<title>Kumbh Mela: History and Guide | Prayagraj Tourism</title>
 <script src="https://cdn.tailwindcss.com"></script>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-<style>body{font-family:Poppins,sans-serif}h1,h2,h3,.logo{font-family:'Playfair Display',serif}</style>
+<style>
+body{font-family:Poppins,sans-serif}h1,h2,h3,.logo{font-family:'Playfair Display',serif}
+html{scroll-behavior:smooth}section[id]{scroll-margin-top:110px}
+.tl{border-left:3px solid #ea580c}.tl>div{position:relative;padding:0 0 28px 28px}
+.tl>div::before{content:'';position:absolute;left:-9px;top:4px;width:15px;height:15px;border-radius:50%;background:#f97316;border:3px solid #1c0f0a}
+</style>
 </head>
-<body class="bg-orange-50 text-gray-800">
-<header class="bg-orange-700 text-white sticky top-0 z-[1100]">
+<body class="bg-[#1c0f0a] text-orange-50">
+
+<header class="bg-orange-600 text-white sticky top-0 z-[1100] shadow">
   <nav class="max-w-6xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-2">
-    <a href="index.html" class="logo text-xl font-bold">Prayagraj Tourism</a>
-    <div class="flex flex-wrap gap-4 text-sm">
+    <a href="index.html" class="logo text-2xl font-bold">Prayagraj Tourism</a>
+    <div class="flex flex-wrap gap-4 text-sm font-medium">
       <a href="index.html">Home</a><a href="about.html">About</a><a href="attractions.html">Attractions</a>
-      <a href="kumbh.html">Kumbh Mela</a><a href="food.html">Food</a><a href="stay.html">Stay</a><a href="plan-trip.html">Plan Trip</a>
+      <a href="kumbh.html" class="underline">Kumbh Mela</a><a href="food.html">Food</a><a href="stay.html">Stay</a><a href="plan-trip.html">Plan Trip</a>
     </div>
   </nav>
 </header>
-<main class="max-w-5xl mx-auto px-4 py-12">
-  <h1 class="text-4xl font-bold text-orange-800">Kumbh Mela Guide</h1>
-  <img src="images/kumbh.jpg" onerror="this.src='https://placehold.co/1000x420?text=Kumbh+Mela'" alt="Kumbh Mela" class="w-full h-72 object-cover rounded-xl shadow mt-6">
-  <p class="mt-6 leading-relaxed">The Kumbh Mela is a major Hindu pilgrimage where millions bathe at the sacred rivers. At Prayagraj it is held at the Sangam, and it rotates between four cities. Check official sources for exact dates of each Kumbh and the Magh Mela.</p>
-  <div class="grid sm:grid-cols-2 gap-4 mt-8">
-    <div class="bg-white rounded-xl shadow p-5"><h3 class="text-xl font-bold">Tips</h3><ul class="list-disc pl-5 mt-2 text-sm space-y-1"><li>Book stay months in advance.</li><li>Carry ID and keep valuables safe.</li><li>Wear comfortable shoes for long walks.</li><li>Follow official crowd and bathing rules.</li></ul></div>
-    <div class="bg-white rounded-xl shadow p-5"><h3 class="text-xl font-bold">Getting there</h3><ul class="list-disc pl-5 mt-2 text-sm space-y-1"><li>Train: Prayagraj Junction and nearby stations.</li><li>Air: Prayagraj Airport (Bamrauli).</li><li>Road: Well connected to Varanasi, Lucknow and Kanpur.</li></ul></div>
+<div class="bg-[#2a150d] sticky top-[52px] z-[1000] border-b border-orange-900 overflow-x-auto">
+  <div class="max-w-6xl mx-auto px-4 py-2 flex gap-5 text-sm whitespace-nowrap text-orange-200">
+    <a href="#intro">Overview</a><a href="#origin">Origin</a><a href="#types">Types</a><a href="#kumbh-history">Kumbh History</a>
+    <a href="#prayagraj">Prayagraj History</a><a href="#gallery">Gallery</a><a href="#visit">Visit</a><a href="#map">Map</a>
   </div>
-  <h2 class="text-2xl font-bold text-orange-800 mt-10 mb-3">Mela area map</h2>
-  <div id="map" class="h-[400px] rounded-xl shadow z-0"></div>
+</div>
+
+<!-- HERO -->
+<section class="relative h-[70vh] flex items-center justify-center text-center text-white overflow-hidden">
+  <img data-q="Kumbh Mela Allahabad" alt="Kumbh Mela" class="absolute inset-0 w-full h-full object-cover">
+  <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-[#1c0f0a]"></div>
+  <div class="relative px-4 max-w-3xl">
+    <p class="uppercase tracking-[0.3em] text-amber-300 text-sm">The world's largest spiritual gathering</p>
+    <h1 class="text-5xl md:text-7xl font-extrabold mt-3">Kumbh Mela</h1>
+    <p class="mt-4 text-lg text-orange-100">Its origin, its history, and the sacred city of Prayagraj where it is held</p>
+    <a href="#origin" class="inline-block mt-7 bg-amber-500 hover:bg-amber-400 text-black font-semibold px-8 py-3 rounded-full">Read the story ↓</a>
+  </div>
+</section>
+
+<main class="max-w-6xl mx-auto px-4">
+
+<!-- INTRO -->
+<section id="intro" class="py-14">
+  <h2 class="text-4xl font-bold text-orange-500">What is the Kumbh Mela?</h2>
+  <div class="grid md:grid-cols-2 gap-8 mt-6 items-center">
+    <div class="space-y-4 text-orange-100/90 leading-relaxed">
+      <p>The Kumbh Mela is a major Hindu pilgrimage and festival. Millions of devotees gather to bathe in sacred rivers, believing that a dip at the right time washes away sins and moves the soul toward liberation (moksha).</p>
+      <p>It rotates among four holy places in India: Prayagraj, Haridwar, Ujjain and Nashik. The word "Kumbh" means a pot or pitcher, and "Mela" means a fair or gathering.</p>
+      <p>In 2017, UNESCO added the Kumbh Mela to its list of the Intangible Cultural Heritage of Humanity.</p>
+    </div>
+    <div class="h-72 rounded-2xl overflow-hidden shadow-lg"><img data-q="Kumbh Mela Sangam bathing pilgrims" alt="Pilgrims bathing at Sangam" class="w-full h-full object-cover"></div>
+  </div>
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8 text-center">
+    <div class="bg-[#120a07] rounded-2xl p-5"><b class="text-3xl text-amber-400 block">4</b>Sacred cities</div>
+    <div class="bg-[#120a07] rounded-2xl p-5"><b class="text-3xl text-amber-400 block">12 yrs</b>Maha Kumbh cycle</div>
+    <div class="bg-[#120a07] rounded-2xl p-5"><b class="text-3xl text-amber-400 block">3</b>Rivers at the Sangam</div>
+    <div class="bg-[#120a07] rounded-2xl p-5"><b class="text-3xl text-amber-400 block">2017</b>UNESCO recognition</div>
+  </div>
+</section>
+
+<!-- ORIGIN -->
+<section id="origin" class="py-14 border-t border-orange-950">
+  <h2 class="text-4xl font-bold text-orange-500">Where Did the Kumbh Mela Originate?</h2>
+  <div class="grid md:grid-cols-2 gap-8 mt-6 items-center">
+    <div class="h-80 rounded-2xl overflow-hidden shadow-lg order-2 md:order-1"><img data-q="Samudra Manthan churning of the ocean painting" alt="Samudra Manthan" class="w-full h-full object-cover"></div>
+    <div class="space-y-4 text-orange-100/90 leading-relaxed order-1 md:order-2">
+      <h3 class="text-2xl font-bold text-amber-400">The legend of Samudra Manthan</h3>
+      <p>According to Hindu mythology, the gods (Devas) and demons (Asuras) once churned the cosmic ocean to obtain amrit, the nectar of immortality. When the golden pot (kumbh) of nectar emerged, a fierce struggle began over it.</p>
+      <p>While the pot was being carried across the sky, drops of nectar fell at four places on Earth: <b>Prayagraj, Haridwar, Ujjain and Nashik</b>. These places became the sites of the Kumbh Mela, and the rivers there are believed to carry the sacred power of the nectar.</p>
+      <p>This is a tradition and belief handed down through the Puranas, not a historical record. Historians note that large river-bathing gatherings at these places have very old roots.</p>
+    </div>
+  </div>
+
+  <h3 class="text-2xl font-bold text-amber-400 mt-12">The four Kumbh cities</h3>
+  <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 mt-4">
+    <div class="group bg-[#120a07] rounded-2xl overflow-hidden shadow-lg"><div class="h-40 overflow-hidden"><img data-q="Triveni Sangam Allahabad" alt="Prayagraj" class="w-full h-full object-cover group-hover:scale-110 transition duration-700"></div><div class="p-4"><h4 class="font-bold text-lg">Prayagraj</h4><p class="text-sm text-orange-100/80">Ganga, Yamuna and Saraswati (Sangam)</p></div></div>
+    <div class="group bg-[#120a07] rounded-2xl overflow-hidden shadow-lg"><div class="h-40 overflow-hidden"><img data-q="Har Ki Pauri Haridwar" alt="Haridwar" class="w-full h-full object-cover group-hover:scale-110 transition duration-700"></div><div class="p-4"><h4 class="font-bold text-lg">Haridwar</h4><p class="text-sm text-orange-100/80">River Ganga, Har Ki Pauri</p></div></div>
+    <div class="group bg-[#120a07] rounded-2xl overflow-hidden shadow-lg"><div class="h-40 overflow-hidden"><img data-q="Ram Ghat Ujjain Shipra river" alt="Ujjain" class="w-full h-full object-cover group-hover:scale-110 transition duration-700"></div><div class="p-4"><h4 class="font-bold text-lg">Ujjain</h4><p class="text-sm text-orange-100/80">River Shipra</p></div></div>
+    <div class="group bg-[#120a07] rounded-2xl overflow-hidden shadow-lg"><div class="h-40 overflow-hidden"><img data-q="Ramkund Nashik Godavari" alt="Nashik" class="w-full h-full object-cover group-hover:scale-110 transition duration-700"></div><div class="p-4"><h4 class="font-bold text-lg">Nashik</h4><p class="text-sm text-orange-100/80">River Godavari</p></div></div>
+  </div>
+</section>
+
+<!-- TYPES -->
+<section id="types" class="py-14 border-t border-orange-950">
+  <h2 class="text-4xl font-bold text-orange-500">Types of Kumbh at Prayagraj</h2>
+  <div class="grid md:grid-cols-4 gap-5 mt-6">
+    <div class="bg-[#120a07] rounded-2xl p-5"><h3 class="text-xl font-bold text-amber-400">Maha Kumbh</h3><p class="text-sm mt-2 text-orange-100/80">Held at Prayagraj once every 12 years. The largest and most sacred.</p></div>
+    <div class="bg-[#120a07] rounded-2xl p-5"><h3 class="text-xl font-bold text-amber-400">Purna Kumbh</h3><p class="text-sm mt-2 text-orange-100/80">The full Kumbh, held every 12 years at each of the four cities in turn.</p></div>
+    <div class="bg-[#120a07] rounded-2xl p-5"><h3 class="text-xl font-bold text-amber-400">Ardh Kumbh</h3><p class="text-sm mt-2 text-orange-100/80">The "half" Kumbh, held every 6 years at Prayagraj and Haridwar.</p></div>
+    <div class="bg-[#120a07] rounded-2xl p-5"><h3 class="text-xl font-bold text-amber-400">Magh Mela</h3><p class="text-sm mt-2 text-orange-100/80">An annual fair on the Sangam banks in the month of Magh (Jan–Feb).</p></div>
+  </div>
+  <p class="text-sm text-orange-200/70 mt-4">Bathing dates are set by astrological positions of Jupiter, the Sun and the Moon. Always check the official dates before planning a trip.</p>
+</section>
+
+<!-- KUMBH HISTORY -->
+<section id="kumbh-history" class="py-14 border-t border-orange-950">
+  <h2 class="text-4xl font-bold text-orange-500">History of the Kumbh Mela</h2>
+  <div class="grid md:grid-cols-3 gap-8 mt-8">
+    <div class="md:col-span-2 tl">
+      <div><h3 class="font-bold text-amber-400">Ancient roots</h3><p class="text-orange-100/85 text-sm mt-1">Gatherings at river confluences are very old in Indian tradition. The Puranas praise bathing at Prayaga, the old name of Prayagraj, as one of the holiest acts.</p></div>
+      <div><h3 class="font-bold text-amber-400">7th century CE</h3><p class="text-orange-100/85 text-sm mt-1">The Chinese pilgrim Xuanzang (Hiuen Tsang) visited the region during the reign of King Harsha and described a great gathering at Prayaga. Many scholars point to this account as an early description of a mela here.</p></div>
+      <div><h3 class="font-bold text-amber-400">Rise of the Akharas</h3><p class="text-orange-100/85 text-sm mt-1">Orders of sadhus called Akharas, including the Naga sadhus, became central to the Kumbh. They lead the grand ceremonial processions and first baths.</p></div>
+      <div><h3 class="font-bold text-amber-400">Medieval to colonial times</h3><p class="text-orange-100/85 text-sm mt-1">The Mela continued through Mughal and British rule, and the administration of the fair slowly became more organised as the crowds grew.</p></div>
+      <div><h3 class="font-bold text-amber-400">After Independence</h3><p class="text-orange-100/85 text-sm mt-1">The government began managing the Mela on a large scale, with temporary cities, bridges, roads, sanitation, medical camps and police arrangements.</p></div>
+      <div><h3 class="font-bold text-amber-400">2017</h3><p class="text-orange-100/85 text-sm mt-1">UNESCO inscribed the Kumbh Mela on the Representative List of the Intangible Cultural Heritage of Humanity.</p></div>
+      <div><h3 class="font-bold text-amber-400">2019 and 2025</h3><p class="text-orange-100/85 text-sm mt-1">Prayagraj hosted the Ardh Kumbh in 2019 and the Maha Kumbh in early 2025. Check official sources for the next dates.</p></div>
+    </div>
+    <div class="space-y-5">
+      <div class="h-56 rounded-2xl overflow-hidden shadow-lg"><img data-q="Naga sadhus Kumbh Mela" alt="Sadhus at Kumbh" class="w-full h-full object-cover"></div>
+      <div class="h-56 rounded-2xl overflow-hidden shadow-lg"><img data-q="Kumbh Mela tents Sangam Allahabad" alt="Tent city" class="w-full h-full object-cover"></div>
+    </div>
+  </div>
+</section>
+
+<!-- PRAYAGRAJ HISTORY -->
+<section id="prayagraj" class="py-14 border-t border-orange-950">
+  <h2 class="text-4xl font-bold text-orange-500">How Prayagraj Originated</h2>
+  <div class="grid md:grid-cols-2 gap-8 mt-6 items-center">
+    <div class="space-y-4 text-orange-100/90 leading-relaxed">
+      <p>Prayagraj is one of India's oldest living cities. Its ancient name is <b>Prayaga</b>, meaning "place of sacrifice". Hindu tradition says Lord Brahma performed a great yajna (sacrifice) here, which is why it is called Tirtharaj, the "king of pilgrimage sites".</p>
+      <p>The city grew on the banks of the Ganga and Yamuna, whose meeting point, the Sangam, has been a pilgrimage place for thousands of years. It is mentioned in ancient texts, and the old city of Kaushambi nearby was an important centre in early times.</p>
+    </div>
+    <div class="h-72 rounded-2xl overflow-hidden shadow-lg"><img data-q="Allahabad Fort Yamuna" alt="Allahabad Fort" class="w-full h-full object-cover"></div>
+  </div>
+
+  <h3 class="text-2xl font-bold text-amber-400 mt-12 mb-6">Timeline of Prayagraj</h3>
+  <div class="tl max-w-3xl">
+    <div><h4 class="font-bold text-amber-400">Ancient period</h4><p class="text-sm text-orange-100/85 mt-1">Known as Prayaga, a major holy place in the Puranas and epics.</p></div>
+    <div><h4 class="font-bold text-amber-400">7th century CE</h4><p class="text-sm text-orange-100/85 mt-1">Visited by Xuanzang, who described it as a prosperous and sacred place.</p></div>
+    <div><h4 class="font-bold text-amber-400">1583 to 1584: Mughal era</h4><p class="text-sm text-orange-100/85 mt-1">Emperor Akbar built the great fort at the Sangam, and the city came to be called Illahabas, later Allahabad.</p></div>
+    <div><h4 class="font-bold text-amber-400">18th and 19th centuries</h4><p class="text-sm text-orange-100/85 mt-1">The city passed to the East India Company and then the British Crown. It was a centre of the 1857 uprising.</p></div>
+    <div><h4 class="font-bold text-amber-400">1860s to 1880s</h4><p class="text-sm text-orange-100/85 mt-1">The Allahabad High Court was established (1866) and the University of Allahabad was founded (1887), making the city an education and legal hub.</p></div>
+    <div><h4 class="font-bold text-amber-400">Freedom movement</h4><p class="text-sm text-orange-100/85 mt-1">Allahabad was a key centre of the national movement. It was home to the Nehru family at Anand Bhawan and hosted several Indian National Congress sessions.</p></div>
+    <div><h4 class="font-bold text-amber-400">1931</h4><p class="text-sm text-orange-100/85 mt-1">Revolutionary Chandrashekhar Azad died at Alfred Park, now called Chandrashekhar Azad Park.</p></div>
+    <div><h4 class="font-bold text-amber-400">2018</h4><p class="text-sm text-orange-100/85 mt-1">The city was officially renamed Prayagraj.</p></div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section id="gallery" class="py-14 border-t border-orange-950">
+  <h2 class="text-4xl font-bold text-orange-500">Photo Gallery</h2>
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
+    <div class="group relative h-48 rounded-2xl overflow-hidden"><img data-q="Triveni Sangam Allahabad" alt="Triveni Sangam" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition duration-700"><p class="absolute bottom-2 left-3 text-sm font-semibold drop-shadow">Triveni Sangam</p></div>
+    <div class="group relative h-48 rounded-2xl overflow-hidden"><img data-q="Allahabad Fort" alt="Allahabad Fort" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition duration-700"><p class="absolute bottom-2 left-3 text-sm font-semibold drop-shadow">Allahabad Fort</p></div>
+    <div class="group relative h-48 rounded-2xl overflow-hidden"><img data-q="Anand Bhawan Allahabad" alt="Anand Bhawan" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition duration-700"><p class="absolute bottom-2 left-3 text-sm font-semibold drop-shadow">Anand Bhawan</p></div>
+    <div class="group relative h-48 rounded-2xl overflow-hidden"><img data-q="Khusro Bagh Allahabad" alt="Khusro Bagh" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition duration-700"><p class="absolute bottom-2 left-3 text-sm font-semibold drop-shadow">Khusro Bagh</p></div>
+    <div class="group relative h-48 rounded-2xl overflow-hidden"><img data-q="Allahabad High Court" alt="Allahabad High Court" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition duration-700"><p class="absolute bottom-2 left-3 text-sm font-semibold drop-shadow">Allahabad High Court</p></div>
+    <div class="group relative h-48 rounded-2xl overflow-hidden"><img data-q="Chandrashekhar Azad Park Allahabad" alt="Azad Park" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition duration-700"><p class="absolute bottom-2 left-3 text-sm font-semibold drop-shadow">Azad Park</p></div>
+    <div class="group relative h-48 rounded-2xl overflow-hidden"><img data-q="Ganga aarti Prayagraj" alt="Ganga Aarti" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition duration-700"><p class="absolute bottom-2 left-3 text-sm font-semibold drop-shadow">Ganga Aarti</p></div>
+    <div class="group relative h-48 rounded-2xl overflow-hidden"><img data-q="Allahabad University" alt="University of Allahabad" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition duration-700"><p class="absolute bottom-2 left-3 text-sm font-semibold drop-shadow">Allahabad University</p></div>
+  </div>
+</section>
+
+<!-- VISIT -->
+<section id="visit" class="py-14 border-t border-orange-950">
+  <h2 class="text-4xl font-bold text-orange-500">Experiencing the Kumbh</h2>
+  <div class="grid md:grid-cols-3 gap-5 mt-6">
+    <div class="bg-[#120a07] rounded-2xl p-6"><h3 class="text-xl font-bold text-amber-400">🛕 Key rituals</h3><ul class="list-disc pl-5 mt-3 text-sm space-y-1 text-orange-100/85"><li>Holy dip (snan) at the Sangam</li><li>Grand processions of the Akharas</li><li>Evening Ganga aarti</li><li>Kalpvas: devotees living simply by the river</li></ul></div>
+    <div class="bg-[#120a07] rounded-2xl p-6"><h3 class="text-xl font-bold text-amber-400">🧭 Tips</h3><ul class="list-disc pl-5 mt-3 text-sm space-y-1 text-orange-100/85"><li>Book stay months in advance</li><li>Carry ID and keep valuables safe</li><li>Wear comfortable shoes</li><li>Follow official crowd and bathing rules</li><li>Keep a meeting point in case you get separated</li></ul></div>
+    <div class="bg-[#120a07] rounded-2xl p-6"><h3 class="text-xl font-bold text-amber-400">🚆 Getting there</h3><ul class="list-disc pl-5 mt-3 text-sm space-y-1 text-orange-100/85"><li>Train: Prayagraj Junction and nearby stations</li><li>Air: Prayagraj Airport (Bamrauli)</li><li>Road: Connected to Varanasi, Lucknow and Kanpur</li></ul></div>
+  </div>
+  <div class="mt-8 flex gap-3 flex-wrap">
+    <a href="stay.html" class="bg-orange-600 hover:bg-orange-500 px-6 py-3 rounded-full font-semibold">Find a place to stay</a>
+    <a href="plan-trip.html" class="border border-orange-500 text-orange-400 px-6 py-3 rounded-full font-semibold">Plan your trip</a>
+  </div>
+</section>
+
+<!-- MAP -->
+<section id="map" class="py-14 border-t border-orange-950">
+  <h2 class="text-4xl font-bold text-orange-500 mb-4">Mela Area Map</h2>
+  <div id="kmap" class="h-[440px] rounded-2xl shadow-lg z-0"></div>
+</section>
 </main>
-<footer class="bg-orange-900 text-orange-100 text-center py-6 text-sm">© 2026 Prayagraj Tourism. Map data © OpenStreetMap contributors.</footer>
+
+<footer class="bg-black text-orange-200 text-center py-8 text-sm">© 2026 Prayagraj Tourism. Map data © OpenStreetMap contributors. Photos via Wikimedia Commons / Wikipedia. Historical details are summarised; please check official sources for exact dates.</footer>
+
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
-const spots=[
- {n:'Triveni Sangam (main bathing area)',c:[25.4300,81.8870]},
- {n:'Mela ground (approximate)',c:[25.4220,81.8850]},
- {n:'Allahabad Fort',c:[25.4284,81.8750]},
- {n:'Prayagraj Junction (railway)',c:[25.4475,81.8271]}
-];
-const map=L.map('map').setView([25.4300,81.8700],13);
-L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'&copy; OpenStreetMap contributors'}).addTo(map);
-spots.forEach(p=>L.marker(p.c).addTo(map).bindPopup(`<b>${p.n}</b><br><a target="_blank" href="https://www.google.com/maps/dir/?api=1&destination=${p.c[0]},${p.c[1]}">Get directions</a>`));
-</script>
-</body>
-</html>
+/* photo loader */
+const cache={};
+function svgPlaceholder(t){const s=`<svg xmlns="http://www.w3.org/2000/svg" width="900" height="600"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ea580c"/><stop offset="1" stop-color="#7c2d12"/></linearGradient></defs><rect width="900" height="600" fill="url(#g)"/><text x="450" y="320" font-size="54" font-family="Arial" fill="#fff" text-anchor="middle">${t}</text></svg>`;return 'data:image/svg+xml;charset=utf-8,'+encodeURIComponent(s);}
+async function findPhoto(q){
+  if(q in cache)return cache[q];let url=null;
+  try{const a=await(await fetch('https://commons.wikimedia.org/w/api.php?action=query&generator=search&gsrnamespace=6&gsrlimit=10&gsrsearch='+encodeURIComponent(q)+'&prop=imageinfo&iiprop=url|mime&iiurlwidth=1200&format=json&origin=*')).json();
+   const pg=Object.values((a.
