@@ -1,168 +1,77 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prayagraj Tourism | Interactive Travel Portal</title>
-    
-    <!-- FIXED: Full, working Tailwind CSS CDN Script -->
-    <script src="https://jsdelivr.net"></script>
-    
-    <!-- FIXED: Full Google Fonts links -->
-    <link rel="preconnect" href="https://googleapis.com">
-    <link rel="preconnect" href="https://gstatic.com" crossorigin>
-    <link href="https://googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-    
-    <!-- FIXED: Full FontAwesome Icons link -->
-    <link rel="stylesheet" href="https://cloudflare.com">
-    
-    <!-- FIXED: Full Leaflet Free Map CSS Engine link -->
-    <link rel="stylesheet" href="https://unpkg.com" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-
-    <style>
-        body { font-family: 'Poppins', sans-serif; }
-        .heading-font { font-family: 'Cinzel', serif; }
-        .hero-bg {
-            background-image: linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.75)), 
-                              url('https://unsplash.com');
-            background-size: cover;
-            background-position: center;
-        }
-        #map-container { height: 500px; width: 100%; z-index: 1; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prayagraj Tourism | Explore Prayagraj</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<style>body{font-family:Poppins,sans-serif}h1,h2,h3,.logo{font-family:'Playfair Display',serif}</style>
 </head>
-<body class="bg-amber-50/30 text-stone-800 scroll-smooth pt-20">
+<body class="bg-orange-50 text-gray-800">
+<header class="bg-orange-700 text-white sticky top-0 z-[1100]">
+  <nav class="max-w-6xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-2">
+    <a href="index.html" class="logo text-xl font-bold">Prayagraj Tourism</a>
+    <div class="flex flex-wrap gap-4 text-sm">
+      <a href="index.html">Home</a><a href="about.html">About</a><a href="attractions.html">Attractions</a>
+      <a href="kumbh.html">Kumbh Mela</a><a href="food.html">Food</a><a href="stay.html">Stay</a><a href="plan-trip.html">Plan Trip</a>
+    </div>
+  </nav>
+</header>
 
-    <!-- Header Navigation -->
-    <nav class="fixed w-full top-0 left-0 z-50 bg-white/95 backdrop-blur-md shadow-sm border-b border-amber-100">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-20">
-                <span class="heading-font text-2xl font-bold tracking-widest text-amber-700">PRAYAGRAJ</span>
-                <div class="hidden md:flex items-center space-x-6 font-medium text-stone-600">
-                    <a href="index.html" class="text-amber-700 font-semibold">Home</a>
-                    <a href="about.html" class="hover:text-amber-600 transition-colors">History</a>
-                    <a href="attractions.html" class="hover:text-amber-600 transition-colors">Attractions</a>
-                    <a href="kumbh.html" class="hover:text-amber-600 transition-colors">Kumbh Mela</a>
-                    <a href="food.html" class="hover:text-amber-600 transition-colors">Cuisine</a>
-                    <a href="stay.html" class="hover:text-amber-600 transition-colors">Stays</a>
-                    <a href="plan-trip.html" class="bg-amber-600 text-white px-5 py-2.5 rounded-full hover:bg-amber-700 transition-all shadow-md">Plan Trip</a>
-                </div>
-            </div>
-        </div>
-    </nav>
+<section class="h-[70vh] bg-cover bg-center flex items-center justify-center text-center text-white px-4"
+  style="background-image:linear-gradient(rgba(0,0,0,.45),rgba(0,0,0,.45)),url('images/hero.jpg'),linear-gradient(#c2410c,#7c2d12)">
+  <div>
+    <h1 class="text-4xl md:text-6xl font-bold">Discover Prayagraj</h1>
+    <p class="mt-4 text-lg">The holy city of Sangam, history and flavours</p>
+    <div class="mt-6 flex gap-3 justify-center flex-wrap">
+      <a href="attractions.html" class="bg-orange-600 hover:bg-orange-700 px-6 py-3 rounded-full font-medium">Explore Places</a>
+      <a href="plan-trip.html" class="bg-white text-orange-700 px-6 py-3 rounded-full font-medium">Plan Your Trip</a>
+    </div>
+  </div>
+</section>
 
-    <!-- Hero Welcome -->
-    <header class="hero-bg h-[75vh] flex items-center justify-center text-center relative px-4">
-        <div class="max-w-3xl text-white space-y-6">
-            <p class="text-amber-400 font-semibold tracking-[0.2em] uppercase text-xs sm:text-sm">Divine Confluence Navigation</p>
-            <h1 class="heading-font text-4xl sm:text-6xl font-bold drop-shadow-md">Explore Prayagraj</h1>
-            <p class="text-stone-200 text-sm sm:text-base max-w-xl mx-auto font-light">
-                Locate primary landmarks, get route bearings, and track your immediate coordinates dynamically below.
-            </p>
-            <a href="#map-section" class="inline-block bg-amber-500 hover:bg-amber-600 text-white font-semibold px-7 py-3 rounded-full transition-all shadow-lg">
-                Open Live Travel Map <i class="fa-solid fa-map-location-dot ml-2"></i>
-            </a>
-        </div>
-    </header>
+<section class="max-w-6xl mx-auto px-4 py-12 grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+  <a href="attractions.html" class="bg-white rounded-xl shadow p-6 text-center hover:shadow-lg"><div class="text-4xl">🏛️</div><h3 class="text-xl mt-2">Attractions</h3><p class="text-sm mt-1">Sangam, Fort, Anand Bhawan</p></a>
+  <a href="kumbh.html" class="bg-white rounded-xl shadow p-6 text-center hover:shadow-lg"><div class="text-4xl">🕉️</div><h3 class="text-xl mt-2">Kumbh Mela</h3><p class="text-sm mt-1">The world's largest gathering</p></a>
+  <a href="food.html" class="bg-white rounded-xl shadow p-6 text-center hover:shadow-lg"><div class="text-4xl">🍛</div><h3 class="text-xl mt-2">Food</h3><p class="text-sm mt-1">Kachori, chaat, imarti</p></a>
+  <a href="stay.html" class="bg-white rounded-xl shadow p-6 text-center hover:shadow-lg"><div class="text-4xl">🛏️</div><h3 class="text-xl mt-2">Stay</h3><p class="text-sm mt-1">Hotels, guest houses, tents</p></a>
+</section>
 
-    <!-- Attractions Navigation Grid -->
-    <section class="max-w-7xl mx-auto px-4 py-16">
-        <div class="text-center max-w-xl mx-auto mb-12">
-            <h2 class="heading-font text-3xl font-bold text-stone-900">Explore Essential Portals</h2>
-            <p class="text-stone-500 text-sm mt-2">Click any specific link block to drill down into historical details, local menus, and accommodation logistics.</p>
-        </div>
-        
-        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            <!-- Card 1 -->
-            <div class="bg-white p-6 rounded-2xl shadow-sm border border-amber-100 hover:shadow-md transition-all">
-                <i class="fa-solid fa-monument text-amber-700 text-2xl mb-3"></i>
-                <h3 class="heading-font text-lg font-bold mb-1">History & Heritage</h3>
-                <p class="text-stone-600 text-xs mb-4">Learn about Brahma's ancient sacrifices and the development of the historical fort architecture.</p>
-                <a href="about.html" class="text-amber-600 font-semibold text-xs inline-flex items-center gap-1 hover:underline">Explore History &rarr;</a>
-            </div>
-            
-            <!-- Card 2 -->
-            <div class="bg-white p-6 rounded-2xl shadow-sm border border-amber-100 hover:shadow-md transition-all">
-                <i class="fa-solid fa-camera-retro text-amber-700 text-2xl mb-3"></i>
-                <h3 class="heading-font text-lg font-bold mb-1">Points of Interest</h3>
-                <p class="text-stone-600 text-xs mb-4">A complete breakdown of operational schedules, entrance fees, and timelines for prime parks.</p>
-                <a href="attractions.html" class="text-amber-600 font-semibold text-xs inline-flex items-center gap-1 hover:underline">View Sightseeing &rarr;</a>
-            </div>
-            
-            <!-- Card 3 -->
-            <div class="bg-white p-6 rounded-2xl shadow-sm border border-amber-100 hover:shadow-md transition-all">
-                <i class="fa-solid fa-tent text-amber-700 text-2xl mb-3"></i>
-                <h3 class="heading-font text-lg font-bold mb-1">Maha Kumbh Guide</h3>
-                <p class="text-stone-600 text-xs mb-4">Essential bathing dates, holy safety protocols, and dynamic ritual timelines for devotees.</p>
-                <a href="kumbh.html" class="text-amber-600 font-semibold text-xs inline-flex items-center gap-1 hover:underline">Read Kumbh Guide &rarr;</a>
-            </div>
-        </div>
-    </section>
+<section class="max-w-6xl mx-auto px-4 pb-12">
+  <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+    <h2 class="text-3xl font-bold text-orange-800">Live Map of Prayagraj</h2>
+    <button id="locate" class="bg-blue-600 text-white px-4 py-2 rounded-full text-sm">📍 Show my live location</button>
+  </div>
+  <div id="map" class="h-[420px] rounded-xl shadow z-0"></div>
+</section>
 
-    <!-- Map Engine Section -->
-    <section id="map-section" class="max-w-7xl mx-auto px-4 pb-24">
-        <div class="bg-white rounded-3xl overflow-hidden shadow-xl border border-stone-100">
-            <div class="p-6 bg-stone-900 text-white flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-                <div>
-                    <h2 class="heading-font text-xl font-bold flex items-center gap-2">
-                        <i class="fa-solid fa-earth-asia text-amber-400"></i> Free Navigation Map System
-                    </h2>
-                    <p class="text-xs text-stone-400 mt-1">Pre-loaded pins mark primary destinations. Grant browser permissions to trace your position.</p>
-                </div>
-                <button onclick="locateUser()" class="cursor-pointer bg-amber-500 hover:bg-amber-600 text-white font-semibold text-xs px-5 py-3 rounded-xl transition-all shadow-md flex items-center gap-2">
-                    <i class="fa-solid fa-location-crosshairs"></i> Show My Live Location
-                </button>
-            </div>
-            
-            <!-- Map Target Container -->
-            <div id="map-container" class="bg-stone-200"></div>
-        </div>
-    </section>
+<footer class="bg-orange-900 text-orange-100 text-center py-6 text-sm">© 2026 Prayagraj Tourism. Map data © OpenStreetMap contributors.</footer>
 
-    <!-- FIXED: Full Leaflet Javascript Engine link -->
-    <script src="https://unpkg.com" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-
-    <script>
-        // Initialize Map centering over Prayagraj coordinates
-        const map = L.map('map-container').setView([25.4358, 81.8463], 12);
-
-        // Inject free OpenStreetMap layout tiles
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 18,
-            attribution: '&copy; <a href="https://openstreetmap.org">OpenStreetMap</a> contributors'
-        }).addTo(map);
-
-        // Core Destination Markers Array Data
-        const touristSpots = [
-            { name: "Triveni Sangam", lat: 25.4284, lng: 81.8860, info: "Sacred meeting point of holy rivers." },
-            { name: "Akbar Fort", lat: 25.4294, lng: 81.8770, info: "Colossal Mughal fortress architecture built in 1583." },
-            { name: "Anand Bhavan Museum", lat: 25.4605, lng: 81.8659, info: "Historic ancestral estate mansion of Nehru family." },
-            { name: "Khusro Bagh", lat: 25.4412, lng: 81.8335, info: "Intricate sandstone burial tombs garden park." },
-            { name: "Chandrashekhar Azad Park", lat: 25.4542, lng: 81.8542, info: "Historical space hosting freedom struggle relics." }
-        ];
-
-        // Map and render markers sequentially
-        touristSpots.forEach(spot => {
-            L.marker([spot.lat, spot.lng])
-                .addTo(map)
-                .bindPopup(`<b>${spot.name}</b><br><span style="font-size:12px;color:#555;">${spot.info}</span>`);
-        });
-
-        let userMarker, userCircle;
-
-        // Device Live Geolocation utility
-        function locateUser() {
-            if (!navigator.geolocation) {
-                alert("Geolocation mapping features are not supported by your current browser environment.");
-                return;
-            }
-
-            navigator.geolocation.getCurrentPosition(
-                (position) => {
-                    const lat = position.coords.latitude;
-                    const lng = position.coords.longitude;
-
-                    // Clean previous search marker instances
-                    if (userMarker) {
-                        map.removeLayer(userMarker);
-                        map.removeLayer(userCircle);
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+const places=[
+ {n:'Triveni Sangam',c:[25.4300,81.8870],d:'Meeting point of Ganga, Yamuna and Saraswati'},
+ {n:'Allahabad Fort',c:[25.4284,81.8750],d:'Mughal fort on the Sangam banks'},
+ {n:'Anand Bhawan',c:[25.4527,81.8497],d:'Nehru family home and museum'},
+ {n:'Khusro Bagh',c:[25.4440,81.8300],d:'Mughal-era garden and tombs'},
+ {n:'Chandrashekhar Azad Park',c:[25.4580,81.8500],d:'Large park and museum'},
+ {n:'Bade Hanuman Mandir',c:[25.4290,81.8800],d:'Reclining Hanuman temple'},
+ {n:'All Saints Cathedral',c:[25.4500,81.8340],d:'Historic Gothic church'}
+];
+const map=L.map('map').setView([25.4358,81.8463],12);
+L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'&copy; OpenStreetMap contributors'}).addTo(map);
+places.forEach(p=>L.marker(p.c).addTo(map).bindPopup(`<b>${p.n}</b><br>${p.d}<br><a target="_blank" href="https://www.google.com/maps/dir/?api=1&destination=${p.c[0]},${p.c[1]}">Get directions</a>`));
+let me;
+document.getElementById('locate').onclick=()=>{
+ if(!navigator.geolocation)return alert('Location is not supported');
+ navigator.geolocation.watchPosition(pos=>{
+  const ll=[pos.coords.latitude,pos.coords.longitude];
+  if(!me){me=L.circleMarker(ll,{radius:9,color:'#fff',weight:3,fillColor:'#2563eb',fillOpacity:1}).addTo(map).bindPopup('You are here');map.setView(ll,14);}
+  else me.setLatLng(ll);
+ },()=>alert('Please allow location access'),{enableHighAccuracy:true});
+};
+</script>
+</body>
+</html>
