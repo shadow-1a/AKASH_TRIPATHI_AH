@@ -5,44 +5,58 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Food | Prayagraj Tourism</title>
 <script src="https://cdn.tailwindcss.com"></script>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <style>body{font-family:Poppins,sans-serif}h1,h2,h3,.logo{font-family:'Playfair Display',serif}</style>
 </head>
-<body class="bg-orange-50 text-gray-800">
-<header class="bg-orange-700 text-white sticky top-0 z-[1100]">
+<body class="bg-[#1c0f0a] text-orange-50">
+<header class="bg-orange-600 text-white sticky top-0 z-[1100] shadow">
   <nav class="max-w-6xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-2">
-    <a href="index.html" class="logo text-xl font-bold">Prayagraj Tourism</a>
-    <div class="flex flex-wrap gap-4 text-sm">
+    <a href="index.html" class="logo text-2xl font-bold">Prayagraj Tourism</a>
+    <div class="flex flex-wrap gap-4 text-sm font-medium">
       <a href="index.html">Home</a><a href="about.html">About</a><a href="attractions.html">Attractions</a>
-      <a href="kumbh.html">Kumbh Mela</a><a href="food.html">Food</a><a href="stay.html">Stay</a><a href="plan-trip.html">Plan Trip</a>
+      <a href="kumbh.html">Kumbh Mela</a><a href="food.html" class="underline">Food</a><a href="stay.html">Stay</a><a href="plan-trip.html">Plan Trip</a>
     </div>
   </nav>
 </header>
 <main class="max-w-6xl mx-auto px-4 py-12">
-  <h1 class="text-4xl font-bold text-orange-800">Food of Prayagraj</h1>
+  <h1 class="text-5xl font-extrabold text-orange-500">Food of Prayagraj</h1>
   <h2 class="text-2xl font-bold mt-8">Must-try dishes</h2>
   <div id="dishes" class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-4"></div>
-  <h2 class="text-2xl font-bold mt-12">Where to eat (areas)</h2>
-  <p class="text-sm text-gray-600">Pins show food areas; locations are approximate.</p>
-  <div id="map" class="h-[400px] rounded-xl shadow z-0 mt-4"></div>
+  <h2 class="text-2xl font-bold mt-14">Where to eat (areas)</h2>
+  <p class="text-sm text-orange-200/70">Pins show food areas; locations are approximate.</p>
+  <div id="map" class="h-[420px] rounded-2xl shadow-lg z-0 mt-4"></div>
 </main>
-<footer class="bg-orange-900 text-orange-100 text-center py-6 text-sm">© 2026 Prayagraj Tourism. Map data © OpenStreetMap contributors.</footer>
+<footer class="bg-black text-orange-200 text-center py-6 text-sm">© 2026 Prayagraj Tourism. Map data © OpenStreetMap contributors. Photos via Wikimedia Commons / Wikipedia.</footer>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
+const cache={};
+function svgPlaceholder(t){const s=`<svg xmlns="http://www.w3.org/2000/svg" width="900" height="600"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ea580c"/><stop offset="1" stop-color="#7c2d12"/></linearGradient></defs><rect width="900" height="600" fill="url(#g)"/><text x="450" y="320" font-size="54" font-family="Arial" fill="#fff" text-anchor="middle">${t}</text></svg>`;return 'data:image/svg+xml;charset=utf-8,'+encodeURIComponent(s);}
+async function findPhoto(q){
+  if(q in cache)return cache[q];let url=null;
+  try{const a=await(await fetch('https://commons.wikimedia.org/w/api.php?action=query&generator=search&gsrnamespace=6&gsrlimit=10&gsrsearch='+encodeURIComponent(q)+'&prop=imageinfo&iiprop=url|mime&iiurlwidth=900&format=json&origin=*')).json();
+   const pg=Object.values((a.query||{}).pages||{}).sort((x,y)=>x.index-y.index).find(p=>p.imageinfo&&p.imageinfo[0].mime==='image/jpeg');if(pg)url=pg.imageinfo[0].thumburl;}catch(e){}
+  if(!url)try{const b=await(await fetch('https://en.wikipedia.org/w/api.php?action=query&generator=search&gsrlimit=3&gsrsearch='+encodeURIComponent(q)+'&prop=pageimages&piprop=thumbnail&pithumbsize=900&format=json&origin=*')).json();
+   const pg=Object.values((b.query||{}).pages||{}).sort((x,y)=>x.index-y.index).find(p=>p.thumbnail);if(pg)url=pg.thumbnail.source;}catch(e){}
+  return(cache[q]=url);
+}
+function fillPhotos(){document.querySelectorAll('img[data-q]:not([data-done])').forEach(img=>{img.dataset.done=1;img.src=svgPlaceholder(img.alt);findPhoto(img.dataset.q).then(u=>{if(u)img.src=u;});});}
+
 const dishes=[
- {n:'Kachori Sabzi',img:'kachori.jpg',d:'Crispy kachori with spicy potato curry, a classic breakfast.'},
- {n:'Imarti',img:'imarti.jpg',d:'Sweet, syrupy, flower-shaped dessert.'},
- {n:'Chaat',img:'chaat.jpg',d:'Tikki, golgappa and papdi chaat from street stalls.'},
- {n:'Lassi and Rabri',img:'lassi.jpg',d:'Thick, creamy and perfect after a day of sightseeing.'}
+ {n:'Kachori Sabzi',q:'Kachori sabzi',d:'Crispy kachori with spicy potato curry, a classic breakfast.'},
+ {n:'Imarti',q:'Imarti sweet',d:'Sweet, syrupy, flower-shaped dessert.'},
+ {n:'Chaat',q:'Chaat India street food',d:'Tikki, golgappa and papdi chaat from street stalls.'},
+ {n:'Lassi and Rabri',q:'Lassi India',d:'Thick, creamy and perfect after a day of sightseeing.'}
 ];
 dishes.forEach(p=>document.getElementById('dishes').insertAdjacentHTML('beforeend',`
- <div class="bg-white rounded-xl shadow overflow-hidden"><img src="images/${p.img}" onerror="this.src='https://placehold.co/500x300?text=${encodeURIComponent(p.n)}'" alt="${p.n}" class="w-full h-40 object-cover"><div class="p-4"><h3 class="text-lg font-bold">${p.n}</h3><p class="text-sm mt-1">${p.d}</p></div></div>`));
+ <div class="group bg-[#120a07] rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition">
+  <div class="h-48 overflow-hidden"><img data-q="${p.q}" alt="${p.n}" class="w-full h-full object-cover group-hover:scale-110 transition duration-700"></div>
+  <div class="p-4"><h3 class="text-xl font-bold">${p.n}</h3><p class="text-sm text-orange-100/80 mt-1">${p.d}</p></div></div>`));
+fillPhotos();
+
 const spots=[
- {n:'Civil Lines food street',c:[25.4533,81.8392]},
- {n:'Chowk and Loknath Gali area',c:[25.4410,81.8270]},
- {n:'Katra market area',c:[25.4560,81.8450]},
- {n:'Near Sangam',c:[25.4310,81.8830]}
+ {n:'Civil Lines food street',c:[25.4533,81.8392]},{n:'Chowk and Loknath Gali area',c:[25.4410,81.8270]},
+ {n:'Katra market area',c:[25.4560,81.8450]},{n:'Near Sangam',c:[25.4310,81.8830]}
 ];
 const map=L.map('map').setView([25.4450,81.8400],13);
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'&copy; OpenStreetMap contributors'}).addTo(map);
