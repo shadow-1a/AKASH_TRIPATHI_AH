@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plan Your Trip | Prayagraj Tourism</title>
+    <script src="https://jsdelivr.net"></script>
+    <link href="https://googleapis.com" rel="stylesheet">
+    <style>body { font-family: 'Poppins', sans-serif; } .heading-font { font-family: 'Cinzel', serif; }</style>
+</head>
+<body class="bg-amber-50/20 text-stone-800">
+    <nav class="bg-white shadow-sm border-b border-amber-100 p-5">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <a href="index.html" class="heading-font text-2xl font-bold tracking-widest text-amber-700">PRAYAGRAJ</a>
+            <a href="index.html" class="text-amber-700 hover:underline">← Home</a>
+        </div>
+    </nav>
+
+    <main class="max-w-xl mx-auto px-4 py-12">
+        <div class="bg-white rounded-3xl p-8 shadow-xl border border-amber-100">
+            <h2 class="heading-font text-2xl font-bold text-center text-stone-900 mb-2">Plan Your Custom Itinerary</h2>
+            <p class="text-stone-500 text-xs text-center mb-6">Drop your details below and our official guides will assist your planning.</p>
+            
+            <form class="space-y-4" onsubmit="event.preventDefault(); alert('Thank you! Our travel expert will reach out within 24 hours.');">
+                <div>
+                    <label class="block text-xs font-semibold uppercase text-stone-600 mb-1">Full Name</label>
+                    <input type="text" required class="w-full border border-stone-200 rounded-xl p-3 text-sm focus:outline-amber-500">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold uppercase text-stone-600 mb-1">Travel Dates</label>
+                    <input type="date" required class="w-full border border-stone-200 rounded-xl p-3 text-sm focus:outline-amber-500">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold uppercase text-stone-600 mb-1">Traveler Count</label>
+                    <select class="w-full border border-stone-200 rounded-xl p-3 text-sm focus:outline-amber-500">
+                        <option>1 Member (Solo)</option>
+                        <option>2-4 Members (Family)</option>
+                        <option>5+ Members (Group)</option>
+                    </select>
+                </div>
+                <button type="submit" class="w-full bg-amber-600 hover:bg-amber-700 text-white font-semibold py-3 rounded-xl shadow-md transition-all">Submit Request</button>
+            </form>
+        </div>
+    </main>
+</body>
+</html>
