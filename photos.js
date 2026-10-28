@@ -1,38 +1,24 @@
 const _photoCache = {};
-const _photoQueue = [];
-let _photoActive = 0;
-const _PHOTO_MAX_ACTIVE = 3;
-
-function _photoLimit(fn) {
-  return new Promise(resolve => {
-    const run = () => {
-      _photoActive++;
-      fn().then(resolve, () => resolve(null)).then(() => {
-        _photoActive--;
-        if (_photoQueue.length) _photoQueue.shift()();
-      });
-    };
-    _photoActive < _PHOTO_MAX_ACTIVE ? run() : _photoQueue.push(run);
+async function wikiPhoto(q) {
+  if (_photoCache[q] !== undefined) return _photoCache[q];
+  try {
+    const url = 'https://en.wikipedia.org/w/api.php?action=query&generator=search&gsrsearch=' +
+      encodeURIComponent(q) + '&gsrlimit=3&prop=pageimages&piprop=thumbnail&pithumbsize=1200&format=json&origin=*';
+    const j = await (await fetch(url)).json();
+    const pages = Object.values(j.query.pages).sort((a, b) => a.index - b.index);
+    const p = pages.find(x => x.thumbnail);
+    return (_photoCache[q] = p ? p.thumbnail.source : null);
+  } catch (e) { return (_photoCache[q] = null); }
+}
+function placeholder(q) {
+  return 'https://placehold.co/900x600/c2410c/ffffff?text=' + encodeURIComponent(q.split(' ').slice(0, 3).join(' '));
+}
+function fillPhotos(root = document) {
+  root.querySelectorAll('img[data-wiki]:not([data-done])').forEach(img => {
+    img.dataset.done = 1;
+    const go = async () => { img.src = (await wikiPhoto(img.dataset.wiki)) || placeholder(img.dataset.wiki); };
+    if (img.dataset.local) { img.onerror = () => { img.onerror = null; go(); }; img.src = img.dataset.local; }
+    else go();
   });
 }
-
-function _photoJSON(url, tries = 2) {
-  const ctrl = new AbortController();
-  const t = setTimeout(() => ctrl.abort(), 12000);
-  return fetch(url, { signal: ctrl.signal })
-    .then(r => { clearTimeout(t); if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
-    .catch(e => { clearTimeout(t); if (tries > 1) return _photoJSON(url, tries - 1); throw e; });
-}
-
-function _photoCanLoad(u) {
-  return new Promise(res => {
-    const i = new Image();
-    let done = false;
-    const end = v => { if (!done) { done = true; res(v); } };
-    i.referrerPolicy = 'no-referrer';
-    i.onload = () => end(i.naturalWidth > 50);
-    i.onerror = () => end(false);
-    setTimeout(() => end(false), 15000);
-    i.src = u;
-  });
-}
+document.addEventListener('DOMContentLoaded', () => fillPhotos());
