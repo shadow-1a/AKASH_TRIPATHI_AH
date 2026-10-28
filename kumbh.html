@@ -1,37 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kumbh Mela Guide | Prayagraj Tourism</title>
-    <script src="https://jsdelivr.net"></script>
-    <link href="https://googleapis.com" rel="stylesheet">
-    <link rel="stylesheet" href="https://cloudflare.com">
-    <style>body { font-family: 'Poppins', sans-serif; } .heading-font { font-family: 'Cinzel', serif; }</style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kumbh Mela Guide | Prayagraj Tourism</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<style>body{font-family:Poppins,sans-serif}h1,h2,h3,.logo{font-family:'Playfair Display',serif}</style>
 </head>
-<body class="bg-amber-50/20 text-stone-800">
-    <nav class="bg-white shadow-sm border-b border-amber-100 p-5">
-        <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <a href="index.html" class="heading-font text-2xl font-bold tracking-widest text-amber-700">PRAYAGRAJ</a>
-            <a href="index.html" class="text-amber-700 hover:underline"><i class="fa-solid fa-arrow-left"></i> Home</a>
-        </div>
-    </nav>
-
-    <main class="max-w-3xl mx-auto px-4 py-12 space-y-6">
-        <div class="bg-orange-600 text-white p-8 rounded-3xl shadow-xl">
-            <span class="text-orange-200 text-xs uppercase font-bold tracking-widest">World's Largest Gathering</span>
-            <h1 class="heading-font text-3xl sm:text-4xl font-bold mt-2">The Maha Kumbh Mela</h1>
-        </div>
-
-        <h2 class="text-2xl font-bold text-stone-900 mt-8">The Cultural Phenomenon</h2>
-        <p class="text-stone-600 leading-relaxed">
-            Recognized by UNESCO as an Intangible Cultural Heritage, the Kumbh Mela occurs at Prayagraj every 12 years (Maha Kumbh) and 6 years (Ardh Kumbh). It attracts millions of pilgrims, saints, and tourists globally who unite for a holy purification dip in the Triveni Sangam.
-        </p>
-
-        <div class="bg-stone-900 text-amber-400 p-6 rounded-2xl space-y-2 shadow-md">
-            <h3 class="font-bold text-lg"><i class="fa-solid fa-calendar-days"></i> Essential Snan (Bathing) Dates</h3>
-            <p class="text-stone-300 text-sm">Key celestial dates include Makar Sankranti, Paush Purnima, Mauni Amavasya (the largest crowd), and Basant Panchami.</p>
-        </div>
-    </main>
+<body class="bg-orange-50 text-gray-800">
+<header class="bg-orange-700 text-white sticky top-0 z-[1100]">
+  <nav class="max-w-6xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-2">
+    <a href="index.html" class="logo text-xl font-bold">Prayagraj Tourism</a>
+    <div class="flex flex-wrap gap-4 text-sm">
+      <a href="index.html">Home</a><a href="about.html">About</a><a href="attractions.html">Attractions</a>
+      <a href="kumbh.html">Kumbh Mela</a><a href="food.html">Food</a><a href="stay.html">Stay</a><a href="plan-trip.html">Plan Trip</a>
+    </div>
+  </nav>
+</header>
+<main class="max-w-5xl mx-auto px-4 py-12">
+  <h1 class="text-4xl font-bold text-orange-800">Kumbh Mela Guide</h1>
+  <img src="images/kumbh.jpg" onerror="this.src='https://placehold.co/1000x420?text=Kumbh+Mela'" alt="Kumbh Mela" class="w-full h-72 object-cover rounded-xl shadow mt-6">
+  <p class="mt-6 leading-relaxed">The Kumbh Mela is a major Hindu pilgrimage where millions bathe at the sacred rivers. At Prayagraj it is held at the Sangam, and it rotates between four cities. Check official sources for exact dates of each Kumbh and the Magh Mela.</p>
+  <div class="grid sm:grid-cols-2 gap-4 mt-8">
+    <div class="bg-white rounded-xl shadow p-5"><h3 class="text-xl font-bold">Tips</h3><ul class="list-disc pl-5 mt-2 text-sm space-y-1"><li>Book stay months in advance.</li><li>Carry ID and keep valuables safe.</li><li>Wear comfortable shoes for long walks.</li><li>Follow official crowd and bathing rules.</li></ul></div>
+    <div class="bg-white rounded-xl shadow p-5"><h3 class="text-xl font-bold">Getting there</h3><ul class="list-disc pl-5 mt-2 text-sm space-y-1"><li>Train: Prayagraj Junction and nearby stations.</li><li>Air: Prayagraj Airport (Bamrauli).</li><li>Road: Well connected to Varanasi, Lucknow and Kanpur.</li></ul></div>
+  </div>
+  <h2 class="text-2xl font-bold text-orange-800 mt-10 mb-3">Mela area map</h2>
+  <div id="map" class="h-[400px] rounded-xl shadow z-0"></div>
+</main>
+<footer class="bg-orange-900 text-orange-100 text-center py-6 text-sm">© 2026 Prayagraj Tourism. Map data © OpenStreetMap contributors.</footer>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+const spots=[
+ {n:'Triveni Sangam (main bathing area)',c:[25.4300,81.8870]},
+ {n:'Mela ground (approximate)',c:[25.4220,81.8850]},
+ {n:'Allahabad Fort',c:[25.4284,81.8750]},
+ {n:'Prayagraj Junction (railway)',c:[25.4475,81.8271]}
+];
+const map=L.map('map').setView([25.4300,81.8700],13);
+L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'&copy; OpenStreetMap contributors'}).addTo(map);
+spots.forEach(p=>L.marker(p.c).addTo(map).bindPopup(`<b>${p.n}</b><br><a target="_blank" href="https://www.google.com/maps/dir/?api=1&destination=${p.c[0]},${p.c[1]}">Get directions</a>`));
+</script>
 </body>
 </html>
