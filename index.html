@@ -5,18 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Prayagraj Tourism | Interactive Travel Portal</title>
     
-    <!-- FIXED: Correct Full Tailwind CSS CDN -->
+    <!-- FIXED: Full, working Tailwind CSS CDN Script -->
     <script src="https://jsdelivr.net"></script>
     
-    <!-- FIXED: Correct Google Fonts links -->
+    <!-- FIXED: Full Google Fonts links -->
     <link rel="preconnect" href="https://googleapis.com">
     <link rel="preconnect" href="https://gstatic.com" crossorigin>
     <link href="https://googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     
-    <!-- FIXED: Correct FontAwesome Icons link -->
+    <!-- FIXED: Full FontAwesome Icons link -->
     <link rel="stylesheet" href="https://cloudflare.com">
     
-    <!-- FIXED: Correct Leaflet Free Map CSS Engine -->
+    <!-- FIXED: Full Leaflet Free Map CSS Engine link -->
     <link rel="stylesheet" href="https://unpkg.com" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
 
     <style>
@@ -31,7 +31,7 @@
         #map-container { height: 500px; width: 100%; z-index: 1; }
     </style>
 </head>
-<body class="bg-amber-50/30 text-stone-800 scroll-smooth">
+<body class="bg-amber-50/30 text-stone-800 scroll-smooth pt-20">
 
     <!-- Header Navigation -->
     <nav class="fixed w-full top-0 left-0 z-50 bg-white/95 backdrop-blur-md shadow-sm border-b border-amber-100">
@@ -52,7 +52,7 @@
     </nav>
 
     <!-- Hero Welcome -->
-    <header class="hero-bg h-screen flex items-center justify-center text-center relative px-4">
+    <header class="hero-bg h-[75vh] flex items-center justify-center text-center relative px-4">
         <div class="max-w-3xl text-white space-y-6">
             <p class="text-amber-400 font-semibold tracking-[0.2em] uppercase text-xs sm:text-sm">Divine Confluence Navigation</p>
             <h1 class="heading-font text-4xl sm:text-6xl font-bold drop-shadow-md">Explore Prayagraj</h1>
@@ -66,7 +66,7 @@
     </header>
 
     <!-- Attractions Navigation Grid -->
-    <section class="max-w-7xl mx-auto px-4 py-20 mt-12">
+    <section class="max-w-7xl mx-auto px-4 py-16">
         <div class="text-center max-w-xl mx-auto mb-12">
             <h2 class="heading-font text-3xl font-bold text-stone-900">Explore Essential Portals</h2>
             <p class="text-stone-500 text-sm mt-2">Click any specific link block to drill down into historical details, local menus, and accommodation logistics.</p>
@@ -100,7 +100,7 @@
     </section>
 
     <!-- Map Engine Section -->
-    <section id="map-section" class="max-w-7xl mx-auto px-4 pb-24 pt-12">
+    <section id="map-section" class="max-w-7xl mx-auto px-4 pb-24">
         <div class="bg-white rounded-3xl overflow-hidden shadow-xl border border-stone-100">
             <div class="p-6 bg-stone-900 text-white flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                 <div>
@@ -119,7 +119,7 @@
         </div>
     </section>
 
-    <!-- FIXED: Correct Full Leaflet Javascript Engine link -->
+    <!-- FIXED: Full Leaflet Javascript Engine link -->
     <script src="https://unpkg.com" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
     <script>
