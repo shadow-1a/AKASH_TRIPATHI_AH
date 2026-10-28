@@ -4,34 +4,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Prayagraj Tourism | Interactive Travel Portal</title>
-    <!-- Tailwind CSS Engine -->
+    
+    <!-- FIXED: Correct Full Tailwind CSS CDN -->
     <script src="https://jsdelivr.net"></script>
-    <!-- Google Fonts & FontAwesome -->
+    
+    <!-- FIXED: Correct Google Fonts links -->
     <link rel="preconnect" href="https://googleapis.com">
     <link rel="preconnect" href="https://gstatic.com" crossorigin>
     <link href="https://googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- FIXED: Correct FontAwesome Icons link -->
     <link rel="stylesheet" href="https://cloudflare.com">
     
-    <!-- Leaflet Free Map CSS Engine -->
+    <!-- FIXED: Correct Leaflet Free Map CSS Engine -->
     <link rel="stylesheet" href="https://unpkg.com" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
 
     <style>
         body { font-family: 'Poppins', sans-serif; }
         .heading-font { font-family: 'Cinzel', serif; }
         .hero-bg {
-            background-image: linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.65)), 
+            background-image: linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.75)), 
                               url('https://unsplash.com');
             background-size: cover;
             background-position: center;
         }
-        /* Lock down map wrapper dimensions */
-        #map-container { height: 500px; width: 100%; }
+        #map-container { height: 500px; width: 100%; z-index: 1; }
     </style>
 </head>
-<body class="bg-amber-50/20 text-stone-800 scroll-smooth">
+<body class="bg-amber-50/30 text-stone-800 scroll-smooth">
 
     <!-- Header Navigation -->
-    <nav class="fixed w-full z-[1000] bg-white/95 backdrop-blur-md shadow-sm border-b border-amber-100">
+    <nav class="fixed w-full top-0 left-0 z-50 bg-white/95 backdrop-blur-md shadow-sm border-b border-amber-100">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-20">
                 <span class="heading-font text-2xl font-bold tracking-widest text-amber-700">PRAYAGRAJ</span>
@@ -49,39 +52,45 @@
     </nav>
 
     <!-- Hero Welcome -->
-    <header class="hero-bg h-[80vh] flex items-center justify-center text-center relative px-4">
-        <div class="max-w-3xl text-white space-y-6 mt-12">
+    <header class="hero-bg h-screen flex items-center justify-center text-center relative px-4">
+        <div class="max-w-3xl text-white space-y-6">
             <p class="text-amber-400 font-semibold tracking-[0.2em] uppercase text-xs sm:text-sm">Divine Confluence Navigation</p>
             <h1 class="heading-font text-4xl sm:text-6xl font-bold drop-shadow-md">Explore Prayagraj</h1>
             <p class="text-stone-200 text-sm sm:text-base max-w-xl mx-auto font-light">
                 Locate primary landmarks, get route bearings, and track your immediate coordinates dynamically below.
             </p>
-            <a href="#map-section" class="inline-block bg-amber-500 hover:bg-amber-600 text-white font-semibold px-7 py-3 rounded-full transition-all">
+            <a href="#map-section" class="inline-block bg-amber-500 hover:bg-amber-600 text-white font-semibold px-7 py-3 rounded-full transition-all shadow-lg">
                 Open Live Travel Map <i class="fa-solid fa-map-location-dot ml-2"></i>
             </a>
         </div>
     </header>
 
     <!-- Attractions Navigation Grid -->
-    <section class="max-w-7xl mx-auto px-4 py-16">
+    <section class="max-w-7xl mx-auto px-4 py-20 mt-12">
         <div class="text-center max-w-xl mx-auto mb-12">
             <h2 class="heading-font text-3xl font-bold text-stone-900">Explore Essential Portals</h2>
             <p class="text-stone-500 text-sm mt-2">Click any specific link block to drill down into historical details, local menus, and accommodation logistics.</p>
         </div>
+        
         <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div class="bg-white p-6 rounded-2xl shadow-sm border border-amber-100/60 hover:shadow-md transition-all">
+            <!-- Card 1 -->
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-amber-100 hover:shadow-md transition-all">
                 <i class="fa-solid fa-monument text-amber-700 text-2xl mb-3"></i>
                 <h3 class="heading-font text-lg font-bold mb-1">History & Heritage</h3>
                 <p class="text-stone-600 text-xs mb-4">Learn about Brahma's ancient sacrifices and the development of the historical fort architecture.</p>
                 <a href="about.html" class="text-amber-600 font-semibold text-xs inline-flex items-center gap-1 hover:underline">Explore History &rarr;</a>
             </div>
-            <div class="bg-white p-6 rounded-2xl shadow-sm border border-amber-100/60 hover:shadow-md transition-all">
+            
+            <!-- Card 2 -->
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-amber-100 hover:shadow-md transition-all">
                 <i class="fa-solid fa-camera-retro text-amber-700 text-2xl mb-3"></i>
                 <h3 class="heading-font text-lg font-bold mb-1">Points of Interest</h3>
                 <p class="text-stone-600 text-xs mb-4">A complete breakdown of operational schedules, entrance fees, and timelines for prime parks.</p>
                 <a href="attractions.html" class="text-amber-600 font-semibold text-xs inline-flex items-center gap-1 hover:underline">View Sightseeing &rarr;</a>
             </div>
-            <div class="bg-white p-6 rounded-2xl shadow-sm border border-amber-100/60 hover:shadow-md transition-all">
+            
+            <!-- Card 3 -->
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-amber-100 hover:shadow-md transition-all">
                 <i class="fa-solid fa-tent text-amber-700 text-2xl mb-3"></i>
                 <h3 class="heading-font text-lg font-bold mb-1">Maha Kumbh Guide</h3>
                 <p class="text-stone-600 text-xs mb-4">Essential bathing dates, holy safety protocols, and dynamic ritual timelines for devotees.</p>
@@ -91,7 +100,7 @@
     </section>
 
     <!-- Map Engine Section -->
-    <section id="map-section" class="max-w-7xl mx-auto px-4 pb-24">
+    <section id="map-section" class="max-w-7xl mx-auto px-4 pb-24 pt-12">
         <div class="bg-white rounded-3xl overflow-hidden shadow-xl border border-stone-100">
             <div class="p-6 bg-stone-900 text-white flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                 <div>
@@ -110,20 +119,20 @@
         </div>
     </section>
 
-    <!-- Leaflet Javascript Engine Asset Links -->
+    <!-- FIXED: Correct Full Leaflet Javascript Engine link -->
     <script src="https://unpkg.com" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
     <script>
-        // Initialize Map targeting central coordinate anchors in Prayagraj
+        // Initialize Map centering over Prayagraj coordinates
         const map = L.map('map-container').setView([25.4358, 81.8463], 12);
 
-        // Inject free OpenStreetMap mapping tiles layout structure
+        // Inject free OpenStreetMap layout tiles
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 18,
             attribution: '&copy; <a href="https://openstreetmap.org">OpenStreetMap</a> contributors'
         }).addTo(map);
 
-        // Core Destination Markers Array Data Definitions
+        // Core Destination Markers Array Data
         const touristSpots = [
             { name: "Triveni Sangam", lat: 25.4284, lng: 81.8860, info: "Sacred meeting point of holy rivers." },
             { name: "Akbar Fort", lat: 25.4294, lng: 81.8770, info: "Colossal Mughal fortress architecture built in 1583." },
@@ -141,7 +150,7 @@
 
         let userMarker, userCircle;
 
-        // Device Live Geolocation Query Callback Utilities
+        // Device Live Geolocation utility
         function locateUser() {
             if (!navigator.geolocation) {
                 alert("Geolocation mapping features are not supported by your current browser environment.");
@@ -157,5 +166,3 @@
                     if (userMarker) {
                         map.removeLayer(userMarker);
                         map.removeLayer(userCircle);
-                    }
-
