@@ -49,8 +49,25 @@ input,select{background:#120a07;border:1px solid #7c2d12;color:#ffedd5;border-ra
       <label>Number of people
         <input id="people" type="number" min="1" max="20" value="2" class="mt-1"></label>
       <label>Total budget for the group (₹)
-        <input id="budget" type="number" min="0" step="100" value="2500" class="mt-1"></label>
+        <input id="budget" type="number" min="0" step="100" value="6000" class="mt-1"></label>
     </div>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-4 text-sm">
+      <label>How will you travel to Prayagraj?
+        <select id="mode" class="mt-1">
+          <option value="sl" selected>Train, Sleeper class (round trip)</option>
+          <option value="ac3">Train, 3AC (round trip)</option>
+          <option value="bus">Bus, non-AC (round trip)</option>
+          <option value="busac">Bus, AC sleeper (round trip)</option>
+          <option value="taxi">Taxi, whole car (round trip)</option>
+        </select></label>
+      <label>Distance from your place to Prayagraj (km)
+        <input id="dist" type="number" min="0" placeholder="Auto, from your location" class="mt-1"></label>
+      <div>
+        <div class="mb-1">Your location</div>
+        <button id="locate2" type="button" class="w-full bg-blue-600 hover:bg-blue-500 text-white px-5 py-2.5 rounded-full text-sm">📍 Use my location</button>
+      </div>
+    </div>
+    <p id="locinfo" class="text-xs text-amber-300/90 mt-2"></p>
     <label class="flex items-center gap-2 mt-4 text-sm"><input id="food" type="checkbox" checked style="width:auto"> Include food costs (₹250 per person per day) in the budget</label>
     <button id="go" class="mt-5 bg-orange-600 hover:bg-orange-500 text-white font-semibold px-8 py-3 rounded-full">Make my plan</button>
   </div>
@@ -70,7 +87,7 @@ input,select{background:#120a07;border:1px solid #7c2d12;color:#ffedd5;border-ra
 
   <!-- ALL PLACES -->
   <h2 class="text-3xl font-bold text-orange-500 mt-14">Time, cost and directions for every place</h2>
-  <p class="text-sm text-orange-200/70 mt-1">Cost per person = entry/activity fee + local travel (auto/e-rickshaw share, ₹60). These are rough estimates and can change.</p>
+  <p class="text-sm text-orange-200/70 mt-1">Cost per person = entry/activity fee + local travel (auto/e-rickshaw share, ₹60). The fare to reach Prayagraj from your location is added separately in your plan. These are rough estimates and can change.</p>
   <div id="all" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6"></div>
 </main>
 
@@ -100,6 +117,39 @@ setTimeout(fillPhotos,5000);setTimeout(fillPhotos,12000);
 /* ---------- data (edit these estimates freely) ---------- */
 const LOCAL=60, TRAVEL=0.4, FOOD=250;
 const STATION=[25.4475,81.8271];   // Prayagraj Junction, used for the distance line
+
+/* ---------- travel to Prayagraj, worked out from the visitor's location (estimates, edit freely) ----------
+   rate = ₹ per km per person, one way (min = lowest fare). Taxi = ₹ per km for the whole car, both ways. */
+const CITY=[25.4358,81.8463];   // centre of Prayagraj
+const ROAD_FACTOR=1.12;         // straight-line km to road km
+const NEAR_KM=30;               // closer than this = already in Prayagraj, no long-distance cost
+const MODES={
+  sl:{n:'Train (Sleeper)',rate:0.75,min:100},
+  ac3:{n:'Train (3AC)',rate:2.1,min:300},
+  bus:{n:'Bus (non-AC)',rate:1.5,min:60},
+  busac:{n:'Bus (AC sleeper)',rate:3.8,min:200},
+  taxi:{n:'Taxi',perKm:12,seats:4}
+};
+let userLoc=null;
+function distKm(){
+  const m=document.getElementById('dist').value;
+  if(m!=='')return Math.max(0,+m||0);
+  if(userLoc)return km(userLoc,CITY)*ROAD_FACTOR;
+  return null;
+}
+function tripCost(mode,N,d){
+  if(d===null||d<NEAR_KM)return 0;
+  const m=MODES[mode];
+  if(m.perKm)return m.perKm*d*2*Math.ceil(N/m.seats);
+  return Math.max(m.min,m.rate*d)*2*N;
+}
+function showLocInfo(){
+  const el=document.getElementById('locinfo');
+  const d=distKm(),manual=document.getElementById('dist').value!=='';
+  if(d===null){el.textContent='Tap "Use my location" so we can work out your travel cost to Prayagraj, or type your distance in km.';return;}
+  el.textContent=d<NEAR_KM?'📍 You are already in or near Prayagraj, so no long-distance travel cost is added.':(manual?'Distance: about '+Math.round(d)+' km from Prayagraj.':'📍 You are about '+Math.round(d)+' km from Prayagraj by road (estimated from your location).');
+}
+
 const places=[
  {id:1,n:'Triveni Sangam',q:'Triveni Sangam Allahabad',c:[25.4300,81.8870],h:2.5,fee:150,zone:'A',p:1,note:'Includes a shared boat ride (about ₹150)'},
  {id:2,n:'Allahabad Fort',q:'Allahabad Fort',c:[25.4284,81.8750],h:1.5,fee:0,zone:'A',p:2,note:'Outer areas and views; some parts restricted'},
@@ -177,17 +227,24 @@ function pack(list,D,H){
   return days.length>D?null:days;
 }
 
-document.getElementById('go').onclick=()=>{
+function makePlan(){
   const D=+document.getElementById('days').value,H=+document.getElementById('hours').value;
   const N=Math.max(1,+document.getElementById('people').value||1);
   const B=Math.max(0,+document.getElementById('budget').value||0);
   const food=document.getElementById('food').checked;
-  const foodCost=food?FOOD*N*D:0,placeBudget=B-foodCost;
+  const mode=document.getElementById('mode').value;
+  const d=distKm();
+  const travelCost=tripCost(mode,N,d);
+  const foodCost=food?FOOD*N*D:0,placeBudget=B-foodCost-travelCost;
   const out=document.getElementById('result');
   planLayer.clearLayers();
+  showLocInfo();
 
   if(placeBudget<=0){
-    out.innerHTML=`<div class="bg-red-950/60 border border-red-800 rounded-2xl p-6">Your budget of ${rs(B)} is not enough for ${D} day(s) of food for ${N} people (${rs(foodCost)}). Increase the budget, reduce the days, or untick the food option.</div>`;return;
+    const parts=[];
+    if(travelCost)parts.push(`${MODES[mode].n} travel to Prayagraj and back (${rs(travelCost)})`);
+    if(foodCost)parts.push(`food (${rs(foodCost)})`);
+    out.innerHTML=`<div class="bg-red-950/60 border border-red-800 rounded-2xl p-6">Your budget of ${rs(B)} leaves nothing for sightseeing${parts.length?' after '+parts.join(' + '):''} for ${N} ${N>1?'people':'person'}. Increase the budget, reduce the days, choose a cheaper travel option, or untick the food option.</div>`;return;
   }
   let chosen=[];const skipped=[];
   for(const p of [...places].sort((a,b)=>a.p-b.p)){
@@ -201,7 +258,13 @@ document.getElementById('go').onclick=()=>{
 
   const days=pack(chosen,D,H);
   const placesCost=chosen.reduce((s,x)=>s+perPerson(x)*N,0);
-  const total=placesCost+foodCost,totalHours=days.reduce((s,d)=>s+d.used,0),left=B-total;
+  const total=placesCost+foodCost+travelCost,totalHours=days.reduce((s,d)=>s+d.used,0),left=B-total;
+
+  const travelLine=d===null
+    ?`<p class="text-sm text-amber-300/90 mt-3">ℹ️ Travel to Prayagraj is not included yet. Tap "Use my location" above, or type your distance in km, to add it.</p>`
+    :d<NEAR_KM
+    ?`<p class="text-sm text-orange-100/90 mt-3">📍 You are already in or near Prayagraj, so no long-distance travel cost is added.</p>`
+    :`<p class="text-sm text-orange-100/90 mt-3">🚆 Getting there: ${MODES[mode].n}, about ${Math.round(d)} km each way. Round trip for ${N} ${N>1?'people':'person'} = <b class="text-amber-400">${rs(travelCost)}</b>.</p>`;
 
   let html=`
   <h2 class="text-3xl font-bold text-orange-500">Your plan: ${chosen.length} of ${places.length} places</h2>
@@ -211,7 +274,8 @@ document.getElementById('go').onclick=()=>{
     <div class="bg-[#120a07] rounded-2xl p-5"><b class="text-3xl text-amber-400 block">${rs(total)}</b>Estimated total for ${N} ${N>1?'people':'person'}</div>
     <div class="bg-[#120a07] rounded-2xl p-5"><b class="text-3xl ${left>=0?'text-green-400':'text-red-400'} block">${rs(left)}</b>Budget left</div>
   </div>
-  <p class="text-xs text-orange-200/70 mt-3">Places: ${rs(placesCost)}${food?' · Food: '+rs(foodCost):''}. Stay and long-distance travel are not included.</p>`;
+  ${travelLine}
+  <p class="text-xs text-orange-200/70 mt-3">Places: ${rs(placesCost)}${food?' · Food: '+rs(foodCost):''}${travelCost?' · Travel to Prayagraj: '+rs(travelCost):''}. Stay is not included.</p>`;
 
   let n=0;const all=[];
   days.forEach((d,i)=>{
@@ -237,24 +301,4 @@ document.getElementById('go').onclick=()=>{
   if(skipped.length){
     html+=`<div class="bg-[#120a07] rounded-2xl p-5 mt-8 border border-orange-950"><h3 class="text-xl font-bold text-amber-400">Not included</h3><ul class="mt-2 text-sm space-y-1">`+
       skipped.map(s=>`<li>• <b>${s.p.n}</b> (${fmtH(s.p.h)}, ${rs(perPerson(s.p))} per person): ${s.why}</li>`).join('')+
-      `</ul><p class="text-xs text-orange-200/70 mt-2">Add more days, hours or budget to fit these in.</p></div>`;
-  }
-  out.innerHTML=html;
-  fillPhotos();
-  map.fitBounds(L.latLngBounds(all.map(p=>p.c)).pad(0.3));
-  out.scrollIntoView({behavior:'smooth'});
-};
-
-/* ---------- live location ---------- */
-let me;
-document.getElementById('locate').onclick=()=>{
-  if(!navigator.geolocation)return alert('Location is not supported on this device');
-  navigator.geolocation.watchPosition(pos=>{
-    const ll=[pos.coords.latitude,pos.coords.longitude];
-    if(!me){me=L.marker(ll,{icon:L.divIcon({className:'',html:'<div class="me"></div>',iconSize:[16,16],iconAnchor:[8,8]})}).addTo(map).bindPopup('You are here');map.setView(ll,14);}
-    else me.setLatLng(ll);
-  },()=>alert('Please allow location access'),{enableHighAccuracy:true});
-};
-</script>
-</body>
-</html>
+      `</ul><p class="text-xs text-orange-200/70 mt-2">Add more days, hours or budget t
