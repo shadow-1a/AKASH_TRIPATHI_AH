@@ -1,176 +1,145 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Stay | Prayagraj Tourism</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-<style>body{font-family:Poppins,sans-serif}h1,h2,h3,.logo{font-family:'Playfair Display',serif}</style>
-</head>
-<body class="bg-[#1c0f0a] text-orange-50">
-<header class="bg-orange-600 text-white sticky top-0 z-[1100] shadow">
-  <nav class="max-w-6xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-2">
-    <a href="index.html" class="logo text-2xl font-bold">Prayagraj Tourism</a>
-    <div class="flex flex-wrap gap-4 text-sm font-medium">
-      <a href="index.html">Home</a><a href="about.html">About</a><a href="attractions.html">Attractions</a>
-      <a href="kumbh.html">Kumbh Mela</a><a href="food.html">Food</a><a href="stay.html" class="underline">Stay</a><a href="plan-trip.html">Plan Trip</a>
-    </div>
-  </nav>
-</header>
-<main class="max-w-6xl mx-auto px-4 py-12">
-  <h1 class="text-5xl font-extrabold text-orange-500">Where to Stay</h1>
-  <div id="cards" class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-8"></div>
-  <div class="flex flex-wrap items-center justify-between gap-3 mt-14 mb-4">
-    <h2 class="text-3xl font-bold text-orange-500">Stay Areas Map</h2>
-    <button id="nearme" class="bg-blue-600 hover:bg-blue-500 text-white px-5 py-2 rounded-full text-sm">📍 Hotels near my location</button>
+<section id="nearby" class="nb-wrap">
+  <h2>Hotels Near You</h2>
+  <div class="nb-bar">
+    <button id="nbFind" class="nb-btn">📍 Find hotels near me</button>
+    <input id="nbQ" type="search" placeholder="Search by name">
+    <select id="nbType">
+      <option value="">All types</option>
+      <option>Hotel</option><option>Guest House</option>
+      <option>Hostel</option><option>Apartment</option>
+    </select>
   </div>
-  <div id="map" class="h-[420px] rounded-2xl shadow-lg z-0"></div>
-  <p id="hstatus" class="text-sm text-amber-300/90 mt-3">Tap "View on map" on an area to see the hotels around it.</p>
+  <p id="nbStatus" class="nb-status">Tap the button to see hotels around you.</p>
+  <div id="nbGrid" class="nb-grid"></div>
+  <p class="nb-attr">Data © OpenStreetMap contributors. Prices are not stored in OpenStreetMap, so use Check price for live rates.</p>
+</section>
 
-  <h2 class="text-2xl font-bold text-orange-500 mt-8">Hotels and guest houses nearby</h2>
-  <div id="hlist" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-4"></div>
-  <p class="text-xs text-orange-200/70 mt-4">Hotel locations © OpenStreetMap contributors. The list may be incomplete or out of date, so please check prices and availability with the hotel.</p>
-</main>
-<footer class="bg-black text-orange-200 text-center py-6 text-sm">© 2026 Prayagraj Tourism. Map data © OpenStreetMap contributors. Photos via Wikimedia Commons / Wikipedia.</footer>
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<style>
+:root{--nb-o:#ff6b1a;--nb-card:#160a08;--nb-text:#f3e9e4}
+.nb-wrap{max-width:1100px;margin:40px auto;padding:0 20px;font-family:inherit;color:var(--nb-text)}
+.nb-wrap h2{color:var(--nb-o)}
+.nb-bar{display:flex;flex-wrap:wrap;gap:10px;margin:14px 0}
+.nb-bar input,.nb-bar select{flex:1 1 160px;padding:10px 14px;border-radius:999px;border:1px solid #4a2418;background:var(--nb-card);color:var(--nb-text);font:inherit}
+.nb-btn{background:var(--nb-o);color:#fff;border:0;border-radius:999px;padding:10px 20px;font:inherit;cursor:pointer}
+.nb-status{margin:8px 0}
+.nb-grid{display:grid;grid-template-columns:1fr;gap:18px}
+@media(min-width:900px){.nb-grid{grid-template-columns:repeat(3,1fr)}}
+.nb-card{background:var(--nb-card);border-radius:18px;padding:18px;box-shadow:0 6px 20px rgba(0,0,0,.5)}
+.nb-card h3{margin:0 0 6px;color:#fff}
+.nb-card p{margin:4px 0;font-size:.9rem}
+.nb-tag{display:inline-block;font-size:.75rem;padding:2px 10px;border-radius:999px;background:#3a1a10;color:var(--nb-o);margin-bottom:6px}
+.nb-price{color:var(--nb-o);font-weight:600}
+.nb-links{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.nb-links a{padding:8px 14px;border-radius:999px;background:var(--nb-o);color:#fff;text-decoration:none;font-size:.85rem}
+.nb-links a.alt{background:transparent;border:1px solid var(--nb-o);color:var(--nb-o)}
+.nb-attr{font-size:.78rem;opacity:.6;margin-top:18px}
+</style>
+
 <script>
-const cache={};
-function svgPlaceholder(t){const s=`<svg xmlns="http://www.w3.org/2000/svg" width="900" height="600"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ea580c"/><stop offset="1" stop-color="#7c2d12"/></linearGradient></defs><rect width="900" height="600" fill="url(#g)"/><text x="450" y="320" font-size="54" font-family="Arial" fill="#fff" text-anchor="middle">${t}</text></svg>`;return 'data:image/svg+xml;charset=utf-8,'+encodeURIComponent(s);}
-async function findPhoto(q){
-  if(q in cache)return cache[q];let url=null;
-  try{const a=await(await fetch('https://commons.wikimedia.org/w/api.php?action=query&generator=search&gsrnamespace=6&gsrlimit=10&gsrsearch='+encodeURIComponent(q)+'&prop=imageinfo&iiprop=url|mime&iiurlwidth=900&format=json&origin=*')).json();
-   const pg=Object.values((a.query||{}).pages||{}).sort((x,y)=>x.index-y.index).find(p=>p.imageinfo&&p.imageinfo[0].mime==='image/jpeg');if(pg)url=pg.imageinfo[0].thumburl;}catch(e){}
-  if(!url)try{const b=await(await fetch('https://en.wikipedia.org/w/api.php?action=query&generator=search&gsrlimit=3&gsrsearch='+encodeURIComponent(q)+'&prop=pageimages&piprop=thumbnail&pithumbsize=900&format=json&origin=*')).json();
-   const pg=Object.values((b.query||{}).pages||{}).sort((x,y)=>x.index-y.index).find(p=>p.thumbnail);if(pg)url=pg.thumbnail.source;}catch(e){}
-  return(cache[q]=url);
-}
-function fillPhotos(){document.querySelectorAll('img[data-q]:not([data-done])').forEach(img=>{img.dataset.done=1;img.src=svgPlaceholder(img.alt);findPhoto(img.dataset.q).then(u=>{if(u)img.src=u;});});}
+(function(){
+  var RADIUS = 5000; // metres around YOU. Change here.
+  var DEFAULT = [25.4358, 81.8463]; // city centre if location is blocked
+  var ENDPOINTS = ['https://overpass-api.de/api/interpreter','https://overpass.kumi.systems/api/interpreter'];
+  var TYPES = {hotel:'Hotel',guest_house:'Guest House',hostel:'Hostel',apartment:'Apartment',motel:'Motel'};
+  var $ = function(id){return document.getElementById(id)};
+  var all = [];
 
-const areas=[
- {n:'Civil Lines',q:'Civil Lines Allahabad',c:[25.4533,81.8392],d:'Modern hotels, restaurants and shopping. A good all-round base.'},
- {n:'Near Railway Station',q:'Allahabad Junction railway station',c:[25.4475,81.8271],d:'Budget hotels and lodges, easy for arrivals and departures.'},
- {n:'Sangam Side',q:'Sangam Allahabad ghat',c:[25.4250,81.8880],d:'Guest houses close to the holy bathing area.'},
- {n:'Kumbh Tent City',q:'Kumbh Mela tents Allahabad',c:[25.4220,81.8850],d:'Temporary tents during the Mela. Book early.'}
-];
-const map=L.map('map').setView([25.4400,81.8500],13);
-L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'&copy; OpenStreetMap contributors'}).addTo(map);
-const markers=[];
-areas.forEach((p,i)=>{
- markers[i]=L.marker(p.c).addTo(map).bindPopup(`<b>${p.n}</b><br><a target="_blank" href="https://www.google.com/maps/dir/?api=1&destination=${p.c[0]},${p.c[1]}">Get directions</a>`);
- document.getElementById('cards').insertAdjacentHTML('beforeend',`
-  <div class="group bg-[#120a07] rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition">
-   <div class="h-44 overflow-hidden"><img data-q="${p.q}" alt="${p.n}" class="w-full h-full object-cover group-hover:scale-110 transition duration-700"></div>
-   <div class="p-4"><h3 class="text-xl font-bold">${p.n}</h3><p class="text-sm text-orange-100/80 mt-1">${p.d}</p>
-    <button onclick="showOnMap(${i})" class="mt-3 bg-orange-600 hover:bg-orange-500 text-white px-4 py-2 rounded-full text-sm">View on map</button></div></div>`);
-});
-fillPhotos();
+  function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+  function km(a,b,c,d){var r=Math.PI/180,R=6371,x=(c-a)*r,y=(d-b)*r;
+    var h=Math.sin(x/2)*Math.sin(x/2)+Math.cos(a*r)*Math.cos(c*r)*Math.sin(y/2)*Math.sin(y/2);
+    return 2*R*Math.asin(Math.sqrt(h))}
 
-/* ---------- hotels around a place (live data from OpenStreetMap) ---------- */
-const hotelLayer=L.layerGroup().addTo(map);
-const hotelMarkers=[];
-let curHotels=[],searchId=0;
-const TYPES={hotel:'Hotel',guest_house:'Guest house',hostel:'Hostel',motel:'Motel'};
-const ENDPOINTS=['https://overpass-api.de/api/interpreter','https://overpass.kumi.systems/api/interpreter'];
-const hIcon=L.divIcon({className:'',html:'<div style="background:#ea580c;border:2px solid #fff;border-radius:50%;width:26px;height:26px;display:flex;align-items:center;justify-content:center;font-size:14px;box-shadow:0 1px 4px rgba(0,0,0,.5)">🏨</div>',iconSize:[26,26],iconAnchor:[13,13],popupAnchor:[0,-12]});
-const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-function kmBetween(a,b){const R=6371,t=x=>x*Math.PI/180,dLa=t(b[0]-a[0]),dLo=t(b[1]-a[1]);
-  const h=Math.sin(dLa/2)**2+Math.cos(t(a[0]))*Math.cos(t(b[0]))*Math.sin(dLo/2)**2;return 2*R*Math.asin(Math.sqrt(h));}
+  function query(lat,lon){
+    var f=['hotel','guest_house','hostel','apartment','motel'].map(function(t){
+      return 'nwr(around:'+RADIUS+','+lat+','+lon+')["tourism"="'+t+'"];'}).join('\n');
+    return '[out:json][timeout:30];\n(\n'+f+'\n);\nout center;';
+  }
 
-async function overpass(lat,lon,r){
-  const q=`[out:json][timeout:20];(node["tourism"~"^(hotel|guest_house|hostel|motel)$"](around:${r},${lat},${lon});way["tourism"~"^(hotel|guest_house|hostel|motel)$"](around:${r},${lat},${lon}););out center tags 80;`;
-  let lastErr;
-  for(const ep of ENDPOINTS){
+  async function overpass(q){
+    var err;
+    for (var i=0;i<ENDPOINTS.length;i++){
+      try{
+        var r = await fetch(ENDPOINTS[i],{method:'POST',
+          headers:{'Content-Type':'application/x-www-form-urlencoded'},
+          body:'data='+encodeURIComponent(q)});
+        if(!r.ok) throw new Error('HTTP '+r.status);
+        return await r.json();
+      }catch(e){err=e}
+    }
+    throw err;
+  }
+
+  function getPos(){
+    return new Promise(function(res){
+      if(!navigator.geolocation) return res({lat:DEFAULT[0],lon:DEFAULT[1],real:false});
+      navigator.geolocation.getCurrentPosition(
+        function(p){res({lat:p.coords.latitude,lon:p.coords.longitude,real:true})},
+        function(){res({lat:DEFAULT[0],lon:DEFAULT[1],real:false})},
+        {enableHighAccuracy:true,timeout:10000});
+    });
+  }
+
+  async function load(){
+    $('nbStatus').innerHTML='Finding your location...';
+    var pos = await getPos();
+    $('nbStatus').textContent='Loading hotels...';
+    var key='nb_stay_'+pos.lat.toFixed(2)+'_'+pos.lon.toFixed(2);
+    var data=null;
+    try{var c=JSON.parse(localStorage.getItem(key)||'null');
+      if(c && Date.now()-c.t<3600000) data=c.d;}catch(e){}
     try{
-      const ctrl=new AbortController();const t=setTimeout(()=>ctrl.abort(),22000);
-      const res=await fetch(ep+'?data='+encodeURIComponent(q),{signal:ctrl.signal});
-      clearTimeout(t);
-      if(!res.ok)throw new Error('HTTP '+res.status);
-      const j=await res.json();
-      return j.elements||[];
-    }catch(e){lastErr=e;}
+      if(!data){
+        var j = await overpass(query(pos.lat,pos.lon));
+        data = j.elements.map(function(el){
+          var t=el.tags||{};
+          var la=el.lat!=null?el.lat:(el.center&&el.center.lat);
+          var lo=el.lon!=null?el.lon:(el.center&&el.center.lon);
+          if(!t.name||la==null||lo==null) return null;
+          return {id:el.type+el.id,name:t.name,lat:la,lon:lo,
+            type:TYPES[t.tourism]||'Other',
+            addr:t['addr:full']||[t['addr:housenumber'],t['addr:street']].filter(Boolean).join(' '),
+            phone:t.phone||t['contact:phone']||'',
+            stars:t.stars||'',
+            price:t.charge||t['fee']||''};
+        }).filter(Boolean);
+        try{localStorage.setItem(key,JSON.stringify({t:Date.now(),d:data}))}catch(e){}
+      }
+      data.forEach(function(h){h.dist=km(pos.lat,pos.lon,h.lat,h.lon)});
+      all=data;
+      console.log('Stay count:',all.length);
+      render(pos.real);
+    }catch(e){
+      console.error(e);
+      $('nbStatus').innerHTML='Could not load. Tap to retry <button class="nb-btn" id="nbRetry">Retry</button>';
+      $('nbRetry').onclick=load;
+    }
   }
-  throw lastErr;
-}
-function toHotels(els,center){
-  const seen={},out=[];
-  els.forEach(e=>{
-    const t=e.tags||{},name=t.name||t['name:en'];
-    if(!name)return;
-    const lat=e.lat!=null?e.lat:(e.center&&e.center.lat),lon=e.lon!=null?e.lon:(e.center&&e.center.lon);
-    if(lat==null||lon==null)return;
-    const key=name.toLowerCase()+Math.round(lat*1000)+Math.round(lon*1000);
-    if(seen[key])return;seen[key]=1;
-    out.push({name,lat,lon,type:TYPES[t.tourism]||'Stay',stars:t.stars,phone:t.phone||t['contact:phone'],web:t.website||t['contact:website'],d:kmBetween(center,[lat,lon])});
-  });
-  return out.sort((a,b)=>a.d-b.d);
-}
-function hotelPopup(h){
-  let s=`<b>${esc(h.name)}</b><br>${h.type}${h.stars?' · '+esc(h.stars)+'★':''}<br>${h.d.toFixed(1)} km from the centre of this search`;
-  if(h.phone)s+=`<br>📞 ${esc(h.phone)}`;
-  if(/^https?:\/\//i.test(h.web||''))s+=`<br><a target="_blank" rel="noopener" href="${esc(h.web)}">Website</a>`;
-  s+=`<br><a target="_blank" href="https://www.google.com/maps/dir/?api=1&destination=${h.lat},${h.lon}">🧭 Get directions</a>`;
-  return s;
-}
-function focusHotel(i){
-  const h=curHotels[i];if(!h)return;
-  document.getElementById('map').scrollIntoView({behavior:'smooth',block:'center'});
-  setTimeout(()=>{map.setView([h.lat,h.lon],17);hotelMarkers[i].openPopup();},400);
-}
-async function loadHotels(center,label){
-  const id=++searchId;
-  const status=document.getElementById('hstatus'),list=document.getElementById('hlist');
-  hotelLayer.clearLayers();hotelMarkers.length=0;curHotels=[];list.innerHTML='';
-  status.textContent='Searching for hotels near '+label+'...';
-  let r=1500,hotels=[];
-  try{
-    hotels=toHotels(await overpass(center[0],center[1],r),center);
-    if(hotels.length<3){r=3000;hotels=toHotels(await overpass(center[0],center[1],r),center);}
-  }catch(e){
-    if(id!==searchId)return;
-    status.textContent='Could not load hotels right now. Please check your internet connection and tap again.';
-    return;
+
+  function render(real){
+    var q=$('nbQ').value.trim().toLowerCase(), ty=$('nbType').value;
+    var items=all.filter(function(h){return (!q||h.name.toLowerCase().indexOf(q)>-1)&&(!ty||h.type===ty)})
+                 .sort(function(a,b){return a.dist-b.dist});
+    $('nbStatus').textContent = items.length
+      ? 'Found '+items.length+' hotels'+(real?' near you':' near Prayagraj city centre (location not shared)')
+      : 'No places found';
+    $('nbGrid').innerHTML = items.map(function(h){
+      var n=encodeURIComponent(h.name+' Prayagraj');
+      return '<div class="nb-card"><h3>'+esc(h.name)+'</h3>'
+        +'<span class="nb-tag">'+esc(h.type)+(h.stars?' · '+esc(h.stars)+'★':'')+'</span>'
+        +'<p>📏 '+h.dist.toFixed(1)+' km from '+(real?'you':'city centre')+'</p>'
+        +(h.addr?'<p>📍 '+esc(h.addr)+'</p>':'')
+        +(h.phone?'<p>📞 '+esc(h.phone)+'</p>':'')
+        +'<p>💰 '+(h.price?'<span class="nb-price">'+esc(h.price)+'</span>':'Price: tap Check price for live rates')+'</p>'
+        +'<div class="nb-links">'
+        +'<a href="https://www.google.com/maps/dir/?api=1&destination='+h.lat+','+h.lon+'" target="_blank" rel="noopener">Directions</a>'
+        +'<a class="alt" href="https://www.google.com/search?q='+n+'+hotel+price" target="_blank" rel="noopener">Check price</a>'
+        +'<a class="alt" href="https://www.booking.com/searchresults.html?ss='+n+'" target="_blank" rel="noopener">Booking.com</a>'
+        +'</div></div>';
+    }).join('');
   }
-  if(id!==searchId)return;
-  const circle=L.circle(center,{radius:r,color:'#ea580c',weight:1.5,fillColor:'#ea580c',fillOpacity:.08}).addTo(hotelLayer);
-  curHotels=hotels;
-  hotels.forEach((h,i)=>{hotelMarkers[i]=L.marker([h.lat,h.lon],{icon:hIcon}).addTo(hotelLayer).bindPopup(hotelPopup(h));});
-  status.textContent=hotels.length
-    ?`Found ${hotels.length} place${hotels.length>1?'s':''} to stay within ${r/1000} km of ${label}. Tap a 🏨 pin for details.`
-    :`No hotels found within ${r/1000} km of ${label} in the map data. Try another area.`;
-  map.fitBounds(circle.getBounds());
-  list.innerHTML=hotels.slice(0,24).map((h,i)=>`
-    <div class="bg-[#120a07] rounded-xl p-4 border border-orange-950">
-      <h4 class="font-semibold">${esc(h.name)}</h4>
-      <p class="text-xs text-orange-100/70 mt-1">${h.type}${h.stars?' · '+esc(h.stars)+'★':''} · ${h.d.toFixed(1)} km away</p>
-      <div class="flex flex-wrap gap-2 mt-3">
-        <button onclick="focusHotel(${i})" class="bg-orange-600 hover:bg-orange-500 text-white px-3 py-1.5 rounded-full text-xs">📍 Show on map</button>
-        <a target="_blank" href="https://www.google.com/maps/dir/?api=1&destination=${h.lat},${h.lon}" class="bg-blue-600 hover:bg-blue-500 text-white px-3 py-1.5 rounded-full text-xs">🧭 Directions</a>
-      </div>
-    </div>`).join('')+(hotels.length>24?`<p class="text-xs text-orange-200/70 sm:col-span-2 lg:col-span-3">...and ${hotels.length-24} more on the map.</p>`:'');
-}
 
-function showOnMap(i){
-  map.setView(areas[i].c,15);
-  markers[i].openPopup();
-  document.getElementById('map').scrollIntoView({behavior:'smooth',block:'center'});
-  loadHotels(areas[i].c,areas[i].n);
-}
-
-document.getElementById('nearme').onclick=()=>{
-  if(!navigator.geolocation)return alert('Location is not supported on this device');
-  const status=document.getElementById('hstatus');
-  status.textContent='Finding your location...';
-  navigator.geolocation.getCurrentPosition(pos=>{
-    const ll=[pos.coords.latitude,pos.coords.longitude];
-    L.marker(ll).addTo(hotelLayer).bindPopup('You are here');
-    map.setView(ll,15);
-    loadHotels(ll,'your location');
-  },()=>{status.textContent='Please allow location access to see hotels near you.';},{enableHighAccuracy:true,timeout:15000});
-};
-
-loadHotels(areas[0].c,areas[0].n);
+  $('nbFind').onclick=load;
+  $('nbQ').addEventListener('input',function(){render(true)});
+  $('nbType').addEventListener('change',function(){render(true)});
+})();
 </script>
-</body>
-</html>
