@@ -1,157 +1,239 @@
-<section id="nearby" class="nb-wrap">
-  <h2>Hotels Near You</h2>
-  <div class="nb-bar">
-    <button id="nbFind" class="nb-btn">📍 Find hotels near me</button>
-    <input id="nbQ" type="search" placeholder="Search by name">
-    <select id="nbType">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Stay | Prayagraj Tourism</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<style>
+:root{--o:#ff6b1a;--bg:#1a0a08;--card:#160a08;--text:#f3e9e4}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:'Poppins',system-ui,sans-serif}
+h1,h2,h3{font-family:'Playfair Display',serif}
+.nav{background:var(--o);display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;padding:14px 5%;position:sticky;top:0;z-index:1000}
+.nav .logo{font-family:'Playfair Display',serif;font-size:1.4rem;color:#fff;font-weight:700}
+.nav nav{display:flex;flex-wrap:wrap;gap:16px}
+.nav a{color:#fff;text-decoration:none;font-weight:500;font-size:.95rem}
+.nav a.on{text-decoration:underline}
+main{max-width:1100px;margin:0 auto;padding:30px 20px 50px}
+h1{color:var(--o);font-size:2.4rem;margin:10px 0 24px}
+h2{color:var(--o);margin:0}
+.areas{display:grid;grid-template-columns:1fr;gap:20px}
+@media(min-width:600px){.areas{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:950px){.areas{grid-template-columns:repeat(4,1fr)}}
+.area{background:var(--card);border-radius:18px;overflow:hidden;box-shadow:0 6px 20px rgba(0,0,0,.5);display:flex;flex-direction:column}
+.area img{width:100%;height:170px;object-fit:cover;display:block}
+.area .b{padding:16px;display:flex;flex-direction:column;gap:8px;flex:1}
+.area h3{margin:0;color:#fff;font-size:1.15rem}
+.area p{margin:0;font-size:.85rem;opacity:.85;flex:1}
+.btn{background:var(--o);color:#fff;border:0;border-radius:999px;padding:10px 20px;font:inherit;font-size:.9rem;cursor:pointer;align-self:flex-start}
+.btn.blue{background:#1e90ff}
+.maphead{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;margin:50px 0 14px}
+#map{height:380px;border-radius:18px;z-index:1}
+.status{margin:14px 0;min-height:1.5em}
+.bar{display:flex;flex-wrap:wrap;gap:10px;margin:14px 0}
+.bar input,.bar select{flex:1 1 160px;padding:10px 14px;border-radius:999px;border:1px solid #4a2418;background:var(--card);color:var(--text);font:inherit}
+.grid{display:grid;grid-template-columns:1fr;gap:18px}
+@media(min-width:900px){.grid{grid-template-columns:repeat(3,1fr)}}
+.hc{background:var(--card);border-radius:18px;padding:18px;box-shadow:0 6px 20px rgba(0,0,0,.5);cursor:pointer}
+.hc h3{margin:0 0 6px;color:#fff;font-size:1.05rem}
+.hc p{margin:4px 0;font-size:.88rem}
+.tag{display:inline-block;font-size:.75rem;padding:2px 10px;border-radius:999px;background:#3a1a10;color:var(--o);margin-bottom:6px}
+.pr{color:var(--o);font-weight:600}
+.links{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.links a{padding:8px 14px;border-radius:999px;background:var(--o);color:#fff;text-decoration:none;font-size:.82rem}
+.links a.alt{background:transparent;border:1px solid var(--o);color:var(--o)}
+.attr{font-size:.78rem;opacity:.6;margin-top:24px}
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="logo">Prayagraj Tourism</div>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="attractions.html">Attractions</a>
+    <a href="kumbh.html">Kumbh Mela</a>
+    <a href="food.html">Food</a>
+    <a href="stay.html" class="on">Stay</a>
+    <a href="plan-trip.html">Plan Trip</a>
+  </nav>
+</header>
+
+<main>
+  <h1>Where to Stay</h1>
+
+  <div class="areas">
+    <div class="area">
+      <img data-wiki="Civil Lines, Allahabad" src="https://placehold.co/600x400/160a08/ff6b1a?text=Civil+Lines" alt="Civil Lines">
+      <div class="b"><h3>Civil Lines</h3><p>Modern hotels, restaurants and shopping. A good all-round base.</p>
+      <button class="btn" data-area="0">View on map</button></div>
+    </div>
+    <div class="area">
+      <img data-wiki="Prayagraj Junction railway station" src="https://placehold.co/600x400/160a08/ff6b1a?text=Railway+Station" alt="Near Railway Station">
+      <div class="b"><h3>Near Railway Station</h3><p>Budget hotels and lodges, easy for arrivals and departures.</p>
+      <button class="btn" data-area="1">View on map</button></div>
+    </div>
+    <div class="area">
+      <img data-wiki="Triveni Sangam Prayagraj" src="https://placehold.co/600x400/160a08/ff6b1a?text=Sangam" alt="Sangam Side">
+      <div class="b"><h3>Sangam Side</h3><p>Guest houses close to the holy bathing area.</p>
+      <button class="btn" data-area="2">View on map</button></div>
+    </div>
+    <div class="area">
+      <img data-wiki="Kumbh Mela Prayagraj tent city" src="https://placehold.co/600x400/160a08/ff6b1a?text=Tent+City" alt="Kumbh Tent City">
+      <div class="b"><h3>Kumbh Tent City</h3><p>Temporary tents during the Mela. Book early.</p>
+      <button class="btn" data-area="3">View on map</button></div>
+    </div>
+  </div>
+
+  <div class="maphead">
+    <h2>Stay Areas Map</h2>
+    <button class="btn blue" id="locBtn">📍 Hotels near my location</button>
+  </div>
+  <div id="map"></div>
+
+  <h2 style="margin-top:40px">Hotels Near You</h2>
+  <div class="bar">
+    <input id="q" type="search" placeholder="Search by name">
+    <select id="type">
       <option value="">All types</option>
       <option>Hotel</option><option>Guest House</option>
       <option>Hostel</option><option>Apartment</option>
     </select>
   </div>
-  <p id="nbStatus" class="nb-status">Tap the button to see hotels around you.</p>
-  <div id="nbGrid" class="nb-grid"></div>
-  <p class="nb-attr">Data © OpenStreetMap contributors. Prices are not stored in OpenStreetMap, so use Check price for live rates.</p>
-</section>
+  <p id="status" class="status">Tap "Hotels near my location" or "View on map" on any area.</p>
+  <div id="grid" class="grid"></div>
+  <p class="attr">Data © OpenStreetMap contributors. Prices are not stored in OpenStreetMap, so use Check price for live rates.</p>
+</main>
 
-<style>
-:root{--nb-o:#ff6b1a;--nb-card:#160a08;--nb-text:#f3e9e4}
-.nb-wrap{max-width:1100px;margin:40px auto;padding:0 20px;font-family:inherit;color:var(--nb-text)}
-.nb-wrap h2{color:var(--nb-o)}
-.nb-bar{display:flex;flex-wrap:wrap;gap:10px;margin:14px 0}
-.nb-bar input,.nb-bar select{flex:1 1 160px;padding:10px 14px;border-radius:999px;border:1px solid #4a2418;background:var(--nb-card);color:var(--nb-text);font:inherit}
-.nb-btn{background:var(--nb-o);color:#fff;border:0;border-radius:999px;padding:10px 20px;font:inherit;cursor:pointer}
-.nb-status{margin:8px 0}
-.nb-grid{display:grid;grid-template-columns:1fr;gap:18px}
-@media(min-width:900px){.nb-grid{grid-template-columns:repeat(3,1fr)}}
-.nb-card{background:var(--nb-card);border-radius:18px;padding:18px;box-shadow:0 6px 20px rgba(0,0,0,.5)}
-.nb-card h3{margin:0 0 6px;color:#fff}
-.nb-card p{margin:4px 0;font-size:.9rem}
-.nb-tag{display:inline-block;font-size:.75rem;padding:2px 10px;border-radius:999px;background:#3a1a10;color:var(--nb-o);margin-bottom:6px}
-.nb-price{color:var(--nb-o);font-weight:600}
-.nb-links{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
-.nb-links a{padding:8px 14px;border-radius:999px;background:var(--nb-o);color:#fff;text-decoration:none;font-size:.85rem}
-.nb-links a.alt{background:transparent;border:1px solid var(--nb-o);color:var(--nb-o)}
-.nb-attr{font-size:.78rem;opacity:.6;margin-top:18px}
-</style>
-
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="photos.js"></script>
 <script>
 (function(){
-  var RADIUS = 5000; // metres around YOU. Change here.
-  var DEFAULT = [25.4358, 81.8463]; // city centre if location is blocked
-  var ENDPOINTS = [
+  var CENTRE=[25.4358,81.8463];
+  // Area points are approximate. Edit the numbers if a pin looks off.
+  var AREAS=[
+    {name:'Civil Lines',lat:25.4513,lon:81.8400},
+    {name:'Near Railway Station',lat:25.4452,lon:81.8247},
+    {name:'Sangam Side',lat:25.4222,lon:81.8890},
+    {name:'Kumbh Tent City',lat:25.4222,lon:81.8890}
+  ];
+  var AREA_RADIUS=2000, USER_RADIUS=3000; // metres
+  var ENDPOINTS=[
     'https://overpass-api.de/api/interpreter',
     'https://overpass.private.coffee/api/interpreter',
-    'https://overpass.kumi.systems/api/interpreter',
-    'https://maps.mail.ru/osm/tools/overpass/api/interpreter'
+    'https://overpass.kumi.systems/api/interpreter'
   ];
-  var TYPES = {hotel:'Hotel',guest_house:'Guest House',hostel:'Hostel',apartment:'Apartment',motel:'Motel'};
-  var $ = function(id){return document.getElementById(id)};
-  var all = [];
-  var isReal = false;
+  var TTL=6*3600*1000;
+  var TYPES={hotel:'Hotel',guest_house:'Guest House',hostel:'Hostel',apartment:'Apartment',motel:'Motel'};
+  var $=function(id){return document.getElementById(id)};
+
+  var map=L.map('map').setView(CENTRE,13);
+  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'Data © OpenStreetMap contributors'}).addTo(map);
+  var layer=L.layerGroup().addTo(map);
+
+  var all=[], markers={}, origin=null; // origin={lat,lon,label,real}
 
   function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
-
-  function km(a,b,c,d){
-    var r=Math.PI/180,R=6371,x=(c-a)*r,y=(d-b)*r;
+  function km(a,b,c,d){var r=Math.PI/180,R=6371,x=(c-a)*r,y=(d-b)*r;
     var h=Math.sin(x/2)*Math.sin(x/2)+Math.cos(a*r)*Math.cos(c*r)*Math.sin(y/2)*Math.sin(y/2);
-    return 2*R*Math.asin(Math.sqrt(h));
+    return 2*R*Math.asin(Math.sqrt(h));}
+
+  function query(lat,lon,r){
+    return '[out:json][timeout:12];\n'
+      +'nwr(around:'+r+','+lat+','+lon+')["tourism"~"^(hotel|guest_house|hostel|apartment|motel)$"]["name"];\n'
+      +'out center 150;';
   }
 
-  function query(lat,lon){
-    return '[out:json][timeout:25];\n'
-      + 'nwr(around:'+RADIUS+','+lat+','+lon+')["tourism"~"^(hotel|guest_house|hostel|apartment|motel)$"];\n'
-      + 'out center;';
-  }
-
-  async function overpass(q){
-    var errs=[];
-    for (var i=0;i<ENDPOINTS.length;i++){
-      var ctrl=new AbortController();
-      var timer=setTimeout(function(){ctrl.abort()},20000);
-      try{
-        var r = await fetch(ENDPOINTS[i],{method:'POST',signal:ctrl.signal,
+  // ask all servers at once, use the first good answer
+  function race(q){
+    return new Promise(function(resolve,reject){
+      var ctrls=[],errs=[],fails=0,done=false;
+      ENDPOINTS.forEach(function(ep,i){
+        var c=new AbortController(); ctrls.push(c);
+        var t=setTimeout(function(){c.abort()},15000);
+        fetch(ep,{method:'POST',signal:c.signal,
           headers:{'Content-Type':'application/x-www-form-urlencoded'},
-          body:'data='+encodeURIComponent(q)});
-        clearTimeout(timer);
-        if(!r.ok) throw new Error('HTTP '+r.status);
-        return await r.json();
-      }catch(e){
-        clearTimeout(timer);
-        errs.push((i+1)+': '+e.message);
-      }
-    }
-    throw new Error(errs.join(' | '));
-  }
-
-  function getPos(){
-    return new Promise(function(res){
-      if(!navigator.geolocation) return res({lat:DEFAULT[0],lon:DEFAULT[1],real:false});
-      navigator.geolocation.getCurrentPosition(
-        function(p){res({lat:p.coords.latitude,lon:p.coords.longitude,real:true})},
-        function(){res({lat:DEFAULT[0],lon:DEFAULT[1],real:false})},
-        {enableHighAccuracy:true,timeout:10000});
+          body:'data='+encodeURIComponent(q)})
+        .then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);return r.json()})
+        .then(function(j){
+          clearTimeout(t); if(done)return; done=true;
+          ctrls.forEach(function(x){if(x!==c)x.abort()});
+          resolve(j);
+        })
+        .catch(function(e){
+          clearTimeout(t); if(done)return;
+          errs.push((i+1)+': '+e.message);
+          if(++fails===ENDPOINTS.length) reject(new Error(errs.join(' | ')));
+        });
+      });
     });
   }
 
-  async function load(){
-    $('nbStatus').textContent='Finding your location...';
-    var pos = await getPos();
-    isReal = pos.real;
-    $('nbStatus').textContent='Loading hotels...';
-    var key='nb_stay_'+pos.lat.toFixed(2)+'_'+pos.lon.toFixed(2);
+  function parse(j){
+    return j.elements.map(function(el,idx){
+      var t=el.tags||{};
+      var la=el.lat!=null?el.lat:(el.center&&el.center.lat);
+      var lo=el.lon!=null?el.lon:(el.center&&el.center.lon);
+      if(!t.name||la==null||lo==null) return null;
+      return {id:el.type+el.id,name:t.name,lat:la,lon:lo,
+        type:TYPES[t.tourism]||'Other',
+        addr:t['addr:full']||[t['addr:housenumber'],t['addr:street']].filter(Boolean).join(' '),
+        phone:t.phone||t['contact:phone']||'',
+        stars:t.stars||'',
+        price:t.charge||t.fee||''};
+    }).filter(Boolean);
+  }
+
+  async function showAround(o,radius){
+    origin=o;
+    $('map').scrollIntoView({behavior:'smooth',block:'center'});
+    map.flyTo([o.lat,o.lon],14);
+    $('status').textContent='Loading hotels around '+o.label+' (first time can take up to 15 seconds)...';
+    $('grid').innerHTML='';
+    var key='stay_v6_'+o.lat.toFixed(3)+'_'+o.lon.toFixed(3)+'_'+radius;
     var data=null;
-    try{
-      var c=JSON.parse(localStorage.getItem(key)||'null');
-      if(c && Date.now()-c.t<3600000) data=c.d;
-    }catch(e){}
+    try{var c=JSON.parse(localStorage.getItem(key)||'null'); if(c&&Date.now()-c.t<TTL) data=c.d;}catch(e){}
     try{
       if(!data){
-        var j = await overpass(query(pos.lat,pos.lon));
-        data = j.elements.map(function(el){
-          var t=el.tags||{};
-          var la=el.lat!=null?el.lat:(el.center&&el.center.lat);
-          var lo=el.lon!=null?el.lon:(el.center&&el.center.lon);
-          if(!t.name||la==null||lo==null) return null;
-          return {
-            id:el.type+el.id, name:t.name, lat:la, lon:lo,
-            type:TYPES[t.tourism]||'Other',
-            addr:t['addr:full']||[t['addr:housenumber'],t['addr:street']].filter(Boolean).join(' '),
-            phone:t.phone||t['contact:phone']||'',
-            stars:t.stars||'',
-            price:t.charge||t.fee||''
-          };
-        }).filter(Boolean);
+        data=parse(await race(query(o.lat,o.lon,radius)));
         try{localStorage.setItem(key,JSON.stringify({t:Date.now(),d:data}))}catch(e){}
       }
-      data.forEach(function(h){h.dist=km(pos.lat,pos.lon,h.lat,h.lon)});
+      data.forEach(function(h){h.dist=km(o.lat,o.lon,h.lat,h.lon)});
       all=data;
       console.log('Stay count:',all.length);
       render();
     }catch(e){
       console.error(e);
-      $('nbStatus').innerHTML='Could not load ('+esc(e.message)+'). <button class="nb-btn" id="nbRetry">Retry</button>';
-      $('nbRetry').onclick=load;
+      $('status').innerHTML='Could not load ('+esc(e.message)+'). <button class="btn" id="retry">Tap to retry</button>';
+      $('retry').onclick=function(){showAround(o,radius)};
     }
   }
 
   function render(){
-    var q=$('nbQ').value.trim().toLowerCase(), ty=$('nbType').value;
-    var items=all.filter(function(h){
-      return (!q||h.name.toLowerCase().indexOf(q)>-1)&&(!ty||h.type===ty);
-    }).sort(function(a,b){return a.dist-b.dist});
-    $('nbStatus').textContent = items.length
-      ? 'Found '+items.length+' hotels'+(isReal?' near you':' near Prayagraj city centre (location not shared)')
-      : 'No places found';
-    $('nbGrid').innerHTML = items.map(function(h){
+    if(!origin) return;
+    var q=$('q').value.trim().toLowerCase(), ty=$('type').value;
+    var items=all.filter(function(h){return (!q||h.name.toLowerCase().indexOf(q)>-1)&&(!ty||h.type===ty)})
+                 .sort(function(a,b){return a.dist-b.dist});
+    $('status').textContent=items.length?'Found '+items.length+' hotels near '+origin.label:'No places found';
+    layer.clearLayers(); markers={};
+    L.circleMarker([origin.lat,origin.lon],{radius:10,color:'#fff',weight:2,fillColor:'#ff6b1a',fillOpacity:1})
+      .bindPopup('<b>'+esc(origin.label)+'</b>').addTo(layer);
+    items.forEach(function(h){
+      markers[h.id]=L.circleMarker([h.lat,h.lon],{radius:8,color:'#fff',weight:2,fillColor:'#2563eb',fillOpacity:.95})
+        .bindPopup('<b>'+esc(h.name)+'</b><br>'+h.dist.toFixed(1)+' km').addTo(layer);
+    });
+    $('grid').innerHTML=items.map(function(h){
       var n=encodeURIComponent(h.name+' Prayagraj');
-      return '<div class="nb-card"><h3>'+esc(h.name)+'</h3>'
-        +'<span class="nb-tag">'+esc(h.type)+(h.stars?' · '+esc(h.stars)+'★':'')+'</span>'
-        +'<p>📏 '+h.dist.toFixed(1)+' km from '+(isReal?'you':'city centre')+'</p>'
+      return '<div class="hc" data-id="'+esc(h.id)+'"><h3>'+esc(h.name)+'</h3>'
+        +'<span class="tag">'+esc(h.type)+(h.stars?' · '+esc(h.stars)+'★':'')+'</span>'
+        +'<p>📏 '+h.dist.toFixed(1)+' km from '+esc(origin.label)+'</p>'
         +(h.addr?'<p>📍 '+esc(h.addr)+'</p>':'')
         +(h.phone?'<p>📞 '+esc(h.phone)+'</p>':'')
-        +'<p>💰 '+(h.price?'<span class="nb-price">'+esc(h.price)+'</span>':'Price: tap Check price for live rates')+'</p>'
-        +'<div class="nb-links">'
+        +'<p>💰 '+(h.price?'<span class="pr">'+esc(h.price)+'</span>':'Price: tap Check price for live rates')+'</p>'
+        +'<div class="links">'
         +'<a href="https://www.google.com/maps/dir/?api=1&destination='+h.lat+','+h.lon+'" target="_blank" rel="noopener">Directions</a>'
         +'<a class="alt" href="https://www.google.com/search?q='+n+'+hotel+price" target="_blank" rel="noopener">Check price</a>'
         +'<a class="alt" href="https://www.booking.com/searchresults.html?ss='+n+'" target="_blank" rel="noopener">Booking.com</a>'
@@ -159,8 +241,39 @@
     }).join('');
   }
 
-  $('nbFind').onclick=load;
-  $('nbQ').addEventListener('input',render);
-  $('nbType').addEventListener('change',render);
+  // area buttons
+  document.querySelectorAll('[data-area]').forEach(function(b){
+    b.onclick=function(){
+      var a=AREAS[+b.dataset.area];
+      showAround({lat:a.lat,lon:a.lon,label:a.name,real:false},AREA_RADIUS);
+    };
+  });
+
+  // near me button
+  $('locBtn').onclick=function(){
+    $('status').textContent='Finding your location...';
+    function fallback(){
+      showAround({lat:CENTRE[0],lon:CENTRE[1],label:'Prayagraj city centre',real:false},USER_RADIUS);
+    }
+    if(!navigator.geolocation) return fallback();
+    navigator.geolocation.getCurrentPosition(
+      function(p){showAround({lat:p.coords.latitude,lon:p.coords.longitude,label:'you',real:true},USER_RADIUS)},
+      fallback,
+      {enableHighAccuracy:false,timeout:6000,maximumAge:600000});
+  };
+
+  // click a hotel card -> fly to it on the map
+  $('grid').addEventListener('click',function(e){
+    if(e.target.closest('a')) return;
+    var c=e.target.closest('.hc'); if(!c) return;
+    var m=markers[c.dataset.id]; if(!m) return;
+    $('map').scrollIntoView({behavior:'smooth',block:'center'});
+    map.flyTo(m.getLatLng(),16); m.openPopup();
+  });
+
+  $('q').addEventListener('input',render);
+  $('type').addEventListener('change',render);
 })();
 </script>
+</body>
+</html>
