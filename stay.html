@@ -39,34 +39,49 @@
 (function(){
   var RADIUS = 5000; // metres around YOU. Change here.
   var DEFAULT = [25.4358, 81.8463]; // city centre if location is blocked
-  var ENDPOINTS = ['https://overpass-api.de/api/interpreter','https://overpass.kumi.systems/api/interpreter'];
+  var ENDPOINTS = [
+    'https://overpass-api.de/api/interpreter',
+    'https://overpass.private.coffee/api/interpreter',
+    'https://overpass.kumi.systems/api/interpreter',
+    'https://maps.mail.ru/osm/tools/overpass/api/interpreter'
+  ];
   var TYPES = {hotel:'Hotel',guest_house:'Guest House',hostel:'Hostel',apartment:'Apartment',motel:'Motel'};
   var $ = function(id){return document.getElementById(id)};
   var all = [];
+  var isReal = false;
 
   function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
-  function km(a,b,c,d){var r=Math.PI/180,R=6371,x=(c-a)*r,y=(d-b)*r;
+
+  function km(a,b,c,d){
+    var r=Math.PI/180,R=6371,x=(c-a)*r,y=(d-b)*r;
     var h=Math.sin(x/2)*Math.sin(x/2)+Math.cos(a*r)*Math.cos(c*r)*Math.sin(y/2)*Math.sin(y/2);
-    return 2*R*Math.asin(Math.sqrt(h))}
+    return 2*R*Math.asin(Math.sqrt(h));
+  }
 
   function query(lat,lon){
-    var f=['hotel','guest_house','hostel','apartment','motel'].map(function(t){
-      return 'nwr(around:'+RADIUS+','+lat+','+lon+')["tourism"="'+t+'"];'}).join('\n');
-    return '[out:json][timeout:30];\n(\n'+f+'\n);\nout center;';
+    return '[out:json][timeout:25];\n'
+      + 'nwr(around:'+RADIUS+','+lat+','+lon+')["tourism"~"^(hotel|guest_house|hostel|apartment|motel)$"];\n'
+      + 'out center;';
   }
 
   async function overpass(q){
-    var err;
+    var errs=[];
     for (var i=0;i<ENDPOINTS.length;i++){
+      var ctrl=new AbortController();
+      var timer=setTimeout(function(){ctrl.abort()},20000);
       try{
-        var r = await fetch(ENDPOINTS[i],{method:'POST',
+        var r = await fetch(ENDPOINTS[i],{method:'POST',signal:ctrl.signal,
           headers:{'Content-Type':'application/x-www-form-urlencoded'},
           body:'data='+encodeURIComponent(q)});
+        clearTimeout(timer);
         if(!r.ok) throw new Error('HTTP '+r.status);
         return await r.json();
-      }catch(e){err=e}
+      }catch(e){
+        clearTimeout(timer);
+        errs.push((i+1)+': '+e.message);
+      }
     }
-    throw err;
+    throw new Error(errs.join(' | '));
   }
 
   function getPos(){
@@ -80,13 +95,16 @@
   }
 
   async function load(){
-    $('nbStatus').innerHTML='Finding your location...';
+    $('nbStatus').textContent='Finding your location...';
     var pos = await getPos();
+    isReal = pos.real;
     $('nbStatus').textContent='Loading hotels...';
     var key='nb_stay_'+pos.lat.toFixed(2)+'_'+pos.lon.toFixed(2);
     var data=null;
-    try{var c=JSON.parse(localStorage.getItem(key)||'null');
-      if(c && Date.now()-c.t<3600000) data=c.d;}catch(e){}
+    try{
+      var c=JSON.parse(localStorage.getItem(key)||'null');
+      if(c && Date.now()-c.t<3600000) data=c.d;
+    }catch(e){}
     try{
       if(!data){
         var j = await overpass(query(pos.lat,pos.lon));
@@ -95,38 +113,41 @@
           var la=el.lat!=null?el.lat:(el.center&&el.center.lat);
           var lo=el.lon!=null?el.lon:(el.center&&el.center.lon);
           if(!t.name||la==null||lo==null) return null;
-          return {id:el.type+el.id,name:t.name,lat:la,lon:lo,
+          return {
+            id:el.type+el.id, name:t.name, lat:la, lon:lo,
             type:TYPES[t.tourism]||'Other',
             addr:t['addr:full']||[t['addr:housenumber'],t['addr:street']].filter(Boolean).join(' '),
             phone:t.phone||t['contact:phone']||'',
             stars:t.stars||'',
-            price:t.charge||t['fee']||''};
+            price:t.charge||t.fee||''
+          };
         }).filter(Boolean);
         try{localStorage.setItem(key,JSON.stringify({t:Date.now(),d:data}))}catch(e){}
       }
       data.forEach(function(h){h.dist=km(pos.lat,pos.lon,h.lat,h.lon)});
       all=data;
       console.log('Stay count:',all.length);
-      render(pos.real);
+      render();
     }catch(e){
       console.error(e);
-      $('nbStatus').innerHTML='Could not load. Tap to retry <button class="nb-btn" id="nbRetry">Retry</button>';
+      $('nbStatus').innerHTML='Could not load ('+esc(e.message)+'). <button class="nb-btn" id="nbRetry">Retry</button>';
       $('nbRetry').onclick=load;
     }
   }
 
-  function render(real){
+  function render(){
     var q=$('nbQ').value.trim().toLowerCase(), ty=$('nbType').value;
-    var items=all.filter(function(h){return (!q||h.name.toLowerCase().indexOf(q)>-1)&&(!ty||h.type===ty)})
-                 .sort(function(a,b){return a.dist-b.dist});
+    var items=all.filter(function(h){
+      return (!q||h.name.toLowerCase().indexOf(q)>-1)&&(!ty||h.type===ty);
+    }).sort(function(a,b){return a.dist-b.dist});
     $('nbStatus').textContent = items.length
-      ? 'Found '+items.length+' hotels'+(real?' near you':' near Prayagraj city centre (location not shared)')
+      ? 'Found '+items.length+' hotels'+(isReal?' near you':' near Prayagraj city centre (location not shared)')
       : 'No places found';
     $('nbGrid').innerHTML = items.map(function(h){
       var n=encodeURIComponent(h.name+' Prayagraj');
       return '<div class="nb-card"><h3>'+esc(h.name)+'</h3>'
         +'<span class="nb-tag">'+esc(h.type)+(h.stars?' · '+esc(h.stars)+'★':'')+'</span>'
-        +'<p>📏 '+h.dist.toFixed(1)+' km from '+(real?'you':'city centre')+'</p>'
+        +'<p>📏 '+h.dist.toFixed(1)+' km from '+(isReal?'you':'city centre')+'</p>'
         +(h.addr?'<p>📍 '+esc(h.addr)+'</p>':'')
         +(h.phone?'<p>📞 '+esc(h.phone)+'</p>':'')
         +'<p>💰 '+(h.price?'<span class="nb-price">'+esc(h.price)+'</span>':'Price: tap Check price for live rates')+'</p>'
@@ -139,7 +160,7 @@
   }
 
   $('nbFind').onclick=load;
-  $('nbQ').addEventListener('input',function(){render(true)});
-  $('nbType').addEventListener('change',function(){render(true)});
+  $('nbQ').addEventListener('input',render);
+  $('nbType').addEventListener('change',render);
 })();
 </script>
