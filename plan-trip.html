@@ -2,120 +2,6 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-
-<!-- ========== SUBSCRIPTION GATE (runs first, hides the page until paid) ========== -->
-<script>
-(function () {
-  var PRICE_RS = 2;                          // 1 or 2 rupees per year
-  var RAZORPAY_KEY = 'YOUR_RAZORPAY_KEY_ID'; // your real key (rzp_live_...)
-  var STORE = 'prayagraj_sub';
-  var YEAR_MS = 365 * 24 * 60 * 60 * 1000;
-
-  // for testing: open the page with ?reset to ask for payment again
-  try { if (location.search.indexOf('reset') > -1) localStorage.removeItem(STORE); } catch (e) {}
-
-  function active() {
-    try {
-      var s = JSON.parse(localStorage.getItem(STORE) || 'null');
-      return !!(s && s.until > Date.now());
-    } catch (e) { return false; }
-  }
-  if (active()) return;
-
-  var DEMO = RAZORPAY_KEY.indexOf('YOUR_') === 0;
-
-  // hide the whole site immediately, only the gate stays visible
-  var hide = document.createElement('style');
-  hide.id = 'pwhide';
-  hide.textContent = 'body>*:not(#pw){display:none!important}body{background:#1c0f0a!important}';
-  document.head.appendChild(hide);
-
-  var css = document.createElement('style');
-  css.textContent =
-    '#pw{position:fixed;inset:0;z-index:99999;background:#1c0f0a;display:flex;align-items:center;justify-content:center;padding:16px;overflow:auto;font-family:Poppins,sans-serif;color:#ffedd5}' +
-    '#pw .box{background:#120a07;border:1px solid #7c2d12;border-radius:20px;max-width:420px;width:100%;padding:24px;text-align:center}' +
-    '#pw h1{font-family:"Playfair Display",serif;font-size:26px;color:#f97316;font-weight:800}' +
-    '#pw .price{font-size:44px;font-weight:700;color:#fbbf24;margin:10px 0 0}' +
-    '#pw .price small{font-size:14px;color:#fed7aa;font-weight:400}' +
-    '#pw ul{text-align:left;font-size:14px;margin:14px 0;padding-left:18px;list-style:"✓  "}' +
-    '#pw li{margin:4px 0}' +
-    '#pw .m{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin:12px 0}' +
-    '#pw .m span{background:rgba(124,45,18,.55);padding:4px 12px;border-radius:999px;font-size:12px}' +
-    '#pw button{width:100%;background:#ea580c;color:#fff;font-weight:600;padding:13px;border-radius:999px;border:0;font-size:16px;cursor:pointer}' +
-    '#pw button:disabled{opacity:.6}' +
-    '#pw .note{font-size:11px;color:#fdba74;opacity:.8;margin-top:10px}';
-  document.head.appendChild(css);
-
-  function build() {
-    var wrap = document.createElement('div');
-    wrap.id = 'pw';
-    wrap.innerHTML =
-      '<div class="box">' +
-      '<h1>Prayagraj Trip Planner</h1>' +
-      '<p style="font-size:14px;margin-top:6px">Subscribe to unlock the planner</p>' +
-      '<div class="price">₹' + PRICE_RS + '<small> / year</small></div>' +
-      '<ul><li>Smart day-wise plan by time and budget</li><li>Cost, maps and directions for every place</li><li>Live location and full route</li></ul>' +
-      '<div class="m"><span>UPI</span><span>Google Pay</span><span>PhonePe</span><span>Paytm</span><span>Debit Card</span><span>Credit Card</span><span>Net Banking</span><span>Wallets</span><span>Pay Later</span></div>' +
-      '<button id="pwpay">Pay ₹' + PRICE_RS + ' &amp; Continue</button>' +
-      '<p class="note">' + (DEMO ? 'Demo mode: add your Razorpay key to take real payments.' : 'Secure payment by Razorpay.') + '</p>' +
-      '</div>';
-    document.body.appendChild(wrap);
-
-    function unlock(id) {
-      try { localStorage.setItem(STORE, JSON.stringify({ until: Date.now() + YEAR_MS, id: id || 'demo' })); } catch (e) {}
-      wrap.remove();
-      var h = document.getElementById('pwhide'); if (h) h.remove();
-      window.scrollTo(0, 0); // main planner page
-      setTimeout(function () { try { if (typeof map !== 'undefined') map.invalidateSize(); } catch (e) {} }, 200);
-    }
-
-    function loadRzp(cb) {
-      if (window.Razorpay) return cb();
-      var s = document.createElement('script');
-      s.src = 'https://checkout.razorpay.com/v1/checkout.js';
-      s.onload = cb;
-      s.onerror = function () {
-        alert('Could not load payment. Check your internet.');
-        document.getElementById('pwpay').disabled = false;
-      };
-      document.head.appendChild(s);
-    }
-
-    document.getElementById('pwpay').onclick = function () {
-      var btn = this;
-      btn.disabled = true;
-      if (DEMO) {
-        if (confirm('DEMO: pretend ₹' + PRICE_RS + ' was paid?')) unlock('demo');
-        else btn.disabled = false;
-        return;
-      }
-      loadRzp(function () {
-        var rz = new Razorpay({
-          key: RAZORPAY_KEY,
-          amount: PRICE_RS * 100,
-          currency: 'INR',
-          name: 'Prayagraj Tourism',
-          description: 'Yearly subscription',
-          theme: { color: '#ea580c' },
-          method: { upi: true, card: true, netbanking: true, wallet: true, paylater: true, emi: false },
-          handler: function (r) { unlock(r.razorpay_payment_id); },
-          modal: { ondismiss: function () { btn.disabled = false; } }
-        });
-        rz.on('payment.failed', function () {
-          btn.disabled = false;
-          alert('Payment failed. Please try again.');
-        });
-        rz.open();
-      });
-    };
-  }
-
-  if (document.body) build();
-  else document.addEventListener('DOMContentLoaded', build);
-})();
-</script>
-<!-- ========== END SUBSCRIPTION GATE ========== -->
-
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Plan Your Trip | Prayagraj Tourism</title>
 <script src="https://cdn.tailwindcss.com"></script>
@@ -338,4 +224,72 @@ document.getElementById('go').onclick=()=>{
     out.innerHTML=`<div class="bg-red-950/60 border border-red-800 rounded-2xl p-6">Your budget of ${rs(B)} leaves nothing for sightseeing${parts.length?' after '+parts.join(' + '):''} for ${N} ${N>1?'people':'person'}. Increase the budget, reduce the days, choose a cheaper travel option, or untick the food option.</div>`;return;
   }
   let chosen=[];const skipped=[];
-  f
+  for(const p of [...places].sort((a,b)=>a.p-b.p)){
+    const trial=[...chosen,p];
+    const cost=trial.reduce((s,x)=>s+perPerson(x)*N,0);
+    if(cost>placeBudget)skipped.push({p,why:'Not enough budget'});
+    else if(!pack(trial,D,H))skipped.push({p,why:'Not enough time'});
+    else chosen=trial;
+  }
+  if(!chosen.length){out.innerHTML=`<div class="bg-red-950/60 border border-red-800 rounded-2xl p-6">No place fits your time and budget. Try more budget or more hours.</div>`;return;}
+
+  const days=pack(chosen,D,H);
+  const placesCost=chosen.reduce((s,x)=>s+perPerson(x)*N,0);
+  const total=placesCost+foodCost+travelCost,totalHours=days.reduce((s,d)=>s+d.used,0),left=B-total;
+
+  let html=`
+  <h2 class="text-3xl font-bold text-orange-500">Your plan: ${chosen.length} of ${places.length} places</h2>
+  <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mt-5 text-center">
+    <div class="bg-[#120a07] rounded-2xl p-5"><b class="text-3xl text-amber-400 block">${chosen.length}</b>Places you can visit</div>
+    <div class="bg-[#120a07] rounded-2xl p-5"><b class="text-3xl text-amber-400 block">${fmtH(totalHours)}</b>Total sightseeing time</div>
+    <div class="bg-[#120a07] rounded-2xl p-5"><b class="text-3xl text-amber-400 block">${rs(total)}</b>Estimated total for ${N} ${N>1?'people':'person'}</div>
+    <div class="bg-[#120a07] rounded-2xl p-5"><b class="text-3xl ${left>=0?'text-green-400':'text-red-400'} block">${rs(left)}</b>Budget left</div>
+  </div>
+  ${travelCost?`<p class="text-sm text-orange-100/90 mt-3">🚆 Getting there: ${MODES[mode].n}, Mathura to Prayagraj and back for ${N} ${N>1?'people':'person'} = <b class="text-amber-400">${rs(travelCost)}</b> (about ${TRIP_KM} km each way).</p>`:''}
+  <p class="text-xs text-orange-200/70 mt-3">Places: ${rs(placesCost)}${food?' · Food: '+rs(foodCost):''}${travelCost?' · Mathura–Prayagraj travel: '+rs(travelCost):''}. Stay is not included.</p>`;
+
+  let n=0;const all=[];
+  days.forEach((d,i)=>{
+    const dayCost=d.items.reduce((s,x)=>s+perPerson(x)*N,0);
+    html+=`<div class="mt-8">
+      <div class="bg-orange-700 rounded-2xl px-5 py-3 flex flex-wrap justify-between items-center gap-2">
+        <h3 class="text-xl font-bold">Day ${i+1}</h3>
+        <span class="text-sm">⏱ ${fmtH(d.used)} · 💰 ${rs(dayCost)}</span>
+      </div>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 mt-4">`;
+    d.items.forEach((p,j)=>{
+      n++;all.push(p);
+      L.marker(p.c,{icon:L.divIcon({className:'',html:`<div class="num">${n}</div>`,iconSize:[28,28],iconAnchor:[14,14]})}).addTo(planLayer).bindPopup(popupHtml(p,n+'. '+p.n));
+      html+=placeCard(p,'d'+i+'p'+p.id,N,n);
+    });
+    html+=`</div>
+      <div class="flex flex-wrap items-center gap-3 mt-4">
+        <a target="_blank" class="btn bg-blue-600 hover:bg-blue-500 text-white" href="https://www.google.com/maps/dir/${d.items.map(p=>p.c.join(',')).join('/')}">🧭 Open full Day ${i+1} route in Google Maps</a>
+        <span class="text-xs text-orange-300/70">Stops in order: ${d.items.map(p=>p.n).join(' → ')} (about ${fmtH(TRAVEL)} travel between stops)</span>
+      </div></div>`;
+  });
+
+  if(skipped.length){
+    html+=`<div class="bg-[#120a07] rounded-2xl p-5 mt-8 border border-orange-950"><h3 class="text-xl font-bold text-amber-400">Not included</h3><ul class="mt-2 text-sm space-y-1">`+
+      skipped.map(s=>`<li>• <b>${s.p.n}</b> (${fmtH(s.p.h)}, ${rs(perPerson(s.p))} per person): ${s.why}</li>`).join('')+
+      `</ul><p class="text-xs text-orange-200/70 mt-2">Add more days, hours or budget to fit these in.</p></div>`;
+  }
+  out.innerHTML=html;
+  fillPhotos();
+  map.fitBounds(L.latLngBounds(all.map(p=>p.c)).pad(0.3));
+  out.scrollIntoView({behavior:'smooth'});
+};
+
+/* ---------- live location ---------- */
+let me;
+document.getElementById('locate').onclick=()=>{
+  if(!navigator.geolocation)return alert('Location is not supported on this device');
+  navigator.geolocation.watchPosition(pos=>{
+    const ll=[pos.coords.latitude,pos.coords.longitude];
+    if(!me){me=L.marker(ll,{icon:L.divIcon({className:'',html:'<div class="me"></div>',iconSize:[16,16],iconAnchor:[8,8]})}).addTo(map).bindPopup('You are here');map.setView(ll,14);}
+    else me.setLatLng(ll);
+  },()=>alert('Please allow location access'),{enableHighAccuracy:true});
+};
+</script>
+</body>
+</html>
