@@ -291,5 +291,27 @@ document.getElementById('locate').onclick=()=>{
   },()=>alert('Please allow location access'),{enableHighAccuracy:true});
 };
 </script>
-</body>
-</html>
+
+<!-- ========== SUBSCRIPTION GATE (shows first, then opens the planner) ========== -->
+<script>
+(function () {
+  /* ====== SETTINGS ====== */
+  var PRICE_RS = 2;                          // 1 or 2 rupees per year
+  var RAZORPAY_KEY = 'YOUR_RAZORPAY_KEY_ID'; // your real key (rzp_live_...)
+  var STORE = 'prayagraj_sub';
+  var YEAR_MS = 365 * 24 * 60 * 60 * 1000;
+  /* ====================== */
+
+  function active() {
+    try {
+      var s = JSON.parse(localStorage.getItem(STORE) || 'null');
+      return s && s.until > Date.now();
+    } catch (e) { return false; }
+  }
+  if (active()) return; // already subscribed, show the planner
+
+  var DEMO = RAZORPAY_KEY.indexOf('YOUR_') === 0;
+
+  var css = document.createElement('style');
+  css.textContent =
+    '#pw{position:fixed;inset:0;z-index:99999;background:#1c0f0a;display:flex;align-items:center;justify-content:center;padding:16px;overflow:auto;font-family:Poppins,sans-serif;color:#ffedd5
