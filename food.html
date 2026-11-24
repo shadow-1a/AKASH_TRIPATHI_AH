@@ -23,6 +23,10 @@
 <main class="max-w-6xl mx-auto px-4 py-12">
   <h1 class="text-5xl font-extrabold text-orange-500">Food of Prayagraj</h1>
   <p class="text-orange-200/80 mt-3">30 Famous Restaurants &amp; Food Places - Real Places, Real Speciality</p>
+  <div class="flex flex-wrap items-center gap-3 mt-4 text-sm">
+    <button onclick="locate()" class="bg-orange-600 hover:bg-orange-500 text-white px-4 py-2 rounded-full">Use my current location</button>
+    <span id="locStatus" class="text-orange-200/80">Allow location access to see the distance from you.</span>
+  </div>
   <div id="places" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-4"></div>
   <h2 class="text-2xl font-bold mt-14">Where to eat (areas)</h2>
   <p class="text-sm text-orange-200/70">Pins show food areas; locations are approximate.</p>
@@ -84,7 +88,7 @@ const map=L.map('map').setView([25.4450,81.8400],13);
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'&copy; OpenStreetMap contributors'}).addTo(map);
 const markers=[];
 places.forEach((p,i)=>{
-  markers[i]=L.marker([p.lat,p.lng]).addTo(map).bindPopup(`<b>${p.name}</b><br>${p.speciality}<br><a target="_blank" href="https://www.google.com/maps/dir/?api=1&destination=${p.lat},${p.lng}">Get directions</a>`);
+  markers[i]=L.marker([p.lat,p.lng]).addTo(map).bindPopup(`<b>${p.name}</b><br>${p.speciality}<br><span data-pop-dist="${i}"></span><a target="_blank" href="https://www.google.com/maps/dir/?api=1&destination=${p.lat},${p.lng}">Get directions</a>`);
   document.getElementById('places').insertAdjacentHTML('beforeend',`
    <div class="group bg-[#120a07] rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition">
     <div class="h-56 overflow-hidden"><img data-q="${p.q}" alt="${p.name}" class="w-full h-full object-cover group-hover:scale-110 transition duration-700"></div>
@@ -93,6 +97,7 @@ places.forEach((p,i)=>{
       <span class="bg-orange-600 text-white text-xs px-3 py-1 rounded-full inline-block mt-2">${p.speciality}</span>
       <p class="text-sm text-orange-300 mt-2">${p.area}</p>
       <p class="text-sm text-orange-100/80 mt-1">${p.desc}</p>
+      <p class="text-sm font-semibold text-orange-400 mt-2" data-dist="${i}">Distance: turn on location to see</p>
       <div class="flex gap-2 mt-4 text-sm">
         <button onclick="showOnMap(${i})" class="bg-orange-600 hover:bg-orange-500 text-white px-4 py-2 rounded-full">View on map</button>
         <a target="_blank" href="https://www.google.com/maps/dir/?api=1&destination=${p.lat},${p.lng}" class="border border-orange-500 text-orange-400 px-4 py-2 rounded-full hover:bg-orange-950">Directions</a>
@@ -102,6 +107,53 @@ places.forEach((p,i)=>{
 });
 fillPhotos();
 function showOnMap(i){map.setView([places[i].lat,places[i].lng],15);markers[i].openPopup();document.getElementById('map').scrollIntoView({behavior:'smooth',block:'center'});}
+
+/* ---------- distance from current location ---------- */
+let userMarker=null;
+function haversineKm(a,b,c,d){
+  const R=6371,r=x=>x*Math.PI/180,dLat=r(c-a),dLng=r(d-b);
+  const h=Math.sin(dLat/2)**2+Math.cos(r(a))*Math.cos(r(c))*Math.sin(dLng/2)**2;
+  return 2*R*Math.asin(Math.sqrt(h));
+}
+function fmtKm(km){return km<1?Math.round(km*1000)+' m':km.toFixed(1)+' km';}
+function fmtMin(s){const m=Math.round(s/60);return m<60?m+' min':Math.floor(m/60)+' h '+(m%60)+' min';}
+function setDist(i,text){
+  const el=document.querySelector(`[data-dist="${i}"]`);if(el)el.textContent=text;
+  const pop=document.querySelector(`[data-pop-dist="${i}"]`);
+  if(pop)pop.innerHTML=text+'<br>';
+  markers[i].setPopupContent(`<b>${places[i].name}</b><br>${places[i].speciality}<br>${text}<br><a target="_blank" href="https://www.google.com/maps/dir/?api=1&destination=${places[i].lat},${places[i].lng}">Get directions</a>`);
+}
+async function showDistances(uLat,uLng){
+  const status=document.getElementById('locStatus');
+  // 1) instant straight-line distance
+  places.forEach((p,i)=>setDist(i,'Distance: '+fmtKm(haversineKm(uLat,uLng,p.lat,p.lng))+' (straight line)'));
+  // 2) real road distance + driving time (OSRM)
+  try{
+    const coords=[uLng+','+uLat].concat(places.map(p=>p.lng+','+p.lat)).join(';');
+    const r=await(await fetch('https://router.project-osrm.org/table/v1/driving/'+coords+'?sources=0&annotations=distance,duration')).json();
+    if(r.code!=='Ok')throw new Error('osrm');
+    places.forEach((p,i)=>{
+      const m=r.distances[0][i+1],s=r.durations[0][i+1];
+      if(m!=null)setDist(i,'Distance: '+fmtKm(m/1000)+' by road, about '+fmtMin(s)+' drive');
+    });
+    status.textContent='Showing road distance from your current location.';
+  }catch(e){
+    status.textContent='Showing straight-line distance (road distance unavailable right now).';
+  }
+}
+function locate(){
+  const status=document.getElementById('locStatus');
+  if(!navigator.geolocation){status.textContent='Your browser does not support location.';return;}
+  status.textContent='Getting your location...';
+  navigator.geolocation.getCurrentPosition(pos=>{
+    const uLat=pos.coords.latitude,uLng=pos.coords.longitude;
+    if(userMarker)map.removeLayer(userMarker);
+    userMarker=L.circleMarker([uLat,uLng],{radius:8,color:'#fff',weight:2,fillColor:'#2563eb',fillOpacity:1}).addTo(map).bindPopup('<b>You are here</b>');
+    status.textContent='Calculating distances...';
+    showDistances(uLat,uLng);
+  },()=>{status.textContent='Location blocked. Allow location access in your browser and tap the button again.';},{enableHighAccuracy:true,timeout:10000});
+}
+locate();
 </script>
 </body>
 </html>
