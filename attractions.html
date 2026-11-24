@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -34,6 +35,7 @@
 /* ---------- photo loader (no extra file needed) ---------- */
 const cache = {};
 function svgPlaceholder(t){
+  t = String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;');
   const s = `<svg xmlns="http://www.w3.org/2000/svg" width="900" height="600"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ea580c"/><stop offset="1" stop-color="#7c2d12"/></linearGradient></defs><rect width="900" height="600" fill="url(#g)"/><text x="450" y="320" font-size="54" font-family="Arial" fill="#fff" text-anchor="middle">${t}</text></svg>`;
   return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(s);
 }
@@ -63,12 +65,31 @@ function fillPhotos(){
 
 /* ---------- places ---------- */
 const places = [
- {n:'Triveni Sangam', q:'Triveni Sangam Allahabad', c:[25.4300,81.8870], d:'Where the Ganga, Yamuna and Saraswati meet. Boat rides available.'},
- {n:'Allahabad Fort', q:'Allahabad Fort', c:[25.4284,81.8750], d:'Built by Akbar, with the Patalpuri temple and Akshayavat inside.'},
- {n:'Anand Bhawan', q:'Anand Bhawan Allahabad', c:[25.4527,81.8497], d:'The Nehru family home, now a museum.'},
- {n:'Khusro Bagh', q:'Khusro Bagh Allahabad', c:[25.4440,81.8300], d:'Walled Mughal garden with beautiful tombs.'},
- {n:'Chandrashekhar Azad Park', q:'Chandrashekhar Azad Park Allahabad', c:[25.4580,81.8500], d:'Large park with a museum and memorial.'},
- {n:'Bade Hanuman Mandir', q:'Bade Hanuman Temple Allahabad', c:[25.4290,81.8800], d:'Rare reclining Hanuman idol near the Sangam.'}
+ {n:"Triveni Sangam", q:"Triveni Sangam Allahabad", c:[25.4300,81.8870], d:"Where Ganga, Yamuna and Saraswati meet. Boat rides, aarti and holy dip."},
+ {n:"Allahabad Fort", q:"Allahabad Fort Prayagraj", c:[25.4284,81.8750], d:"Built by Akbar in 1583, with Patalpuri Temple and Akshayavat inside."},
+ {n:"Anand Bhawan", q:"Anand Bhawan Allahabad", c:[25.4527,81.8497], d:"Nehru family home, now a museum with freedom struggle memories."},
+ {n:"Swaraj Bhawan", q:"Swaraj Bhawan Allahabad", c:[25.4520,81.8505], d:"Birthplace of Indira Gandhi, former Congress headquarters."},
+ {n:"Khusro Bagh", q:"Khusro Bagh Allahabad", c:[25.4440,81.8300], d:"Walled Mughal garden with tombs of Khusro, Shah Begum and Nithar Begum."},
+ {n:"Chandrashekhar Azad Park (Company Bagh)", q:"Chandrashekhar Azad Park Allahabad", c:[25.4580,81.8500], d:"Large park where Azad sacrificed his life, has museum and memorial."},
+ {n:"Bade Hanuman Mandir", q:"Bade Hanuman Mandir Allahabad", c:[25.4290,81.8800], d:"Rare reclining Hanuman idol near Sangam, submerged in monsoon."},
+ {n:"Patalpuri Temple & Akshayavat", q:"Patalpuri Temple Allahabad", c:[25.4280,81.8760], d:"Ancient underground temple and immortal banyan tree inside fort area."},
+ {n:"Allahabad Museum", q:"Allahabad Museum Prayagraj", c:[25.4585,81.8515], d:"Rich collection of sculptures, paintings, coins and freedom struggle items."},
+ {n:"All Saints Cathedral (Patthar Girja)", q:"All Saints Cathedral Allahabad", c:[25.4515,81.8330], d:"Beautiful 19th century Gothic cathedral, known as Stone Church."},
+ {n:"Jawahar Planetarium", q:"Jawahar Planetarium Allahabad", c:[25.4530,81.8490], d:"Science and space shows next to Anand Bhawan."},
+ {n:"Minto Park (Madan Mohan Malaviya Park)", q:"Minto Park Allahabad", c:[25.4370,81.8860], d:"Historic park where Queen Victoria's proclamation was read in 1858."},
+ {n:"Alopi Devi Mandir", q:"Alopi Devi Mandir Allahabad", c:[25.4450,81.8350], d:"Famous Shaktipeeth where no idol is worshipped, only a wooden cradle."},
+ {n:"Mankameshwar Temple", q:"Mankameshwar Temple Allahabad", c:[25.4305,81.8850], d:"Ancient Shiva temple on Yamuna bank near Sangam."},
+ {n:"Nagvasuki Temple", q:"Nagvasuki Temple Allahabad", c:[25.4350,81.8900], d:"Famous temple of Nag Vasuki on Ganga bank, important for Nag Panchami."},
+ {n:"Shankar Viman Mandapam", q:"Shankar Viman Mandapam Allahabad", c:[25.4355,81.8855], d:"4-storey South Indian style temple with idols of many gods."},
+ {n:"New Yamuna Bridge (Naini Bridge)", q:"New Yamuna Bridge Allahabad", c:[25.4250,81.8700], d:"Modern cable-stayed bridge over Yamuna, best for sunset view."},
+ {n:"Old Naini Bridge", q:"Old Naini Bridge Allahabad", c:[25.4200,81.8600], d:"Historic double-decker rail-cum-road bridge over Yamuna."},
+ {n:"Bharadwaj Ashram", q:"Bharadwaj Ashram Allahabad", c:[25.4650,81.8600], d:"Ancient ashram of Sage Bharadwaj, linked to Ramayana."},
+ {n:"Someshwar Mahadev Temple", q:"Someshwar Mahadev Temple Allahabad", c:[25.4500,81.9000], d:"Ancient Shiva temple on Ganga bank, famous for Sawan fair."},
+ {n:"Kali Mandir (Kalyani Devi)", q:"Kali Mandir Allahabad", c:[25.4400,81.8400], d:"Old Kali temple in Civil Lines area, popular during Navratri."},
+ {n:"Saraswati Ghat", q:"Saraswati Ghat Prayagraj", c:[25.4320,81.8890], d:"Clean peaceful ghat near Sangam for evening aarti and boating."},
+ {n:"Arail Ghat", q:"Arail Ghat Prayagraj", c:[25.4200,81.8900], d:"Quiet ghat on other side of Yamuna, great Sangam panorama."},
+ {n:"Ulta Qila (Mankameshwar Fort)", q:"Ulta Qila Allahabad", c:[25.4320,81.8840], d:"Ancient inverted fort ruins near Sangam, Ramayana legend."},
+ {n:"Draupadi Ghat & Hanuman Mandir, Jhusi", q:"Draupadi Ghat Allahabad", c:[25.4350,81.9100], d:"Historic ghat in Jhusi, old Samudragupta era settlement."}
 ];
 
 const map = L.map('map').setView([25.4358,81.8463], 12);
@@ -96,3 +117,4 @@ function showOnMap(i){ map.setView(places[i].c, 15); markers[i].openPopup(); doc
 </script>
 </body>
 </html>
+```
