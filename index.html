@@ -7,18 +7,23 @@
 <script src="https://cdn.tailwindcss.com"></script>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-<style>body{font-family:Poppins,sans-serif}h1,h2,h3,.logo{font-family:'Playfair Display',serif}html{scroll-behavior:smooth}</style>
+<style>body{font-family:Poppins,sans-serif}h1,h2,h3,.logo{font-family:'Playfair Display',serif}html{scroll-behavior:smooth}.tabs{scrollbar-width:none}.tabs::-webkit-scrollbar{display:none}</style>
 </head>
 <body class="bg-orange-50 text-gray-800">
 
 <header class="bg-orange-800/95 backdrop-blur text-white sticky top-0 z-[1100] shadow">
-  <nav class="max-w-6xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-2">
-    <a href="index.html" class="logo text-2xl font-bold">🕉️ Prayagraj Tourism</a>
-    <div class="flex flex-wrap gap-4 text-sm font-medium">
-      <a href="index.html" class="text-amber-300">Home</a><a href="about.html">About</a><a href="attractions.html">Attractions</a>
-      <a href="kumbh.html">Kumbh Mela</a><a href="food.html">Food</a><a href="stay.html">Stay</a>
-      <a href="bus%20stand.html">Bus Stand</a><a href="public%20toilets.html">Public Toilets</a>
-      <a href="plan-trip.html">Plan Trip</a>
+  <nav class="max-w-6xl mx-auto px-4 py-3 flex flex-col md:flex-row md:items-center md:justify-between gap-2">
+    <a href="index.html" class="logo text-2xl font-bold shrink-0">🕉️ Prayagraj Tourism</a>
+    <div class="tabs flex items-center gap-1 text-sm font-medium overflow-x-auto whitespace-nowrap pb-1 md:pb-0">
+      <a href="index.html" class="px-3 py-1.5 rounded-full bg-white/15 text-amber-300">Home</a>
+      <a href="about.html" class="px-3 py-1.5 rounded-full hover:bg-white/15 transition">About</a>
+      <a href="attractions.html" class="px-3 py-1.5 rounded-full hover:bg-white/15 transition">Attractions</a>
+      <a href="kumbh.html" class="px-3 py-1.5 rounded-full hover:bg-white/15 transition">Kumbh Mela</a>
+      <a href="food.html" class="px-3 py-1.5 rounded-full hover:bg-white/15 transition">Food</a>
+      <a href="stay.html" class="px-3 py-1.5 rounded-full hover:bg-white/15 transition">Stay</a>
+      <a href="bus%20stand.html" class="px-3 py-1.5 rounded-full hover:bg-white/15 transition">Bus Stand</a>
+      <a href="public%20toilets.html" class="px-3 py-1.5 rounded-full hover:bg-white/15 transition">Public Toilets</a>
+      <a href="plan-trip.html" class="px-3 py-1.5 rounded-full hover:bg-white/15 transition">Plan Trip</a>
     </div>
   </nav>
 </header>
@@ -80,7 +85,7 @@
 </section>
 
 <!-- CATEGORIES -->
-<section class="max-w-6xl mx-auto px-4 py-16 grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+<section class="max-w-6xl mx-auto px-4 py-16 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
   <a href="food.html" class="group bg-white rounded-2xl shadow overflow-hidden hover:shadow-xl transition">
     <div class="h-40 overflow-hidden"><img data-wiki="Kachori" data-local="images/kachori.jpg" alt="Food" class="w-full h-full object-cover group-hover:scale-110 transition duration-500"></div>
     <div class="p-4"><h3 class="text-xl font-bold">🍛 Food</h3><p class="text-sm text-gray-600">Kachori, chaat, imarti</p></div>
@@ -92,6 +97,18 @@
   <a href="about.html" class="group bg-white rounded-2xl shadow overflow-hidden hover:shadow-xl transition">
     <div class="h-40 overflow-hidden"><img data-wiki="Prayagraj" data-local="images/about.jpg" alt="About" class="w-full h-full object-cover group-hover:scale-110 transition duration-500"></div>
     <div class="p-4"><h3 class="text-xl font-bold">📖 About</h3><p class="text-sm text-gray-600">History and heritage</p></div>
+  </a>
+  <a href="bus%20stand.html" class="group bg-white rounded-2xl shadow overflow-hidden hover:shadow-xl transition">
+    <div class="h-40 overflow-hidden bg-gradient-to-br from-orange-700 to-amber-500 flex items-center justify-center">
+      <span class="text-7xl group-hover:scale-110 transition duration-500">🚌</span>
+    </div>
+    <div class="p-4"><h3 class="text-xl font-bold">🚌 Bus Stand</h3><p class="text-sm text-gray-600">Bus stands, routes and timings</p></div>
+  </a>
+  <a href="public%20toilets.html" class="group bg-white rounded-2xl shadow overflow-hidden hover:shadow-xl transition">
+    <div class="h-40 overflow-hidden bg-gradient-to-br from-amber-600 to-orange-800 flex items-center justify-center">
+      <span class="text-7xl group-hover:scale-110 transition duration-500">🚻</span>
+    </div>
+    <div class="p-4"><h3 class="text-xl font-bold">🚻 Public Toilets</h3><p class="text-sm text-gray-600">Clean toilets near ghats and stands</p></div>
   </a>
   <a href="plan-trip.html" class="group bg-gradient-to-br from-orange-600 to-amber-500 text-white rounded-2xl shadow overflow-hidden hover:shadow-xl transition flex flex-col items-center justify-center p-6 text-center">
     <div class="text-5xl">🗺️</div><h3 class="text-xl font-bold mt-2">Plan Your Trip</h3><p class="text-sm">Make a day-wise plan</p>
@@ -112,7 +129,7 @@
   <p class="mt-2">© 2026 Prayagraj Tourism. Map data © OpenStreetMap contributors. Photos via Wikipedia / Wikimedia Commons.</p>
 </footer>
 
-<script src="photos.js"></script>
+<script src="photo-safe.js"></script>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
 // Hero and banner photos
