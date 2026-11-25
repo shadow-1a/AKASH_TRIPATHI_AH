@@ -1,178 +1,120 @@
-
-<title>About Prayagraj | Prayagraj Tourism</title>
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Attractions | Prayagraj Tourism</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <style>body{font-family:Poppins,sans-serif}h1,h2,h3,.logo{font-family:'Playfair Display',serif}</style>
-<style>
-body{font-family:Poppins,sans-serif}
-h1,h2,h3,.logo{font-family:'Playfair Display',serif}
-html{scroll-behavior:smooth}
-section[id]{scroll-margin-top:90px}
-.tabs{scrollbar-width:none}.tabs::-webkit-scrollbar{display:none}
-.fig{position:relative;overflow:hidden;border-radius:1rem;box-shadow:0 10px 25px rgba(0,0,0,.4);background:linear-gradient(135deg,#9a3412,#431407)}
-.fig img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;color:transparent;transition:transform .7s}
-.fig:hover img{transform:scale(1.08)}
-.fig figcaption{position:absolute;left:0;right:0;bottom:0;padding:.75rem 1rem;font-weight:600;background:linear-gradient(to top,rgba(0,0,0,.85),transparent)}
-.card{background:#120a07;border-radius:1rem;overflow:hidden;box-shadow:0 10px 25px rgba(0,0,0,.4)}
-.card .fig{border-radius:0;box-shadow:none}
-.txt p{margin-top:1rem;line-height:1.85;color:rgba(255,237,213,.9)}
-.txt{font-size:1.05rem}
-</style>
 </head>
 <body class="bg-[#1c0f0a] text-orange-50">
 <header class="bg-orange-600 text-white sticky top-0 z-[1100] shadow">
   <nav class="max-w-6xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-2">
     <a href="index.html" class="logo text-2xl font-bold">Prayagraj Tourism</a>
     <div class="flex flex-wrap gap-4 text-sm font-medium">
-      <a href="index.html">Home</a><a href="about.html" class="underline">About</a><a href="attractions.html">Attractions</a>
+      <a href="index.html">Home</a><a href="about.html">About</a><a href="attractions.html" class="underline">Attractions</a>
       <a href="kumbh.html">Kumbh Mela</a><a href="food.html">Food</a><a href="stay.html">Stay</a><a href="plan-trip.html">Plan Trip</a>
-  <nav class="max-w-6xl mx-auto px-4 py-3 flex flex-col md:flex-row md:items-center md:justify-between gap-2">
-    <a href="index.html" class="logo text-2xl font-bold shrink-0">Prayagraj Tourism</a>
-    <div class="tabs flex items-center gap-1 text-sm font-medium overflow-x-auto whitespace-nowrap pb-1 md:pb-0">
-      <a href="index.html" class="px-3 py-1.5 rounded-full hover:bg-white/15 transition">Home</a>
-      <a href="about.html" class="px-3 py-1.5 rounded-full bg-white/20 text-amber-200">About</a>
-      <a href="attractions.html" class="px-3 py-1.5 rounded-full hover:bg-white/15 transition">Attractions</a>
-      <a href="kumbh.html" class="px-3 py-1.5 rounded-full hover:bg-white/15 transition">Kumbh Mela</a>
-      <a href="food.html" class="px-3 py-1.5 rounded-full hover:bg-white/15 transition">Food</a>
-      <a href="stay.html" class="px-3 py-1.5 rounded-full hover:bg-white/15 transition">Stay</a>
-      <a href="bus%20stand.html" class="px-3 py-1.5 rounded-full hover:bg-white/15 transition">Bus Stand</a>
-      <a href="public%20toilets.html" class="px-3 py-1.5 rounded-full hover:bg-white/15 transition">Public Toilets</a>
-      <a href="plan-trip.html" class="px-3 py-1.5 rounded-full hover:bg-white/15 transition">Plan Trip</a>
     </div>
   </nav>
 </header>
 
-<section class="relative h-80 flex items-center justify-center text-center text-white overflow-hidden">
-  <img data-q="Allahabad Sangam" alt="Prayagraj" class="absolute inset-0 w-full h-full object-cover">
-<!-- HERO -->
-<section class="relative h-96 flex items-center justify-center text-center text-white overflow-hidden bg-gradient-to-b from-orange-800 to-orange-950">
-  <img data-wiki="Triveni Sangam Prayagraj" alt="Prayagraj" class="absolute inset-0 w-full h-full object-cover text-transparent">
-  <div class="absolute inset-0 bg-black/55"></div>
-  <div class="relative"><h1 class="text-5xl md:text-6xl font-extrabold">About Prayagraj</h1><p class="mt-2 text-orange-100">The holy city of the Sangam</p></div>
-  <div class="relative px-4">
-    <h1 class="text-5xl md:text-6xl font-extrabold">About Prayagraj</h1>
-    <p class="mt-3 text-orange-100 text-lg">The holy city of the Sangam: its history, heritage and famous places</p>
-  </div>
-</section>
+<main class="max-w-6xl mx-auto px-4 py-12">
+  <h1 class="text-5xl font-extrabold text-orange-500">Top Attractions</h1>
+  <div id="cards" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-8"></div>
+  <h2 class="text-3xl font-bold text-orange-500 mt-14 mb-4">Map of Attractions</h2>
+  <div id="map" class="h-[450px] rounded-2xl shadow-lg z-0"></div>
+</main>
 
-<main class="max-w-5xl mx-auto px-4 py-12">
-  <p class="leading-relaxed text-lg text-orange-100/90">Prayagraj, formerly known as Allahabad, is a city in Uttar Pradesh, India. It stands at the Triveni Sangam, where the Ganga and Yamuna meet, and the Saraswati is believed to join them. The city was renamed Prayagraj in 2018.</p>
+<footer class="bg-black text-orange-200 text-center py-6 text-sm">© 2026 Prayagraj Tourism. Map data © OpenStreetMap contributors. Photos via Wikimedia Commons / Wikipedia.</footer>
 
-  <h2 class="text-3xl font-bold text-orange-500 mt-10">Glimpses</h2>
-  <div class="grid sm:grid-cols-3 gap-5 mt-4">
-    <div class="group relative h-56 rounded-2xl overflow-hidden shadow-lg"><img data-q="Triveni Sangam Allahabad" alt="Triveni Sangam" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition duration-700"><div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div><p class="absolute bottom-3 left-4 font-semibold">Triveni Sangam</p></div>
-    <div class="group relative h-56 rounded-2xl overflow-hidden shadow-lg"><img data-q="Allahabad Fort" alt="Allahabad Fort" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition duration-700"><div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div><p class="absolute bottom-3 left-4 font-semibold">Allahabad Fort</p></div>
-    <div class="group relative h-56 rounded-2xl overflow-hidden shadow-lg"><img data-q="Anand Bhawan Allahabad" alt="Anand Bhawan" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition duration-700"><div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div><p class="absolute bottom-3 left-4 font-semibold">Anand Bhawan</p></div>
-<!-- QUICK FACTS -->
-<div class="grid grid-cols-2 sm:grid-cols-3 gap-4 text-center">
-  <div class="bg-[#120a07] rounded-2xl shadow p-5"><b class="text-orange-400">State</b><p>Uttar Pradesh, India</p></div>
-  <div class="bg-[#120a07] rounded-2xl shadow p-5"><b class="text-orange-400">Rivers</b><p>Ganga, Yamuna and the unseen Saraswati</p></div>
-  <div class="bg-[#120a07] rounded-2xl shadow p-5"><b class="text-orange-400">Best time</b><p>October to March</p></div>
-  <div class="bg-[#120a07] rounded-2xl shadow p-5"><b class="text-orange-400">Earlier names</b><p>Prayag, Illahabas, Allahabad</p></div>
-  <div class="bg-[#120a07] rounded-2xl shadow p-5"><b class="text-orange-400">Languages</b><p>Hindi, Urdu, English</p></div>
-  <div class="bg-[#120a07] rounded-2xl shadow p-5"><b class="text-orange-400">Famous for</b><p>Kumbh Mela, history, education</p></div>
-</div>
-<!-- TABLE OF CONTENTS -->
-<nav class="mt-10 bg-[#120a07] rounded-2xl p-5">
-  <p class="font-bold text-orange-400 mb-3">In this guide</p>
-  <div class="flex flex-wrap gap-2 text-sm">
-    <a class="px-3 py-1 rounded-full bg-orange-900/50 hover:bg-orange-700" href="#overview">Overview</a>
-    <a class="px-3 py-1 rounded-full bg-orange-900/50 hover:bg-orange-700" href="#names">Names</a>
-    <a class="px-3 py-1 rounded-full bg-orange-900/50 hover:bg-orange-700" href="#land">Land and climate</a>
-    <a class="px-3 py-1 rounded-full bg-orange-900/50 hover:bg-orange-700" href="#ancient">Ancient Prayag</a>
-    <a class="px-3 py-1 rounded-full bg-orange-900/50 hover:bg-orange-700" href="#empires">Maurya, Gupta, Harsha</a>
-    <a class="px-3 py-1 rounded-full bg-orange-900/50 hover:bg-orange-700" href="#mughal">Mughal era</a>
-    <a class="px-3 py-1 rounded-full bg-orange-900/50 hover:bg-orange-700" href="#colonial">British period</a>
-    <a class="px-3 py-1 rounded-full bg-orange-900/50 hover:bg-orange-700" href="#freedom">Freedom movement</a>
-    <a class="px-3 py-1 rounded-full bg-orange-900/50 hover:bg-orange-700" href="#learning">Learning and literature</a>
-    <a class="px-3 py-1 rounded-full bg-orange-900/50 hover:bg-orange-700" href="#kumbh">Kumbh Mela</a>
-    <a class="px-3 py-1 rounded-full bg-orange-900/50 hover:bg-orange-700" href="#places">Places to visit</a>
-    <a class="px-3 py-1 rounded-full bg-orange-900/50 hover:bg-orange-700" href="#culture">Culture</a>
-    <a class="px-3 py-1 rounded-full bg-orange-900/50 hover:bg-orange-700" href="#food">Food</a>
-    <a class="px-3 py-1 rounded-full bg-orange-900/50 hover:bg-orange-700" href="#today">Prayagraj today</a>
-    <a class="px-3 py-1 rounded-full bg-orange-900/50 hover:bg-orange-700" href="#visit">Visitor guide</a>
-    <a class="px-3 py-1 rounded-full bg-orange-900/50 hover:bg-orange-700" href="#timeline">Timeline</a>
-    <a class="px-3 py-1 rounded-full bg-orange-900/50 hover:bg-orange-700" href="#faq">FAQ</a>
-  </div>
-</nav>
-<!-- OVERVIEW -->
-<section id="overview" class="mt-14">
-  <h2 class="text-3xl font-bold text-orange-500">Overview</h2>
-  <div class="txt">
-    <p>Prayagraj, known as Allahabad for more than four centuries, is one of the oldest continuously inhabited cities in India and one of the holiest. It lies in the south-east of Uttar Pradesh on the Indo-Gangetic plain, at the point where the Ganga and the Yamuna meet. Hindu tradition adds a third river, the Saraswati, said to flow unseen beneath the surface, and calls the meeting point the Triveni Sangam. For pilgrims the Sangam is the centre of the city and the reason for its fame.</p>
-    <p>Prayagraj is far more than a pilgrimage town, though. Over the centuries it has been a sacred centre described in the Puranas, a royal assembly ground, a Mughal fortress city, a battlefield of 1857, a seat of British provincial government, the home of the Nehru family and a headquarters of India's freedom movement. Today it is also a city of courts, universities, poets, coaching classes and students, with a busy market life and a famous street food scene.</p>
-    <p>This guide walks through the story of the city from its earliest mentions to the present day, then introduces the places worth visiting and the practical things a traveller should know. You can read it from top to bottom or jump to any section with the links above.</p>
-  </div>
-  <div class="grid sm:grid-cols-3 gap-5 mt-8">
-    <figure class="fig h-56"><img data-wiki="Triveni Sangam Prayagraj" alt="Triveni Sangam"><figcaption>Triveni Sangam</figcaption></figure>
-    <figure class="fig h-56"><img data-wiki="Allahabad Fort" alt="Allahabad Fort"><figcaption>Allahabad Fort</figcaption></figure>
-    <figure class="fig h-56"><img data-wiki="Anand Bhawan Allahabad" alt="Anand Bhawan"><figcaption>Anand Bhawan</figcaption></figure>
-  </div>
-</section>
-<!-- NAMES -->
-<section id="names" class="mt-14">
-  <h2 class="text-3xl font-bold text-orange-500">The many names of the city</h2>
-  <div class="txt">
-    <p>The oldest name is Prayag. The word is usually explained as "place of sacrifice" or "place of confluence", and it appears in ancient Sanskrit texts. The Puranas describe Prayag as Tirtharaj, the king of all pilgrimage sites, and say that the creator Brahma performed a great sacrifice here. This sacred reputation is much older than any fort, university or railway station in the city.</p>
-    <p>The Mughal emperor Akbar chose the confluence for a great fortress in the 1570s and gave the settlement around it the name Illahabas, often explained as "abode of God". In the following decades the name slowly changed form and the city became widely known as Allahabad, a form commonly linked with the reign of Shah Jahan. Under British rule the spelling and the name stayed the same, and Allahabad became famous in India and abroad as a centre of administration, justice and learning.</p>
-    <p>In October 2018 the Uttar Pradesh government announced that the city would again be called Prayagraj, restoring the ancient name with the Hindi word for king, raj. You will still hear the older name in everyday speech, on old buildings and in the names of institutions such as the Allahabad High Court, the University of Allahabad and the Allahabad Museum. Both names are therefore useful when searching for places, trains and books.</p>
-  </div>
-  <div class="grid sm:grid-cols-2 gap-5 mt-8">
-    <figure class="fig h-60"><img data-wiki="Prayagraj" alt="Prayagraj city"><figcaption>Prayagraj today</figcaption></figure>
-    <figure class="fig h-60"><img data-wiki="Allahabad Junction railway station" alt="Prayagraj Junction"><figcaption>Prayagraj Junction, once Allahabad Junction</figcaption></figure>
-  </div>
-</section>
-<!-- LAND -->
-<section id="land" class="mt-14">
-  <h2 class="text-3xl font-bold text-orange-500">The land, the rivers and the climate</h2>
-  <div class="txt">
-    <p>Prayagraj sits on a flat, fertile plain a little under a hundred metres above sea level. The Ganga arrives from the north-west and the Yamuna from the south-west, and the city spreads across the land around their meeting point. The Yamuna, which has flowed down from the Himalayas through Delhi and Agra, is darker and bluish-green. The Ganga is lighter and silvery in colour. At the Sangam you can often see the two colours running side by side for a short distance before they blend into one broad river that continues east towards Varanasi.</p>
-    <p>The city has a humid subtropical climate with three clear seasons. Summers, from April to June, are very hot, with daytime temperatures often above 40 degrees Celsius and hot dry winds called loo. The monsoon arrives in July and lasts until about September. It brings heavy rain, and both rivers swell, sometimes flooding the low ghats and the Sangam shoreline. Winters, from November to February, are cool and pleasant in the day, but nights can be cold and foggy, especially in December and January.</p>
-    <p>This pattern matters for travellers. The pleasant months of October to March are also the season of the Magh Mela and, in special years, the Kumbh Mela. The rivers draw back after the monsoon and leave a wide sandy floodplain, and on this temporary land a huge tent city is built every year. Visiting in summer is possible but tiring, and visiting in the middle of the monsoon can mean closed ghats and muddy roads.</p>
-  </div>
-  <div class="grid sm:grid-cols-2 gap-5 mt-8">
-    <figure class="fig h-60"><img data-wiki="Ganges" alt="River Ganga"><figcaption>The Ganga</figcaption></figure>
-    <figure class="fig h-60"><img data-wiki="Yamuna" alt="River Yamuna"><figcaption>The Yamuna</figcaption></figure>
-  </div>
-</section>
-<!-- ANCIENT -->
-<section id="ancient" class="mt-14">
-  <h2 class="text-3xl font-bold text-orange-500">Ancient Prayag: the sacred beginnings</h2>
-  <div class="txt">
-    <p>No one can say exactly when people first gathered at the confluence, but the area has been settled for a very long time. Archaeologists have found traces of early farming and village life in the Ganga plain around Prayagraj, and the surrounding region was part of the cradle of early Indian civilisation. Prayag is praised in the Vedic and Puranic literature as a place where bathing and giving charity bring great merit, and the Matsya Purana and other texts speak of it at length as the most sacred of all tirthas, or crossing places between the human and the divine.</p>
-    <p>The epics link the city to their stories. In the Ramayana, Rama, Sita and Lakshmana reach Prayag during their exile and visit the hermitage of the sage Bharadwaj before crossing the Yamuna. A few dozen kilometres away is Shringverpur, where the Nishad king Guha is said to have ferried Rama across the Ganga. The Mahabharata lists Prayag among the holy places visited by pilgrims, and describes the merit of living here through the month of Magha, a belief that still brings thousands of devotees to camp on the riverbank every winter.</p>
-    <p>Near Prayagraj, the ancient town of Kaushambi was the capital of the Vatsa kingdom, one of the great states of early India in the time of the Buddha. The Buddha is said to have taught there, and the remains of a large fortified city, monasteries and an Ashokan pillar have been found. In this period the whole region was a crossroads of trade routes and religions, with Vedic tradition, Buddhism and Jainism all present, and Prayag was already a famous pilgrim destination.</p>
-    <p>The story of the sacred confluence is also tied to the myth of the Kumbh. According to tradition, gods and demons churned the cosmic ocean to win the pot of immortal nectar, and as the pot was carried away, drops fell at four places: Prayag, Haridwar, Ujjain and Nashik. This story is the foundation of the Kumbh Mela, and Prayag's share of it, with the meeting of three rivers, is considered the most powerful of the four.</p>
-  </div>
-  <div class="grid sm:grid-cols-3 gap-5 mt-8">
-    <figure class="fig h-56"><img data-wiki="Kaushambi" alt="Kaushambi"><figcaption>Kaushambi, ancient Vatsa capital</figcaption></figure>
-    <figure class="fig h-56"><img data-wiki="Shringverpur" alt="Shringverpur"><figcaption>Shringverpur on the Ganga</figcaption></figure>
-    <figure class="fig h-56"><img data-wiki="Ramayana" alt="Ramayana"><figcaption>The Ramayana connection</figcaption></figure>
-  </div>
-</section>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+/* ---------- photo loader (no extra file needed) ---------- */
+const cache = {};
+function svgPlaceholder(t){
+  t = String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;');
+  const s = `<svg xmlns="http://www.w3.org/2000/svg" width="900" height="600"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ea580c"/><stop offset="1" stop-color="#7c2d12"/></linearGradient></defs><rect width="900" height="600" fill="url(#g)"/><text x="450" y="320" font-size="54" font-family="Arial" fill="#fff" text-anchor="middle">${t}</text></svg>`;
+  return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(s);
+}
+async function findPhoto(q){
+  if (q in cache) return cache[q];
+  let url = null;
+  try { // 1) Wikimedia Commons photo search
+    const a = await (await fetch('https://commons.wikimedia.org/w/api.php?action=query&generator=search&gsrnamespace=6&gsrlimit=10&gsrsearch=' + encodeURIComponent(q) + '&prop=imageinfo&iiprop=url|mime&iiurlwidth=900&format=json&origin=*')).json();
+    const pages = Object.values((a.query || {}).pages || {}).sort((x, y) => x.index - y.index);
+    const hit = pages.find(p => p.imageinfo && p.imageinfo[0].mime === 'image/jpeg');
+    if (hit) url = hit.imageinfo[0].thumburl;
+  } catch (e) {}
+  if (!url) try { // 2) Wikipedia article image
+    const b = await (await fetch('https://en.wikipedia.org/w/api.php?action=query&generator=search&gsrlimit=3&gsrsearch=' + encodeURIComponent(q) + '&prop=pageimages&piprop=thumbnail&pithumbsize=900&format=json&origin=*')).json();
+    const pg = Object.values((b.query || {}).pages || {}).sort((x, y) => x.index - y.index).find(p => p.thumbnail);
+    if (pg) url = pg.thumbnail.source;
+  } catch (e) {}
+  return (cache[q] = url);
+}
+function fillPhotos(){
+  document.querySelectorAll('img[data-q]:not([data-done])').forEach(img => {
+    img.dataset.done = 1;
+    img.src = svgPlaceholder(img.alt);                       // shows instantly
+    findPhoto(img.dataset.q).then(u => { if (u) img.src = u; });
+  });
+}
 
-  <h2 class="text-3xl font-bold text-orange-500 mt-12">Why it is special</h2>
-  <ul class="list-disc pl-6 mt-3 space-y-2 text-orange-100/90">
-    <li>One of Hinduism's holiest pilgrimage sites.</li>
-    <li>Host of the Kumbh Mela, one of the largest gatherings in the world.</li>
-    <li>Important in India's freedom movement, education and literature.</li>
-    <li>Famous for street food and Mughal-era heritage.</li>
-  </ul>
-<!-- EMPIRES -->
-<section id="empires" class="mt-14">
-  <h2 class="text-3xl font-bold text-orange-500">Maurya, Gupta and Harsha: pillars and charity</h2>
-  <div class="txt">
-    <p>The best surviving proof of Prayag's importance in the early empires is a tall sandstone pillar, now inside the fort. It carries edicts of the Mauryan emperor Ashoka from the third century BCE, in which he speaks about compassion, tolerance and good government. Scholars believe it was originally set up at Kaushambi and moved to Prayag at a later date. The same column carries other inscriptions that make it a record of many centuries in one object.</p>
-    <p>The most famous of these is a long Sanskrit poem in praise of the Gupta emperor Samudragupta, written in the fourth century CE by his court poet Harisena. It lists his conquests, his generosity and his skills as a poet and musician, and it is one of the most important sources for Gupta history. Centuries later the Mughal emperor Jahangir added his own inscription, recording his accession to the throne. A single pillar thus holds the voices of a Mauryan emperor, a Gupta king and a Mughal ruler.</p>
-    <p>In the seventh century, Prayag appears in the accounts of the Chinese pilgrim Xuanzang, also written Hiuen Tsang, who visited around 643 CE. He described the great assembly held by King Harshavardhana of Kannauj on the sandy plain at the confluence. Every five years Harsha distributed his accumulated treasure to the poor, to monks and to scholars of many faiths, until he had given away almost everything. It is one of the earliest descriptions of a large gathering on the very ground where the Kumbh and Magh Melas are held today.</p>
-  </div>
-  <div class="grid sm:grid-cols-2 gap-5 mt-8">
-    <figure class="fig h-60"><img data-wiki="Allahabad pillar" alt="Allahabad Pillar"><figcaption>The Allahabad Pillar</figcaption></figure>
-    <figure class="fig h-60"><img data-wiki="Harsha" alt="King Harsha"><figcaption>Harshavardhana</figcaption></figure>
-  </div>
-</section>
+/* ---------- places ---------- */
+const places = [
+ {n:"Triveni Sangam", q:"Triveni Sangam Allahabad", c:[25.4300,81.8870], d:"Where Ganga, Yamuna and Saraswati meet. Boat rides, aarti and holy dip."},
+ {n:"Allahabad Fort", q:"Allahabad Fort Prayagraj", c:[25.4284,81.8750], d:"Built by Akbar in 1583, with Patalpuri Temple and Akshayavat inside."},
+ {n:"Anand Bhawan", q:"Anand Bhawan Allahabad", c:[25.4527,81.8497], d:"Nehru family home, now a museum with freedom struggle memories."},
+ {n:"Swaraj Bhawan", q:"Swaraj Bhawan Allahabad", c:[25.4520,81.8505], d:"Birthplace of Indira Gandhi, former Congress headquarters."},
+ {n:"Khusro Bagh", q:"Khusro Bagh Allahabad", c:[25.4440,81.8300], d:"Walled Mughal garden with tombs of Khusro, Shah Begum and Nithar Begum."},
+ {n:"Chandrashekhar Azad Park (Company Bagh)", q:"Chandrashekhar Azad Park Allahabad", c:[25.4580,81.8500], d:"Large park where Azad sacrificed his life, has museum and memorial."},
+ {n:"Bade Hanuman Mandir", q:"Bade Hanuman Mandir Allahabad", c:[25.4290,81.8800], d:"Rare reclining Hanuman idol near Sangam, submerged in monsoon."},
+ {n:"Patalpuri Temple & Akshayavat", q:"Patalpuri Temple Allahabad", c:[25.4280,81.8760], d:"Ancient underground temple and immortal banyan tree inside fort area."},
+ {n:"Allahabad Museum", q:"Allahabad Museum Prayagraj", c:[25.4585,81.8515], d:"Rich collection of sculptures, paintings, coins and freedom struggle items."},
+ {n:"All Saints Cathedral (Patthar Girja)", q:"All Saints Cathedral Allahabad", c:[25.4515,81.8330], d:"Beautiful 19th century Gothic cathedral, known as Stone Church."},
+ {n:"Jawahar Planetarium", q:"Jawahar Planetarium Allahabad", c:[25.4530,81.8490], d:"Science and space shows next to Anand Bhawan."},
+ {n:"Minto Park (Madan Mohan Malaviya Park)", q:"Minto Park Allahabad", c:[25.4370,81.8860], d:"Historic park where Queen Victoria's proclamation was read in 1858."},
+ {n:"Alopi Devi Mandir", q:"Alopi Devi Mandir Allahabad", c:[25.4450,81.8350], d:"Famous Shaktipeeth where no idol is worshipped, only a wooden cradle."},
+ {n:"Mankameshwar Temple", q:"Mankameshwar Temple Allahabad", c:[25.4305,81.8850], d:"Ancient Shiva temple on Yamuna bank near Sangam."},
+ {n:"Nagvasuki Temple", q:"Nagvasuki Temple Allahabad", c:[25.4350,81.8900], d:"Famous temple of Nag Vasuki on Ganga bank, important for Nag Panchami."},
+ {n:"Shankar Viman Mandapam", q:"Shankar Viman Mandapam Allahabad", c:[25.4355,81.8855], d:"4-storey South Indian style temple with idols of many gods."},
+ {n:"New Yamuna Bridge (Naini Bridge)", q:"New Yamuna Bridge Allahabad", c:[25.4250,81.8700], d:"Modern cable-stayed bridge over Yamuna, best for sunset view."},
+ {n:"Old Naini Bridge", q:"Old Naini Bridge Allahabad", c:[25.4200,81.8600], d:"Historic double-decker rail-cum-road bridge over Yamuna."},
+ {n:"Bharadwaj Ashram", q:"Bharadwaj Ashram Allahabad", c:[25.4650,81.8600], d:"Ancient ashram of Sage Bharadwaj, linked to Ramayana."},
+ {n:"Someshwar Mahadev Temple", q:"Someshwar Mahadev Temple Allahabad", c:[25.4500,81.9000], d:"Ancient Shiva temple on Ganga bank, famous for Sawan fair."},
+ {n:"Kali Mandir (Kalyani Devi)", q:"Kali Mandir Allahabad", c:[25.4400,81.8400], d:"Old Kali temple in Civil Lines area, popular during Navratri."},
+ {n:"Saraswati Ghat", q:"Saraswati Ghat Prayagraj", c:[25.4320,81.8890], d:"Clean peaceful ghat near Sangam for evening aarti and boating."},
+ {n:"Arail Ghat", q:"Arail Ghat Prayagraj", c:[25.4200,81.8900], d:"Quiet ghat on other side of Yamuna, great Sangam panorama."},
+ {n:"Ulta Qila (Mankameshwar Fort)", q:"Ulta Qila Allahabad", c:[25.4320,81.8840], d:"Ancient inverted fort ruins near Sangam, Ramayana legend."},
+ {n:"Draupadi Ghat & Hanuman Mandir, Jhusi", q:"Draupadi Ghat Allahabad", c:[25.4350,81.9100], d:"Historic ghat in Jhusi, old Samudragupta era settlement."}
+];
 
-  <div class="grid sm:grid-cols-3 gap-4 mt-10 text-center">
-    <div class="bg-[#120a07] rounded-2xl shadow p-5"><b class="text-orange-400">State</b><p>Uttar Pradesh</p></div>
-    <div class="bg-[#120a07] rounded-2xl shadow p-5"><b class="text-orange-400">Best time</b><p>October to March</p></div>
-    <div class="bg-[#120a07] r
+const map = L.map('map').setView([25.4358,81.8463], 12);
+L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom:19, attribution:'&copy; OpenStreetMap contributors'}).addTo(map);
+const markers = [];
+places.forEach((p, i) => {
+  markers[i] = L.marker(p.c).addTo(map).bindPopup(`<b>${p.n}</b><br><a target="_blank" href="https://www.google.com/maps/dir/?api=1&destination=${p.c[0]},${p.c[1]}">Get directions</a>`);
+  document.getElementById('cards').insertAdjacentHTML('beforeend', `
+    <div class="group bg-[#120a07] rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition">
+      <div class="h-56 overflow-hidden">
+        <img data-q="${p.q}" alt="${p.n}" class="w-full h-full object-cover group-hover:scale-110 transition duration-700">
+      </div>
+      <div class="p-5">
+        <h3 class="text-2xl font-bold">${p.n}</h3>
+        <p class="text-sm text-orange-100/80 mt-2">${p.d}</p>
+        <div class="flex gap-2 mt-4 text-sm">
+          <button onclick="showOnMap(${i})" class="bg-orange-600 hover:bg-orange-500 text-white px-4 py-2 rounded-full">View on map</button>
+          <a target="_blank" href="https://www.google.com/maps/dir/?api=1&destination=${p.c[0]},${p.c[1]}" class="border border-orange-500 text-orange-400 px-4 py-2 rounded-full hover:bg-orange-950">Directions</a>
+        </div>
+      </div>
+    </div>`);
+});
+fillPhotos();
+function showOnMap(i){ map.setView(places[i].c, 15); markers[i].openPopup(); document.getElementById('map').scrollIntoView({behavior:'smooth', block:'center'}); }
+</script>
+</body>
+</html>
+```
