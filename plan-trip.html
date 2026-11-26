@@ -94,17 +94,19 @@ input,select{background:#120a07;border:1px solid #7c2d12;color:#ffedd5;border-ra
       <label class="flex items-center gap-2"><input type="checkbox" class="int" value="v" checked style="width:auto"> Parks, bridges, views</label>
     </div>
     <label class="flex items-center gap-2 mt-4 text-sm"><input id="showall" type="checkbox" style="width:auto"> Show every place that fits my time, even if it goes over budget</label>
+
     <button id="go" type="button" class="mt-6 bg-orange-600 hover:bg-orange-500 text-white font-semibold px-8 py-3 rounded-full">Make my plan</button>
+    <p id="status" class="text-xs text-amber-300 mt-3">⏳ Loading… if this message does not change to "Ready", the page script did not load (see the notes).</p>
   </div>
 
   <div id="result" class="mt-10"></div>
 
-  <section id="mapsec" class="mt-12 hidden" style="scroll-margin-top:90px">
+  <section id="mapsec" class="mt-12" style="display:none;scroll-margin-top:90px">
     <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
       <h2 class="text-3xl font-bold text-orange-500">Map and route</h2>
       <button id="locate" type="button" class="bg-blue-600 hover:bg-blue-500 text-white px-5 py-2 rounded-full text-sm">📍 Show my live location</button>
     </div>
-    <div id="map" class="h-[460px] rounded-2xl shadow-lg z-0"></div>
+    <div id="map" style="height:460px" class="rounded-2xl shadow-lg z-0"></div>
     <p class="text-xs text-orange-200/70 mt-2">🏨 your stay · numbers = places · 🍽️ = food · dotted line = each day's route.</p>
   </section>
 </main>
@@ -113,8 +115,22 @@ input,select{background:#120a07;border:1px solid #7c2d12;color:#ffedd5;border-ra
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
-/* PLACES in priority order: name, lat, lng, hours, fee(₹), zone (A Sangam side, B city, C far day trip),
-   cat (r temples, h history, v views, t trip), best (m morning, e evening), description */
+/* If the map library could not load, the plan still works and only the map is hidden. */
+const MAPOK = typeof L !== 'undefined';
+if (!MAPOK) {
+  const nop = () => new Proxy(function(){}, { get: () => nop(), apply: () => nop() });
+  window.L = nop();
+}
+/* Show any script error on the page instead of failing silently */
+window.addEventListener('error', e => {
+  const r = document.getElementById('result');
+  if (r) r.innerHTML = '<div class="bg-red-950/60 border border-red-800 rounded-2xl p-6">Error: ' + String(e.message).replace(/</g,'&lt;') + '</div>';
+});
+
+/* ============ DATA (edit freely) ============
+   PLACES: name, lat, lng, hours needed, entry fee (₹), zone (A Sangam side, B city, C far day trip),
+           category (r temples, h history, v views, t trip), best time (m morning, e evening), description.
+   Coordinates are approximate. Listed in priority order. */
 const P=[
 ["Triveni Sangam",25.4300,81.8870,2.5,150,'A','r','m',"Where Ganga, Yamuna and Saraswati meet. Boat ride (about ₹150)."],
 ["Allahabad Fort",25.4284,81.8750,1.5,0,'A','h','',"Akbar's 1583 fort. Outer areas open, some parts restricted."],
@@ -192,6 +208,7 @@ const tripCost=(m,N)=>{const x=MODES[m];return x.perKm?x.perKm*TRIP_KM*2*Math.ce
 const AREAS={sangam:{n:'Near Sangam / Fort / Daraganj',c:[25.4400,81.8780]},civil:{n:'Civil Lines / city centre',c:[25.4530,81.8400]},station:{n:'Near Prayagraj Junction',c:[25.4475,81.8271]},jhusi:{n:'Jhusi',c:[25.4350,81.9100]},naini:{n:'Naini',c:[25.3930,81.8600]}};
 let STAY=AREAS.civil.c;
 
+/* ============ helpers ============ */
 const $=id=>document.getElementById(id);
 const rs=n=>'₹'+Math.round(n).toLocaleString('en-IN');
 const fmtH=h=>{const m=Math.round(h*60),a=Math.floor(m/60),b=m%60;return((a?a+' h ':'')+(b?b+' min':''))||'0 min';};
@@ -204,7 +221,7 @@ const rideMin=(a,b)=>{const d=km(a,b);return d>12?Math.round(15+2.6*d):Math.max(
 const perPerson=p=>(p.fee||0)+Math.max(40,Math.round((30+10*km(STAY,p.c))/10)*10);
 const dirUrl=o=>`https://www.google.com/maps/dir/?api=1&destination=${o.c[0]},${o.c[1]}&travelmode=driving`;
 
-/* photos */
+/* ============ photos ============ */
 const cache={};
 function ph(t){t=String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;');
   return 'data:image/svg+xml;charset=utf-8,'+encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="900" height="600"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ea580c"/><stop offset="1" stop-color="#7c2d12"/></linearGradient></defs><rect width="900" height="600" fill="url(#g)"/><text x="450" y="320" font-size="54" font-family="Arial" fill="#fff" text-anchor="middle">${t}</text></svg>`);}
@@ -222,34 +239,11 @@ fillPhotos();
 
 for(let i=1;i<=20;i++){const o=document.createElement('option');o.value=i;o.textContent=i+(i===1?' day':' days');if(i===3)o.selected=true;$('days').appendChild(o);}
 
-/* map */
+/* ============ map ============ */
 let map=null;const planLayer=L.layerGroup(),markerById={};
-function initMap(){if(map)return;
+function initMap(){if(map||!MAPOK)return;
   map=L.map('map').setView([25.4358,81.8463],12);
   L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'&copy; OpenStreetMap contributors'}).addTo(map);
   planLayer.addTo(map);}
-function focusOn(id){$('mapsec').scrollIntoView({behavior:'smooth'});
-  setTimeout(()=>{map.setView(byId[id].c,15);if(markerById[id])markerById[id].openPopup();},400);}
-
-/* planner */
-function pack(list,D,H){
-  const s=[...list].sort((a,b)=>a.zone.localeCompare(b.zone)||a.p-b.p),days=[];let cur={items:[],used:0};
-  for(const p of s){
-    const last=cur.items[cur.items.length-1];
-    const mix=cur.items.length&&(p.zone==='C'||cur.items[0].zone==='C');
-    const need=p.h+(last?rideMin(last.c,p.c)/60:0);
-    if(!mix&&cur.used+need<=H){cur.items.push(p);cur.used+=need;}
-    else{
-      if(p.h>H)return null;
-      if(cur.items.length)days.push(cur);
-      if(days.length>=D)return null;
-      cur={items:[p],used:p.h};
-    }
-  }
-  if(cur.items.length)days.push(cur);
-  return days.length>D?null:days;
-}
-function orderDay(items){
-  const out=items.filter(x=>x.best==='m'),end=items.filter(x=>x.best==='e'),rest=items.filter(x=>!x.best);
-  let pos=out.length?out[out.length-1].c:STAY;
-  while(rest.length){rest.sort((a,b)=>km(pos,a.c)-km(pos,b.c));const n
+function focusOn(id){if(!MAPOK)return;$('mapsec').scrollIntoView({behavior:'smooth'});
+  setT
