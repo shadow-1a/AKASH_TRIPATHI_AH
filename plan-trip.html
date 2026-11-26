@@ -2,16 +2,16 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Plan Your Trip – Prayagraj Tourism</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Poppins:wght@400;500;600&display=swap">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Plan Your Trip | Prayagraj Tourism</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{--or:#ea580c;--gold:#fbbf24;--bg:#0b0605;--card:#120a07;--bd:#3a1a0c;--tx:#f5ece6;--mu:#b9a79b;color-scheme:dark}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.5 Poppins,system-ui,sans-serif}
-h1,h2,h3{font-family:"Playfair Display",Georgia,serif}
+h1,h2,h3,h4,.logo{font-family:"Playfair Display",Georgia,serif}
 header{background:var(--or);padding:16px 18px 10px}
-header b{font:700 28px "Playfair Display",Georgia,serif;display:block;margin-bottom:6px}
+.logo{font-size:28px;font-weight:700;color:#fff;text-decoration:none;display:block;margin-bottom:6px}
 nav{display:flex;flex-wrap:wrap;gap:6px 22px}nav a{color:#fff;text-decoration:none;font-weight:500}nav a.on{text-decoration:underline}
 .hero{background:#050302;text-align:center;padding:44px 18px 56px}
 .hero h1{font-size:44px;margin:0 0 10px;line-height:1.1}.hero p{margin:0 auto;max-width:480px;color:#f3e6dc;font-size:18px}
@@ -30,17 +30,18 @@ input,select{width:100%;background:#0b0605;color:var(--tx);border:1px solid var(
 .sum{display:grid;grid-template-columns:1fr auto;gap:4px 12px;font-size:15px}.sum b{color:var(--gold)}
 .warn{background:#3a1a0c;border-left:4px solid var(--gold);padding:10px 12px;border-radius:8px;margin-top:12px;font-size:14px}
 .stop{display:flex;gap:12px;padding:12px 0;border-top:1px solid var(--bd)}
-.stop .t{min-width:62px;color:var(--gold);font-weight:600;font-size:14px}
+.t{min-width:62px;color:var(--gold);font-weight:600;font-size:14px}
 .c{flex:1;min-width:0}
-.stop h4{margin:0;font:700 17px "Playfair Display",Georgia,serif}
-.stop .m{font-size:12.5px;color:var(--or);margin:2px 0}.stop p{margin:2px 0 0;color:var(--mu);font-size:14px}
-.tag{display:inline-block;font-size:11px;border:1px solid var(--bd);border-radius:6px;padding:0 6px;margin-left:6px;color:var(--mu)}
-.ph{width:84px;height:84px;border-radius:12px;object-fit:cover;flex:none;background:#2a140a;display:flex;align-items:center;justify-content:center;font-size:30px}
+.stop h4{margin:0;font-size:17px}
+.m{font-size:12.5px;color:var(--or);margin:2px 0}.stop p{margin:2px 0 0;color:var(--mu);font-size:14px}
+.stop a{color:var(--gold);font-size:13px}
+.tag{display:inline-block;font-size:11px;border:1px solid var(--bd);border-radius:6px;padding:0 6px;margin-left:6px;color:var(--mu);font-family:Poppins,sans-serif;font-weight:400}
+.ph{width:92px;height:92px;border-radius:12px;object-fit:cover;flex:none;background:#2a140a}
 footer{text-align:center;color:var(--mu);font-size:13px;padding:18px 14px 30px;background:#050302}
 </style>
 </head>
 <body>
-<header><b>Prayagraj Tourism</b><nav><a href="#">Home</a><a href="#">About</a><a href="#">Attractions</a><a href="#">Kumbh Mela</a><a href="#">Food</a><a href="#">Stay</a><a href="#" class="on">Plan Trip</a></nav></header>
+<header><a href="index.html" class="logo">Prayagraj Tourism</a><nav><a href="index.html">Home</a><a href="about.html">About</a><a href="attractions.html">Attractions</a><a href="kumbh.html">Kumbh Mela</a><a href="food.html">Food</a><a href="stay.html">Stay</a><a href="plan-trip.html" class="on">Plan Trip</a></nav></header>
 <section class="hero"><h1>Plan Your Trip</h1><p>Answer a few questions and get a time-by-time plan with places to visit and eat.</p></section>
 <main>
 <div class="card" id="form">
@@ -57,7 +58,7 @@ footer{text-align:center;color:var(--mu);font-size:13px;padding:18px 14px 30px;b
 </div>
 <div id="s2" class="hide">
 <h3>2. What do you enjoy?</h3><p class="mu">Pick one or more</p>
-<div class="chips" id="int"><button class="chip on" data-v="sp">🛕 Spiritual</button><button class="chip on" data-v="hi">🏛️ History &amp; culture</button><button class="chip" data-v="na">🌅 Nature &amp; views</button><button class="chip" data-v="fo">🍲 Street food lover</button></div>
+<div class="chips" id="int"><button class="chip on" data-v="sp">🛕 Temples &amp; Ghats</button><button class="chip on" data-v="hi">🏛️ History &amp; Museums</button><button class="chip" data-v="na">🌅 Parks &amp; Views</button><button class="chip" data-v="fo">🍲 Street food lover</button></div>
 <label>Trip pace</label>
 <div class="chips" id="pace"><button class="chip" data-v="2">Relaxed</button><button class="chip on" data-v="3">Balanced</button><button class="chip" data-v="4">Packed</button></div>
 <label>Food preference</label>
@@ -66,162 +67,146 @@ footer{text-align:center;color:var(--mu);font-size:13px;padding:18px 14px 30px;b
 </div>
 </div>
 <div id="out" class="hide"></div>
-<div class="card" id="all"><h2>All places we know</h2><p class="mu" id="cnt"></p>
+<div class="card"><h2>All places we know</h2><p class="mu" id="cnt"></p>
 <div class="chips" id="flt"><button class="chip on" data-v="a">All</button><button class="chip" data-v="s">Sights</button><button class="chip" data-v="f">Food</button></div><div id="list"></div></div>
 </main>
-<footer>Prices are rough estimates per person and may change. Check timings locally before you go.</footer>
-
-<!-- Your images file. Keep it in the same folder as this page -->
-<script src="photo.js"></script>
-
+<footer>© 2026 Prayagraj Tourism. Prices are rough estimates per person. Photos via Wikimedia Commons / Wikipedia.</footer>
 <script>
-// Sights: [name, area, tags(sp/hi/na), cost per person ₹, best slot(m/a/e/F=day trip), hours, about]
-var S=[
-["Triveni Sangam & Boat Ride","Sangam","sp,na",120,"m",2,"Meeting point of Ganga, Yamuna and the mythical Saraswati. Take a shared boat to the confluence."],
-["Evening Ganga Aarti","Sangam / Saraswati Ghat","sp",0,"e",1,"Lamps, bells and chants by the water at dusk."],
-["Allahabad Fort (Akbar’s Qila)","Sangam","hi",0,"a",1.5,"Built in 1583 by Akbar. Only a part is open to visitors, so carry an ID."],
-["Patalpuri Temple & Akshayavat","Inside the Fort","sp,hi",0,"a",1,"Underground temple and the ancient banyan tree. Access rules can change."],
-["Bade Hanuman Mandir","Sangam","sp",0,"m",1,"Rare reclining Hanuman idol, famous for the Ganga flooding it every monsoon."],
-["Kumbh Mela Kshetra Walk","Sangam","sp,na",0,"m",1.5,"Walk the wide riverbank ground where the Kumbh and Magh Mela are held."],
-["Shankar Viman Mandapam","Near Sangam","sp,hi",20,"a",1,"Tall four-storey South Indian style temple with fine carvings."],
-["Anand Bhawan","Civil Lines","hi",50,"a",1.5,"Nehru family home turned museum of the freedom movement."],
-["Swaraj Bhawan","Civil Lines","hi",0,"a",1,"Historic Congress headquarters next to Anand Bhawan."],
-["Jawahar Planetarium","Civil Lines","hi",60,"a",1,"Sky shows in a planetarium beside Anand Bhawan."],
-["Khusro Bagh","Near Railway Stn","hi,na",0,"m",1,"Quiet Mughal garden with sandstone tombs of Jahangir’s family."],
-["Chandrashekhar Azad Park","Civil Lines","hi,na",0,"e",1.5,"Huge Victorian park where Azad made his last stand. Good for an evening walk."],
-["Allahabad Museum","Civil Lines","hi",50,"a",1.5,"Sculptures, terracottas, paintings and Nehru-related collections."],
-["All Saints Cathedral (Patthar Girja)","Civil Lines","hi",0,"m",0.5,"Gothic stone church from 1887."],
-["Allahabad University","Civil Lines","hi",0,"a",1,"Indo-Gothic Senate House of the “Oxford of the East”."],
-["Mankameshwar Temple","Yamuna bank","sp",0,"m",1,"Peaceful Shiva temple close to the Fort."],
-["Alopi Devi Mandir","Alopibagh","sp",0,"m",1,"Shakti Peeth where a palanquin is worshipped instead of an idol."],
-["Nagvasuki Temple","Daraganj","sp",0,"m",1,"Ancient temple of Nag Vasuki on the Ganga bank."],
-["Saraswati Ghat & Yamuna Bridge Sunset","Yamuna","na",0,"e",1.5,"Riverside promenade with the lit-up cable bridge at sunset."],
-["Bharadwaj Ashram","Colonelganj","sp,hi",0,"m",1,"Ashram of sage Bharadwaj, linked to the Ramayana."],
-["Minto Park","Near Yamuna","hi,na",0,"e",1,"Where the 1858 proclamation was read. Lion pillar and gardens."],
-["Jhunsi & Samudra Koop","Across Ganga","hi",0,"a",1.5,"Ancient mound and the well linked to Samudragupta."],
-["Kalyani Devi Temple","Mutthiganj","sp",0,"m",1,"Old goddess temple with big Navratri crowds."],
-["Shringverpur Dham","40 km, day trip","sp,hi,na",300,"F",5,"Ramayana site where Nishadraj welcomed Ram. Cost includes local transport."],
-["Kaushambi Ruins & Jain Temples","60 km, day trip","hi,sp",350,"F",5,"Capital of the ancient Vatsa kingdom with Buddhist and Jain heritage."]];
-// Food: [name, area, cost per person ₹, meal(b/l/s), nonveg?, about]
-var F=[
-["Loknath Gali Kachori-Sabzi","Chowk",60,"b",0,"Crisp kachoris with spicy aloo sabzi, a Prayagraj breakfast classic."],
-["Dahi-Jalebi Breakfast","Chowk",50,"b",0,"Hot jalebi with thick dahi. Sweet start to the day."],
-["Aloo Puri-Sabzi Stalls","Daraganj / Sangam",50,"b",0,"Pilgrim-style puri breakfast near the ghats."],
-["Katra Bread Pakora & Chai","Katra",40,"b",0,"Student favourite near the university."],
-["Indian Coffee House","Civil Lines",150,"l",0,"Old-school coffee house since the 1950s. Dosa, sandwiches, cutlets."],
-["Litti-Chokha Stalls","Civil Lines",80,"l",0,"Smoky baked litti with chokha and ghee."],
-["Civil Lines Veg Thali","Civil Lines",200,"l",0,"Full North Indian thali with dal, sabzi, roti and sweet."],
-["Dhaba Dal-Tadka & Roti","GT Road",150,"l",0,"Simple tandoori roti, dal fry and paneer."],
-["Tikka Biryani & Kebabs","Chowk / Khuldabad",250,"l",1,"Smoky tikka and fragrant biryani from local kebab lanes."],
-["Mutton Korma & Rumali Roti","Rani Mandi",300,"l",1,"Rich Mughlai gravy with soft rumali roti."],
-["Chicken Tikka Rolls","Civil Lines",180,"l",1,"Quick street rolls and tandoori platters."],
-["Allahabadi Surkha Amrood","Local fruit stalls",60,"s",0,"Famous red-pink guava with black salt. Best from October to February."],
-["Sangam Ghat Chai & Samosa","Sangam",40,"s",0,"Kulhad chai and hot samosa by the river."],
-["Imarti & Malai Puri","Chowk",70,"s",0,"Syrupy imarti and creamy malai sweets."],
-["Thandai & Kesar Lassi","Chowk",60,"s",0,"Cool, nutty and saffron drinks."],
-["Chaat & Golgappa","Civil Lines",60,"s",0,"Tangy tikki, papdi chaat and golgappe."],
-["Rasgulla & Sweet Shops","Civil Lines",70,"s",0,"Fresh Bengali and UP sweets to pack home."],
-["Rabri Falooda","Chowk",70,"s",0,"Thick rabri, falooda sev and cold milk."],
-["Egg Rolls & Omelette Stalls","Civil Lines",60,"s",1,"Late-evening egg rolls and bread omelette."]];
-var CITY={"Mathura":600,"Delhi":800,"Lucknow":300,"Varanasi":200,"Kanpur":250,"Patna":450,"Bhopal":900,"Jaipur":1200,"Mumbai":1800,"Kolkata":1100,"Prayagraj (local)":100};
+/* ---------- photo loader (from your attractions.html / food.html) ---------- */
+const cache={};
+function svgPlaceholder(t){
+  t=String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;');
+  const s=`<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ea580c"/><stop offset="1" stop-color="#7c2d12"/></linearGradient></defs><rect width="400" height="400" fill="url(#g)"/><text x="200" y="210" font-size="30" font-family="Arial" fill="#fff" text-anchor="middle">${t.slice(0,18)}</text></svg>`;
+  return 'data:image/svg+xml;charset=utf-8,'+encodeURIComponent(s);
+}
+async function findPhoto(q){
+  if(q in cache)return cache[q];let url=null;
+  try{const a=await(await fetch('https://commons.wikimedia.org/w/api.php?action=query&generator=search&gsrnamespace=6&gsrlimit=10&gsrsearch='+encodeURIComponent(q)+'&prop=imageinfo&iiprop=url|mime&iiurlwidth=400&format=json&origin=*')).json();
+   const pg=Object.values((a.query||{}).pages||{}).sort((x,y)=>x.index-y.index).find(p=>p.imageinfo&&p.imageinfo[0].mime==='image/jpeg');if(pg)url=pg.imageinfo[0].thumburl;}catch(e){}
+  if(!url)try{const b=await(await fetch('https://en.wikipedia.org/w/api.php?action=query&generator=search&gsrlimit=3&gsrsearch='+encodeURIComponent(q)+'&prop=pageimages&piprop=thumbnail&pithumbsize=400&format=json&origin=*')).json();
+   const pg=Object.values((b.query||{}).pages||{}).sort((x,y)=>x.index-y.index).find(p=>p.thumbnail);if(pg)url=pg.thumbnail.source;}catch(e){}
+  return(cache[q]=url);
+}
+const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){const i=e.target;obs.unobserve(i);i.src=svgPlaceholder(i.alt);findPhoto(i.dataset.q).then(u=>{if(u)i.src=u})}}),{rootMargin:"200px"});
+function fillPhotos(){document.querySelectorAll('img[data-q]:not([data-o])').forEach(i=>{i.dataset.o=1;obs.observe(i)})}
 
-var $=function(s){return document.querySelector(s)};
-$("#from").innerHTML=Object.keys(CITY).map(function(c){return "<option"+(c=="Mathura"?" selected":"")+">"+c+"</option>"}).join("");
-var inr=function(n){return "₹"+Math.round(n).toLocaleString("en-IN")};
-var tm=function(m){var h=Math.floor(m/60),a=h>=12?"PM":"AM";return (h%12||12)+":"+("0"+m%60).slice(-2)+" "+a};
+/* ---------- places ----------
+ Sights: [name, photo search, cat (r=temples/ghats h=history v=parks/views t=day trip), cost ₹ per person, best slot (m/a/e/F), hours, about]
+ Food: [name, photo search, area, speciality, cost ₹ per person, meal (b/l/s), non-veg 1/0, about] */
+const S=[
+["Triveni Sangam","Triveni Sangam Allahabad","r",120,"m",2,"Where Ganga, Yamuna and Saraswati meet. Boat ride and holy dip."],
+["Allahabad Fort","Allahabad Fort Prayagraj","h",0,"a",1.5,"Built by Akbar in 1583. Only part is open, carry an ID."],
+["Anand Bhawan","Anand Bhawan Allahabad","h",50,"a",1.5,"Nehru family home, now a freedom struggle museum."],
+["Swaraj Bhawan","Swaraj Bhawan Allahabad","h",0,"a",1,"Former Congress headquarters, birthplace of Indira Gandhi."],
+["Khusro Bagh","Khusro Bagh Allahabad","hv",0,"m",1,"Walled Mughal garden with royal tombs."],
+["Chandrashekhar Azad Park","Chandrashekhar Azad Park Allahabad","hv",0,"e",1.5,"Large park with museum and Azad memorial."],
+["Bade Hanuman Mandir","Bade Hanuman Mandir Allahabad","r",0,"m",1,"Rare reclining Hanuman idol near Sangam."],
+["Patalpuri Temple & Akshayavat","Patalpuri Temple Allahabad","r",0,"a",1,"Underground temple and immortal banyan inside the fort area."],
+["Allahabad Museum","Allahabad Museum Prayagraj","h",50,"a",1.5,"Sculptures, paintings, coins and freedom struggle items."],
+["All Saints Cathedral (Patthar Girja)","All Saints Cathedral Allahabad","hr",0,"m",0.5,"19th century Gothic stone church."],
+["Jawahar Planetarium","Jawahar Planetarium Allahabad","h",60,"a",1,"Space shows next to Anand Bhawan."],
+["Minto Park","Minto Park Allahabad","hv",0,"e",1,"Where the 1858 proclamation was read."],
+["Alopi Devi Mandir","Alopi Devi Mandir Allahabad","r",0,"m",1,"Shaktipeeth where a wooden cradle is worshipped."],
+["Mankameshwar Temple","Mankameshwar Temple Allahabad","r",0,"m",1,"Ancient Shiva temple on the Yamuna bank."],
+["Nagvasuki Temple","Nagvasuki Temple Allahabad","r",0,"m",1,"Temple of Nag Vasuki, big on Nag Panchami."],
+["Shankar Viman Mandapam","Shankar Viman Mandapam Allahabad","r",20,"a",1,"4-storey South Indian style temple."],
+["New Yamuna Bridge (Naini Bridge)","New Yamuna Bridge Allahabad","v",0,"e",1,"Cable-stayed bridge, best at sunset."],
+["Old Naini Bridge","Old Naini Bridge Allahabad","hv",0,"e",1,"Historic double-decker rail-cum-road bridge."],
+["Bharadwaj Ashram","Bharadwaj Ashram Allahabad","r",0,"m",1,"Ashram of Sage Bharadwaj, linked to the Ramayana."],
+["Someshwar Mahadev Temple","Someshwar Mahadev Temple Allahabad","r",0,"m",1,"Shiva temple on the Ganga, Sawan fair."],
+["Kali Mandir (Kalyani Devi)","Kali Mandir Allahabad","r",0,"m",1,"Old temple, busy in Navratri."],
+["Saraswati Ghat","Saraswati Ghat Prayagraj","rv",0,"e",1.5,"Peaceful ghat near Sangam for evening aarti and boating."],
+["Arail Ghat","Arail Ghat Prayagraj","rv",0,"e",1,"Quiet ghat with a great Sangam panorama."],
+["Ulta Qila (Mankameshwar Fort)","Ulta Qila Allahabad","h",0,"a",1,"Ancient fort ruins near Sangam."],
+["Draupadi Ghat & Hanuman Mandir, Jhusi","Draupadi Ghat Allahabad","r",0,"m",1,"Historic ghat in Jhusi."],
+["University of Allahabad & Muir College","University of Allahabad","h",0,"a",1,"Campus from 1887 with the Muir College tower."],
+["Allahabad High Court","Allahabad High Court","h",0,"a",0.5,"One of India’s oldest high courts, best seen from outside."],
+["Samudra Kup, Jhusi","Samudra Kup Jhusi","rh",0,"a",1,"Ancient well linked to Samudragupta."],
+["Kumbh & Magh Mela Ground","Kumbh Mela Prayagraj","rv",0,"m",1.5,"Floodplain by the Sangam where the tent cities rise."],
+["Shringverpur Dham","Shringverpur","rt",300,"F",5,"Ramayana site where Rama met Nishadraj Guha. About 40 km."],
+["Kaushambi (Kosam)","Kaushambi Uttar Pradesh","ht",350,"F",5,"Ancient Buddhist and Jain city with ruins. About 60 km."]];
+const F=[
+["Netram Moolchand Kachori Wala","Kachori sabzi Allahabad","Chowk","Kachori Sabzi",70,"b",0,"100+ year old shop, crispy kachori with aloo sabzi."],
+["Loknath Gali Chaat","Chaat India street food","Loknath Gali","Chaat / Tikki",60,"s",0,"Famous lane for tikki, golgappa, dahi bhalla."],
+["Dehati Rasgulla Bhandar","Rasgulla Indian sweet","Chowk","Rasgulla / Rasmalai",60,"s",0,"Soft rasgulla, kesar rasmalai."],
+["Hari Ram & Sons","Imarti sweet India","Civil Lines","Imarti / Jalebi",60,"b",0,"Old shop for imarti, jalebi, rabri."],
+["El Chico Restaurant","North Indian restaurant food","Civil Lines","Butter Chicken",350,"l",1,"Old restaurant, butter chicken and continental."],
+["Tandoori Chai, Civil Lines","Kulhad chai India","Civil Lines","Kulhad Chai",40,"s",0,"Tandoor kulhad chai with bun maska."],
+["Shree Baanke Bihari Misthan","Gulab jamun Indian sweet","Katra","Gulab Jamun / Peda",70,"s",0,"Gulab jamun, peda, lassi."],
+["Sahu Restaurant, Katra","North Indian thali","Katra","Veg Thali",150,"l",0,"Student favourite thali, dal fry, paneer."],
+["Gopal Sweets, Katra","Samosa Indian snack","Katra","Samosa / Kachori",70,"b",0,"Crispy samosa, kachori, chole bhature."],
+["Hot Stuff, MG Marg","Bakery patties India","MG Marg","Patties / Bakery",100,"s",0,"Patties, pastries, burgers, cold coffee."],
+["Nirala Sweets","Rasmalai Indian sweet","Civil Lines","Rasmalai / Kaju Katli",80,"s",0,"Rasmalai, kaju katli, dry fruits."],
+["Pandit Ji Ki Lassi","Lassi India","Chowk","Lassi / Rabri",60,"s",0,"Thick malai lassi and rabri in kulhad."],
+["Kamdhenu Sweets","Sandesh Indian sweet","Allahapur","Sandesh / Chena",70,"s",0,"Sandesh, chena sweets, rabri."],
+["Pappu Chai Wala","Chai stall India","Katra","Chai / Bun Maska",30,"b",0,"University adda, cutting chai."],
+["Shukla Chaat Bhandar","Aloo tikki chaat","Kamla Nehru Road","Aloo Tikki / Dahi Puri",60,"s",0,"Aloo tikki with imli chutney."],
+["Royal Cafe","Masala dosa South Indian","Civil Lines","Masala Dosa",150,"l",0,"Masala dosa, idli, filter coffee."],
+["Giani Ice Cream","Kulfi falooda India","Civil Lines","Kulfi Falooda",90,"s",0,"Kulfi falooda, ice cream, shakes."],
+["Sangam Bhojanalaya","Poori sabzi Indian food","Near Sangam","Veg Thali / Poori Sabzi",120,"l",0,"Pure veg thali for pilgrims."],
+["Ashok Sweets","Jalebi Indian sweet","Naini","Jalebi / Samosa",50,"b",0,"Morning jalebi-samosa."],
+["Raju Tea Stall","Maggi noodles India","University Road","Chai / Maggi",40,"s",0,"Famous chai-maggi point."],
+["Baba Biryani","Chicken biryani India","Kareli","Chicken Biryani",220,"l",1,"Spicy dum biryani with raita."],
+["Sharma Bhoj","Dal baati churma","Lukerganj","Dal Baati Churma",200,"l",0,"Dal baati, gatte ki sabzi."],
+["Vrindavan Restaurant","Paneer butter masala","Tagore Town","Pure Veg / Paneer",220,"l",0,"Paneer butter masala, dosa."],
+["Makhan Lal Sweets","Peda Indian sweet","Jhusi","Peda / Balushahi",60,"s",0,"Peda, balushahi, namkeen."],
+["Sangam Snacks","Pakode Indian snack","Arail Ghat","Pakode / Chai",50,"s",0,"Pakode, bhutta, chai with Sangam view."],
+["El Chico Bakery","Cake pastry bakery India","Civil Lines","Cakes / Pastries",100,"s",0,"Cakes, pastries, puffs."],
+["Chatore Chaat, Civil Lines","Golgappa pani puri","Civil Lines","Golgappa / Chaat",60,"s",0,"Golgappa, sev puri, bhel."],
+["Annapurna Bhojanalaya","Veg thali Indian","Civil Lines","Veg Thali / Dal Tadka",150,"l",0,"Homely veg thali, dal tadka."],
+["Milan Sweets, Naini","Ladoo Indian sweet","Naini","Kaju Katli / Ladoo",70,"s",0,"Kaju katli, motichoor ladoo."],
+["Ganga Jamuna Lassi, Sangam","Mango lassi India","Sangam Road","Sweet / Mango Lassi",70,"s",0,"Lassi after Sangam darshan."]];
+const CAT={r:"Temples & Ghats",h:"History & Museums",v:"Parks & Views",t:"Day trip"};
+const CITY={"Mathura":600,"Delhi":800,"Lucknow":300,"Varanasi":200,"Kanpur":250,"Patna":450,"Bhopal":900,"Jaipur":1200,"Mumbai":1800,"Kolkata":1100,"Prayagraj (local)":100};
+const M={sp:"r",hi:"h",na:"v"};
 
-/* ---------- photo.js connection ----------
-   Works if photo.js defines a list or object named PHOTOS, photos, images,
-   IMAGES, placeImages or placePhotos. Each item can be
-   {name:"Anand Bhawan", src:"img/anand.jpg"}  or  "Anand Bhawan":"img/anand.jpg".
-   Names are matched loosely, ignoring case, spaces and symbols. */
-var IDX=null;
-function norm(s){return String(s).toLowerCase().replace(/[^a-z0-9]/g,"")}
-function pick(v){
-  if(!v)return "";if(typeof v=="string")return v;if(Array.isArray(v))return pick(v[0]);
-  return v.src||v.url||v.image||v.img||v.photo||"";
-}
-function buildIdx(){
-  IDX=[];var D=null;
-  ["PHOTOS","photos","images","IMAGES","placeImages","placePhotos"].forEach(function(k){try{if(!D)D=eval(k)}catch(e){}});
-  if(!D)return;
-  if(Array.isArray(D))D.forEach(function(it){if(it&&typeof it=="object"){var n=it.name||it.title||it.place||it.id||it.key,u=pick(it);if(n&&u)IDX.push([norm(n),u])}});
-  else Object.keys(D).forEach(function(k){var u=pick(D[k]);if(u)IDX.push([norm(k),u])});
-}
-function photo(n){
-  if(!IDX)buildIdx();var k=norm(n),i,e;
-  for(i=0;i<IDX.length;i++)if(IDX[i][0]==k)return IDX[i][1];
-  for(i=0;i<IDX.length;i++){e=IDX[i][0];if(e.length>3&&(k.indexOf(e)>-1||e.indexOf(k)>-1))return IDX[i][1]}
-  return "";
-}
-function bad(el,e){el.outerHTML='<div class="ph">'+e+'</div>'}
-function ph(name,e){
-  var u=photo(name);
-  return u?`<img class="ph" loading="lazy" alt="" src="${u.replace(/"/g,"&quot;")}" onerror="bad(this,'${e}')">`:`<div class="ph">${e}</div>`;
-}
-/* ----------------------------------------- */
+const $=s=>document.querySelector(s);
+$("#from").innerHTML=Object.keys(CITY).map(c=>`<option${c=="Mathura"?" selected":""}>${c}</option>`).join("");
+const inr=n=>"₹"+Math.round(n).toLocaleString("en-IN");
+const tm=m=>{const h=Math.floor(m/60);return (h%12||12)+":"+("0"+m%60).slice(-2)+(h>=12?" PM":" AM")};
+const dir=n=>"https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(n+" Prayagraj");
+const esc=s=>String(s).replace(/"/g,"&quot;");
+function sightHtml(x){return `<div class="c"><h4>${x[0]}</h4><div class="m">${x[2].split("").map(c=>CAT[c]).join(" · ")} · ${x[3]?inr(x[3])+" per person":"Free"} · ${x[5]} hr</div><p>${x[6]}</p><a target="_blank" href="${dir(x[0])}">Directions</a></div><img class="ph" data-q="${esc(x[1])}" alt="${esc(x[0])}">`}
+function foodHtml(x,lab){return `<div class="c"><h4>${x[0]}${lab?`<span class="tag">${lab}${x[6]?" · non-veg":""}</span>`:""}</h4><div class="m">${x[3]} · ${x[2]} · ${inr(x[4])} per person</div><p>${x[7]}</p><a target="_blank" href="${dir(x[0])}">Directions</a></div><img class="ph" data-q="${esc(x[1])}" alt="${esc(x[0])}">`}
 
-var st=function(n){$("#s1").classList.toggle("hide",n!=1);$("#s2").classList.toggle("hide",n!=2);$("#pg").style.width=(n*50)+"%"};st(1);
-document.addEventListener("click",function(e){
-  var c=e.target.closest(".chip");
-  if(c){var g=c.parentNode,multi=g.id=="int";
-    if(multi)c.classList.toggle("on");else{g.querySelectorAll(".chip").forEach(function(x){x.classList.remove("on")});c.classList.add("on")}
+const st=n=>{$("#s1").classList.toggle("hide",n!=1);$("#s2").classList.toggle("hide",n!=2);$("#pg").style.width=(n*50)+"%"};st(1);
+document.addEventListener("click",e=>{
+  const c=e.target.closest(".chip");
+  if(c){const g=c.parentNode;
+    if(g.id=="int")c.classList.toggle("on");else{g.querySelectorAll(".chip").forEach(x=>x.classList.remove("on"));c.classList.add("on")}
     if(g.id=="flt")list(c.dataset.v)}
-  var b=e.target.closest("[data-go]");if(b){st(+b.dataset.go);$("#form").scrollIntoView()}
+  const b=e.target.closest("[data-go]");if(b){st(+b.dataset.go);$("#form").scrollIntoView()}
 });
-function sel(id){return [].map.call(document.querySelectorAll("#"+id+" .chip.on"),function(x){return x.dataset.v})}
+const sel=id=>[...document.querySelectorAll("#"+id+" .chip.on")].map(x=>x.dataset.v);
 
-$("#mk").onclick=function(){
-  var ppl=Math.max(1,+$("#ppl").value||1),days=+$("#days").value,bud=+$("#bud").value||0,city=$("#from").value,rate=+$("#stay").value;
-  var ints=sel("int"),pace=+sel("pace")[0],diet=sel("diet")[0],food=ints.indexOf("fo")>-1;
-  var travel=CITY[city]*ppl,nights=Math.max(days-1,0),stay=Math.ceil(ppl/2)*rate*nights;
-  var rem=bud-travel-stay,tight=rem<days*ppl*250,used={},foodTot=0,entry=0;
-  var cap=Math.max(rem,0)/ppl/days*0.6/4;
+$("#mk").onclick=()=>{
+  const ppl=Math.max(1,+$("#ppl").value||1),days=+$("#days").value,bud=+$("#bud").value||0,city=$("#from").value,rate=+$("#stay").value;
+  const ints=sel("int"),pace=+sel("pace")[0],diet=sel("diet")[0],food=ints.includes("fo");
+  const travel=CITY[city]*ppl,nights=Math.max(days-1,0),stay=Math.ceil(ppl/2)*rate*nights;
+  const rem=bud-travel-stay,tight=rem<days*ppl*250;let used={},foodTot=0,entry=0;
+  const cap=Math.max(rem,0)/ppl/days*0.6/4;
   function pf(meal,d){
-    var pool=F.filter(function(f){return f[3]==meal&&!(diet=="veg"&&f[4])&&!used[f[0]]});
+    const pool=F.filter(f=>f[5]==meal&&!(diet=="veg"&&f[6])&&!used[f[0]]);
     if(!pool.length){used={};return pf(meal,d)}
-    var ok=pool.filter(function(f){return f[2]<=cap});
-    if(!ok.length)ok=pool.slice().sort(function(a,b){return a[2]-b[2]}).slice(0,2);
-    var f=ok[d%ok.length];used[f[0]]=1;foodTot+=f[2]*ppl;return f}
-  var days_=[];
-  for(var d=0;d<days;d++){var it=[];
-    it.push([450,"f",pf("b",d)]);it.push([750,"f",pf("l",d)]);it.push([990,"f",pf("s",d)]);it.push([1170,"f",pf("l",d+1)]);
-    if(food)it.push([660,"f",pf("s",d+1)]);days_.push(it)}
-  var rem2=bud-travel-stay-foodTot,sc=function(x){return x[2].split(",").filter(function(t){return ints.indexOf(t)>-1}).length};
-  var pool=S.filter(function(x){return x[4]!="F"}).sort(function(a,b){return sc(b)-sc(a)}),us={};
-  var far=S.filter(function(x){return x[4]=="F"}).sort(function(a,b){return sc(b)-sc(a)})[0];
+    let ok=pool.filter(f=>f[4]<=cap);if(!ok.length)ok=pool.slice().sort((a,b)=>a[4]-b[4]).slice(0,2);
+    const f=ok[d%ok.length];used[f[0]]=1;foodTot+=f[4]*ppl;return f}
+  const plan=[];
+  for(let d=0;d<days;d++){const it=[[450,pf("b",d),"Breakfast"],[750,pf("l",d),"Lunch"],[990,pf("s",d),"Snack"],[1170,pf("l",d+1),"Dinner"]];
+    if(food)it.push([660,pf("s",d+1),"Snack"]);plan.push(it)}
+  let rem2=bud-travel-stay-foodTot;
+  const sc=x=>ints.filter(i=>M[i]&&x[2].includes(M[i])).length,us={};
+  const pool=S.filter(x=>x[4]!="F").sort((a,b)=>sc(b)-sc(a));
+  const far=S.filter(x=>x[4]=="F").sort((a,b)=>sc(b)-sc(a))[0];
   function ps(slot){
-    var fit=function(x,ex){return !us[x[0]]&&(x[3]*ppl<=rem2||x[3]==0)&&(ex?x[4]==slot:(slot=="e"?x[4]!="m":x[4]!="e"))};
-    var x=pool.filter(function(x){return fit(x,1)})[0]||pool.filter(function(x){return fit(x,0)})[0];
+    const fit=(x,ex)=>!us[x[0]]&&(x[3]*ppl<=rem2||!x[3])&&(ex?x[4]==slot:(slot=="e"?x[4]!="m":x[4]!="e"));
+    const x=pool.find(x=>fit(x,1))||pool.find(x=>fit(x,0));
     if(x){us[x[0]]=1;rem2-=x[3]*ppl;entry+=x[3]*ppl}return x}
-  var slots={2:["m","e"],3:["m","a","e"],4:["m","a","a2","e"]}[pace],at={m:540,a:840,a2:915,e:1050};
-  for(var d=0;d<days;d++){
-    var sl=slots.slice();
-    if(d==days-1&&days>=3&&far&&far[3]*ppl<=rem2&&!tight){rem2-=far[3]*ppl;entry+=far[3]*ppl;days_[d].push([540,"s",far]);sl=sl.filter(function(s){return s=="e"})}
-    sl.forEach(function(s){var x=ps(s[0]=="a"?"a":s);if(x)days_[d].push([at[s],"s",x])})}
-  var total=travel+stay+foodTot+entry,left=bud-total;
-  var h='<div class="card"><h2>Your plan for '+ppl+(ppl>1?" people":" person")+', '+days+(days>1?" days":" day")+'</h2><p class="mu">From '+city+' · '+inr(bud)+' budget</p><div class="sum"><span>Travel (round trip, approx.)</span><b>'+inr(travel)+'</b><span>Stay ('+nights+(nights==1?" night":" nights")+')</span><b>'+inr(stay)+'</b><span>Food</span><b>'+inr(foodTot)+'</b><span>Entry, boats &amp; day trips</span><b>'+inr(entry)+'</b><span><b>Total estimate</b></span><b>'+inr(total)+'</b><span>'+(left>=0?"Left from budget":"Over budget by")+'</span><b>'+inr(Math.abs(left))+'</b></div>';
-  if(rem<0)h+='<div class="warn">Travel and stay alone cross your budget. Try fewer days, a cheaper stay or a bigger budget.</div>';
-  else if(tight)h+='<div class="warn">Budget is tight, so we picked free and low-cost places and cheaper food.</div>';
-  h+='<button class="btn g" style="margin-left:0" onclick="$(\'#out\').classList.add(\'hide\');$(\'#form\').classList.remove(\'hide\');$(\'#form\').scrollIntoView()">Edit answers</button></div>';
-  days_.forEach(function(it,i){
-    it.sort(function(a,b){return a[0]-b[0]});
-    h+='<div class="card"><h2>Day '+(i+1)+'</h2>';
-    it.forEach(function(p){var x=p[2],f=p[1]=="f";
-      var lab=f?({b:"Breakfast",l:"Meal",s:"Snack"}[x[3]]):"";
-      if(f&&x[3]=="l")lab=p[0]<900?"Lunch":"Dinner";
-      h+='<div class="stop"><div class="t">'+tm(p[0])+'</div><div class="c"><h4>'+x[0]+(f?'<span class="tag">'+lab+(x[4]?" · non-veg":"")+'</span>':'')+'</h4><div class="m">'+x[1]+' · '+(f?inr(x[2])+" per person":(x[3]?inr(x[3])+" per person · ":"Free · ")+x[5]+" hr")+'</div><p>'+x[x.length-1]+'</p></div>'+ph(x[0],f?"🍽️":"📍")+'</div>'});
-    h+='</div>'});
-  $("#out").innerHTML=h;$("#out").classList.remove("hide");$("#form").classList.add("hide");$("#out").scrollIntoView();
-};
-
-function list(k){
-  var a=[];
-  if(k!="f")S.forEach(function(x){a.push([x[0],"📍",x[1]+" · "+(x[3]?inr(x[3]):"Free"),x[6]])});
-  if(k!="s")F.forEach(function(x){a.push([x[0],"🍽️",x[1]+" · "+inr(x[2]),x[5]])});
-  $("#list").innerHTML=a.map(function(p){return '<div class="stop"><div class="c"><h4>'+p[0]+'</h4><div class="m">'+p[2]+'</div><p>'+p[3]+'</p></div>'+ph(p[0],p[1])+'</div>'}).join("");
-}
-$("#cnt").textContent=(S.length+F.length)+" places: "+S.length+" sights and "+F.length+" food spots.";list("a");
-</script>
-</body>
-</html>
+  const slots={2:["m","e"],3:["m","a","e"],4:["m","a","a2","e"]}[pace],at={m:540,a:840,a2:915,e:1050};
+  for(let d=0;d<days;d++){
+    let sl=slots.slice();
+    if(d==days-1&&days>=3&&far&&far[3]*ppl<=rem2&&!tight){rem2-=far[3]*ppl;entry+=far[3]*ppl;plan[d].push([540,far,"Day trip"]);sl=sl.filter(s=>s=="e")}
+    sl.forEach(s=>{const x=ps(s[0]=="a"?"a":s);if(x)plan[d].push([at[s],x,""])})}
+  const total=travel+stay+foodTot+entry,left=bud-total;
+  let h=`<div class="card"><h2>Your plan for ${ppl} ${ppl>1?"people":"person"}, ${days} ${days>1?"days":"day"}</h2><p class="mu">From ${city} · ${inr(bud)} budget</p><div class="sum"><span>Travel (round trip, approx.)</span><b>${inr(travel)}</b><span>Stay (${nights} ${nights==1?"night":"nights"})</span><b>${inr(stay)}</b><span>Food</span><b>${inr(foodTot)}</b><span>Entry, boats &amp; day trips</span><b>${inr(entry)}</b><span><b>Total estimate</b></span><b>${inr(total)}</b><span>${left>=0?"Left from budget":"Over budget by"}</span><b>${inr(Math.abs(left))}</b></div>`;
+  if(rem<0)h+=`<div class="warn">Travel and stay alone cross your budget. Try fewer days, a cheaper stay or a bigger budget.</div>`;
+  else if(tight)h+=`<div 
