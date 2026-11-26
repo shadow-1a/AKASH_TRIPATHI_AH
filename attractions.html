@@ -1,280 +1,160 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Plan Your Trip | Prayagraj Tourism</title>
+<title>Food | Prayagraj Tourism</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-<style>
-body{font-family:Poppins,sans-serif}h1,h2,h3,.logo{font-family:'Playfair Display',serif}
-html{scroll-behavior:smooth}
-.num{background:#f97316;color:#fff;border:2px solid #fff;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px}
-.me{width:16px;height:16px;border-radius:50%;background:#2563eb;border:3px solid #fff;box-shadow:0 0 0 4px rgba(37,99,235,.3)}
-.stay{font-size:22px;line-height:28px;text-align:center}
-input,select{background:#120a07;border:1px solid #7c2d12;color:#ffedd5;border-radius:10px;padding:10px 12px;width:100%}
-.chip{background:rgba(124,45,18,.55);padding:4px 12px;border-radius:999px;font-size:12px}
-.btn{padding:8px 14px;border-radius:999px;font-size:13px;font-weight:500;cursor:pointer;display:inline-block}
-.q{font-size:14px}
-</style>
+<style>body{font-family:Poppins,sans-serif}h1,h2,h3,.logo{font-family:'Playfair Display',serif}</style>
 </head>
 <body class="bg-[#1c0f0a] text-orange-50">
-
 <header class="bg-orange-600 text-white sticky top-0 z-[1100] shadow">
   <nav class="max-w-6xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-2">
     <a href="index.html" class="logo text-2xl font-bold">Prayagraj Tourism</a>
     <div class="flex flex-wrap gap-4 text-sm font-medium">
       <a href="index.html">Home</a><a href="about.html">About</a><a href="attractions.html">Attractions</a>
-      <a href="kumbh.html">Kumbh Mela</a><a href="food.html">Food</a><a href="stay.html">Stay</a><a href="plan-trip.html" class="underline">Plan Trip</a>
+      <a href="kumbh.html">Kumbh Mela</a><a href="food.html" class="underline">Food</a><a href="stay.html">Stay</a><a href="plan-trip.html">Plan Trip</a>
     </div>
   </nav>
 </header>
-
-<section class="relative h-64 flex items-center justify-center text-center text-white overflow-hidden">
-  <img data-q="Triveni Sangam Allahabad" alt="Prayagraj" class="absolute inset-0 w-full h-full object-cover">
-  <div class="absolute inset-0 bg-black/60"></div>
-  <div class="relative px-4"><h1 class="text-5xl font-extrabold">Plan Your Trip</h1><p class="mt-2 text-orange-100">Answer a few questions and we will build your Prayagraj plan.</p></div>
-</section>
-
 <main class="max-w-6xl mx-auto px-4 py-12">
-
-  <!-- QUESTIONS -->
-  <div class="bg-[#120a07] rounded-2xl shadow-lg p-6 border border-orange-950">
-    <h2 class="text-2xl font-bold text-orange-500">Tell us about your trip</h2>
-
-    <h3 class="text-lg font-semibold text-amber-400 mt-5">1. Time and group</h3>
-    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-2 q">
-      <label>How many days will you spend in Prayagraj?
-        <select id="days" class="mt-1"></select></label>
-      <label>Sightseeing hours per day
-        <select id="hours" class="mt-1"><option value="4">4 hours (relaxed)</option><option value="6" selected>6 hours</option><option value="8">8 hours (full day)</option></select></label>
-      <label>Number of people
-        <input id="people" type="number" min="1" max="50" value="2" class="mt-1"></label>
-      <label>Total budget for the whole group (₹)
-        <input id="budget" type="number" min="0" step="100" value="6000" class="mt-1"></label>
-    </div>
-
-    <h3 class="text-lg font-semibold text-amber-400 mt-6">2. Getting there</h3>
-    <div class="grid sm:grid-cols-2 gap-4 mt-2 q">
-      <label>How will you travel from Mathura to Prayagraj?
-        <select id="mode" class="mt-1">
-          <option value="sl" selected>Train, Sleeper class (round trip)</option>
-          <option value="ac3">Train, 3AC (round trip)</option>
-          <option value="bus">Bus, non-AC (round trip)</option>
-          <option value="busac">Bus, AC sleeper (round trip)</option>
-          <option value="taxi">Taxi, whole car (round trip)</option>
-          <option value="none">I am already in Prayagraj (no long-distance cost)</option>
-        </select></label>
-    </div>
-
-    <h3 class="text-lg font-semibold text-amber-400 mt-6">3. Where will you stay?</h3>
-    <div class="grid sm:grid-cols-2 gap-4 mt-2 q">
-      <label>Area of your stay
-        <select id="area" class="mt-1">
-          <option value="sangam">Near Sangam / Fort / Daraganj</option>
-          <option value="civil" selected>Civil Lines / city centre</option>
-          <option value="station">Near Prayagraj Junction (railway station)</option>
-          <option value="jhusi">Jhusi (across the Ganga)</option>
-          <option value="naini">Naini (across the Yamuna)</option>
-        </select></label>
-      <label>Type of stay
-        <select id="staytype" class="mt-1">
-          <option value="0">Already arranged / staying with relatives (no cost)</option>
-          <option value="500">Dharamshala / dormitory (about ₹500 per room per night)</option>
-          <option value="1000" selected>Budget hotel (about ₹1,000 per room per night)</option>
-          <option value="2200">Mid-range hotel (about ₹2,200 per room per night)</option>
-          <option value="4500">Premium hotel (about ₹4,500 per room per night)</option>
-        </select></label>
-    </div>
-    <p class="text-xs text-orange-200/70 mt-2">We assume 2 people per room, and (days − 1) nights.</p>
-
-    <h3 class="text-lg font-semibold text-amber-400 mt-6">4. What do you like?</h3>
-    <div class="flex flex-wrap gap-x-6 gap-y-2 mt-2 q">
-      <label class="flex items-center gap-2"><input type="checkbox" class="int" value="r" checked style="width:auto"> Temples, ghats and spiritual places</label>
-      <label class="flex items-center gap-2"><input type="checkbox" class="int" value="h" checked style="width:auto"> History, museums and heritage</label>
-      <label class="flex items-center gap-2"><input type="checkbox" class="int" value="v" checked style="width:auto"> Parks, bridges and scenic views</label>
-    </div>
-
-    <h3 class="text-lg font-semibold text-amber-400 mt-6">5. Other things</h3>
-    <label class="flex items-center gap-2 mt-2 q"><input id="food" type="checkbox" checked style="width:auto"> Include food costs (₹250 per person per day)</label>
-    <label class="flex items-center gap-2 mt-2 q"><input id="showall" type="checkbox" style="width:auto"> Show every place that fits my time, even if it goes over budget</label>
-
-    <button id="go" class="mt-6 bg-orange-600 hover:bg-orange-500 text-white font-semibold px-8 py-3 rounded-full">Make my plan</button>
+  <h1 class="text-5xl font-extrabold text-orange-500">Food of Prayagraj</h1>
+  <p class="text-orange-200/80 mt-3">30 Famous Restaurants &amp; Food Places - Real Places, Real Speciality</p>
+  <div class="flex flex-wrap items-center gap-3 mt-4 text-sm">
+    <button onclick="locate()" class="bg-orange-600 hover:bg-orange-500 text-white px-4 py-2 rounded-full">Use my current location</button>
+    <span id="locStatus" class="text-orange-200/80">Allow location access to see the distance from you.</span>
   </div>
-
-  <!-- RESULT -->
-  <div id="result" class="mt-10"></div>
-
-  <!-- MAP (shown after the plan is made) -->
-  <section id="mapsec" class="mt-12 hidden" style="scroll-margin-top:90px">
-    <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
-      <h2 class="text-3xl font-bold text-orange-500">Map and route</h2>
-      <button id="locate" class="bg-blue-600 hover:bg-blue-500 text-white px-5 py-2 rounded-full text-sm">📍 Show my live location</button>
-    </div>
-    <div id="map" class="h-[460px] rounded-2xl shadow-lg z-0"></div>
-    <p class="text-xs text-orange-200/70 mt-2">🏨 marks your stay area. Tap a pin or a "Show on map" button to see a place. Tap "Directions" to get a route from where you are.</p>
-  </section>
+  <div id="places" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-4"></div>
+  <h2 class="text-2xl font-bold mt-14">Where to eat (areas)</h2>
+  <p class="text-sm text-orange-200/70">Pins show food areas; locations are approximate.</p>
+  <div id="map" class="h-[420px] rounded-2xl shadow-lg z-0 mt-4"></div>
 </main>
-
-<footer class="bg-black text-orange-200 text-center py-6 text-sm">© 2026 Prayagraj Tourism. Map data © OpenStreetMap contributors. Photos via Wikimedia Commons / Wikipedia. Times and prices are estimates; please check locally.</footer>
-
+<footer class="bg-black text-orange-200 text-center py-6 text-sm">© 2026 Prayagraj Tourism. Map data © OpenStreetMap contributors. Photos via Wikimedia Commons / Wikipedia.</footer>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
-/* ---------- days dropdown: 1 to 20 ---------- */
-(function(){const s=document.getElementById('days');
-  for(let i=1;i<=20;i++){const o=document.createElement('option');o.value=i;o.textContent=i+(i===1?' day':' days');if(i===3)o.selected=true;s.appendChild(o);}})();
-
-/* ---------- photo loader ---------- */
 const cache={};
-function svgPlaceholder(t){t=String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;');
+function svgPlaceholder(t){
+  t=String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;');
   const s=`<svg xmlns="http://www.w3.org/2000/svg" width="900" height="600"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ea580c"/><stop offset="1" stop-color="#7c2d12"/></linearGradient></defs><rect width="900" height="600" fill="url(#g)"/><text x="450" y="320" font-size="54" font-family="Arial" fill="#fff" text-anchor="middle">${t}</text></svg>`;
-  return 'data:image/svg+xml;charset=utf-8,'+encodeURIComponent(s);}
-function canLoad(u){return new Promise(r=>{const i=new Image();let d=false;const e=v=>{if(!d){d=true;r(v);}};i.onload=()=>e(i.naturalWidth>50);i.onerror=()=>e(false);setTimeout(()=>e(false),9000);i.src=u;});}
+  return 'data:image/svg+xml;charset=utf-8,'+encodeURIComponent(s);
+}
 async function findPhoto(q){
-  if(q in cache)return cache[q];let list=[];
-  try{const b=await(await fetch('https://en.wikipedia.org/w/api.php?action=query&generator=search&gsrlimit=4&gsrsearch='+encodeURIComponent(q)+'&prop=pageimages&piprop=thumbnail&pithumbsize=900&format=json&origin=*')).json();
-   Object.values((b.query||{}).pages||{}).sort((x,y)=>x.index-y.index).forEach(p=>{if(p.thumbnail)list.push(p.thumbnail.source);});}catch(e){}
+  if(q in cache)return cache[q];let url=null;
   try{const a=await(await fetch('https://commons.wikimedia.org/w/api.php?action=query&generator=search&gsrnamespace=6&gsrlimit=10&gsrsearch='+encodeURIComponent(q)+'&prop=imageinfo&iiprop=url|mime&iiurlwidth=900&format=json&origin=*')).json();
-   Object.values((a.query||{}).pages||{}).sort((x,y)=>x.index-y.index).forEach(p=>{const ii=p.imageinfo&&p.imageinfo[0];if(ii&&ii.mime==='image/jpeg'&&ii.thumburl)list.push(ii.thumburl);});}catch(e){}
-  for(const u of list.slice(0,6)){if(await canLoad(u))return(cache[q]=u);}
-  return null;
+   const pg=Object.values((a.query||{}).pages||{}).sort((x,y)=>x.index-y.index).find(p=>p.imageinfo&&p.imageinfo[0].mime==='image/jpeg');if(pg)url=pg.imageinfo[0].thumburl;}catch(e){}
+  if(!url)try{const b=await(await fetch('https://en.wikipedia.org/w/api.php?action=query&generator=search&gsrlimit=3&gsrsearch='+encodeURIComponent(q)+'&prop=pageimages&piprop=thumbnail&pithumbsize=900&format=json&origin=*')).json();
+   const pg=Object.values((b.query||{}).pages||{}).sort((x,y)=>x.index-y.index).find(p=>p.thumbnail);if(pg)url=pg.thumbnail.source;}catch(e){}
+  return(cache[q]=url);
 }
-function fillPhotos(){document.querySelectorAll('img[data-q]').forEach(img=>{
-  if(img.dataset.ok==='1'||img.dataset.busy==='1')return;img.dataset.busy='1';
-  if(!img.getAttribute('src'))img.src=svgPlaceholder(img.alt);
-  findPhoto(img.dataset.q).then(u=>{img.dataset.busy='0';if(u){img.src=u;img.dataset.ok='1';}});});}
-fillPhotos();setTimeout(fillPhotos,5000);setTimeout(fillPhotos,12000);
+function fillPhotos(){document.querySelectorAll('img[data-q]:not([data-done])').forEach(img=>{img.dataset.done=1;img.src=svgPlaceholder(img.alt);findPhoto(img.dataset.q).then(u=>{if(u)img.src=u;});});}
 
-/* ---------- data (edit these estimates freely) ---------- */
-const TRAVEL=0.4, FOOD=250, PER_ROOM=2;
-const TRIP_KM=520;
-const MODES={
-  sl:{n:'Train (Sleeper)',fare:400},
-  ac3:{n:'Train (3AC)',fare:1100},
-  bus:{n:'Bus (non-AC)',fare:800},
-  busac:{n:'Bus (AC sleeper)',fare:2000},
-  taxi:{n:'Taxi',perKm:12,seats:4},
-  none:{n:'No long-distance travel',fare:0}
-};
-function tripCost(mode,N){
-  const m=MODES[mode];
-  if(m.perKm)return m.perKm*TRIP_KM*2*Math.ceil(N/m.seats);
-  return m.fare*2*N;
-}
-/* stay areas: coordinates are approximate */
-const AREAS={
-  sangam:{n:'Near Sangam / Fort / Daraganj',c:[25.4400,81.8780]},
-  civil:{n:'Civil Lines / city centre',c:[25.4530,81.8400]},
-  station:{n:'Near Prayagraj Junction',c:[25.4475,81.8271]},
-  jhusi:{n:'Jhusi',c:[25.4350,81.9100]},
-  naini:{n:'Naini',c:[25.3930,81.8600]}
-};
-let STAY=AREAS.civil.c;
-
-/* All 25 places from attractions.html. h = hours, fee = entry fee per person (₹),
-   zone A = Sangam/Yamuna side, B = city side, p = priority,
-   cat: r = temples & ghats, h = history & museums, v = parks, bridges & views */
 const places=[
- {id:1,n:"Triveni Sangam",q:"Triveni Sangam Allahabad",c:[25.4300,81.8870],h:2.5,fee:150,zone:'A',p:1,cat:'r',note:"Where Ganga, Yamuna and Saraswati meet. Includes a shared boat ride (about ₹150)."},
- {id:2,n:"Allahabad Fort",q:"Allahabad Fort Prayagraj",c:[25.4284,81.8750],h:1.5,fee:0,zone:'A',p:2,cat:'h',note:"Built by Akbar in 1583. Outer areas and views; some parts restricted."},
- {id:3,n:"Anand Bhawan",q:"Anand Bhawan Allahabad",c:[25.4527,81.8497],h:1.5,fee:50,zone:'B',p:3,cat:'h',note:"Nehru family home, now a museum (ticket about ₹50)."},
- {id:4,n:"Bade Hanuman Mandir",q:"Bade Hanuman Mandir Allahabad",c:[25.4290,81.8800],h:0.75,fee:0,zone:'A',p:4,cat:'r',note:"Rare reclining Hanuman idol near Sangam. Free entry."},
- {id:5,n:"Patalpuri Temple & Akshayavat",q:"Patalpuri Temple Allahabad",c:[25.4280,81.8760],h:1,fee:0,zone:'A',p:5,cat:'r',note:"Ancient underground temple and immortal banyan inside the fort area."},
- {id:6,n:"Chandrashekhar Azad Park (Company Bagh)",q:"Chandrashekhar Azad Park Allahabad",c:[25.4580,81.8500],h:1.5,fee:20,zone:'B',p:6,cat:'hv',note:"Large park and memorial (small ticket)."},
- {id:7,n:"Swaraj Bhawan",q:"Swaraj Bhawan Allahabad",c:[25.4520,81.8505],h:1,fee:0,zone:'B',p:7,cat:'h',note:"Birthplace of Indira Gandhi, former Congress headquarters."},
- {id:8,n:"Khusro Bagh",q:"Khusro Bagh Allahabad",c:[25.4440,81.8300],h:1,fee:0,zone:'B',p:8,cat:'hv',note:"Walled Mughal garden with tombs. Free entry."},
- {id:9,n:"Allahabad Museum",q:"Allahabad Museum Prayagraj",c:[25.4585,81.8515],h:1.5,fee:50,zone:'B',p:9,cat:'h',note:"Sculptures, paintings, coins and freedom struggle items (ticket about ₹50)."},
- {id:10,n:"All Saints Cathedral (Patthar Girja)",q:"All Saints Cathedral Allahabad",c:[25.4515,81.8330],h:0.75,fee:0,zone:'B',p:10,cat:'hr',note:"19th century Gothic cathedral. Free entry."},
- {id:11,n:"Saraswati Ghat",q:"Saraswati Ghat Prayagraj",c:[25.4320,81.8890],h:1,fee:0,zone:'A',p:11,cat:'rv',note:"Peaceful ghat near Sangam, good for evening aarti and boating."},
- {id:12,n:"Jawahar Planetarium",q:"Jawahar Planetarium Allahabad",c:[25.4530,81.8490],h:1,fee:50,zone:'B',p:12,cat:'h',note:"Science and space shows next to Anand Bhawan (about ₹50)."},
- {id:13,n:"Alopi Devi Mandir",q:"Alopi Devi Mandir Allahabad",c:[25.4450,81.8350],h:0.75,fee:0,zone:'B',p:13,cat:'r',note:"Famous Shaktipeeth, a wooden cradle is worshipped. Free entry."},
- {id:14,n:"Minto Park (Madan Mohan Malaviya Park)",q:"Minto Park Allahabad",c:[25.4370,81.8860],h:1,fee:0,zone:'A',p:14,cat:'hv',note:"Historic park where Queen Victoria's proclamation was read in 1858."},
- {id:15,n:"Mankameshwar Temple",q:"Mankameshwar Temple Allahabad",c:[25.4305,81.8850],h:0.75,fee:0,zone:'A',p:15,cat:'r',note:"Ancient Shiva temple on the Yamuna bank. Free entry."},
- {id:16,n:"Shankar Viman Mandapam",q:"Shankar Viman Mandapam Allahabad",c:[25.4355,81.8855],h:0.75,fee:0,zone:'A',p:16,cat:'r',note:"4-storey South Indian style temple."},
- {id:17,n:"Bharadwaj Ashram",q:"Bharadwaj Ashram Allahabad",c:[25.4650,81.8600],h:0.75,fee:0,zone:'B',p:17,cat:'r',note:"Ancient ashram of Sage Bharadwaj, linked to the Ramayana."},
- {id:18,n:"New Yamuna Bridge (Naini Bridge)",q:"New Yamuna Bridge Allahabad",c:[25.4250,81.8700],h:1,fee:0,zone:'A',p:18,cat:'v',note:"Cable-stayed bridge, best at sunset."},
- {id:19,n:"Nagvasuki Temple",q:"Nagvasuki Temple Allahabad",c:[25.4350,81.8900],h:0.75,fee:0,zone:'A',p:19,cat:'r',note:"Temple of Nag Vasuki on the Ganga bank. Free entry."},
- {id:20,n:"Ulta Qila (Mankameshwar Fort)",q:"Ulta Qila Allahabad",c:[25.4320,81.8840],h:1,fee:0,zone:'A',p:20,cat:'h',note:"Ancient inverted fort ruins near Sangam."},
- {id:21,n:"Kali Mandir (Kalyani Devi)",q:"Kali Mandir Allahabad",c:[25.4400,81.8400],h:0.75,fee:0,zone:'B',p:21,cat:'r',note:"Old Kali temple in the Civil Lines area."},
- {id:22,n:"Old Naini Bridge",q:"Old Naini Bridge Allahabad",c:[25.4200,81.8600],h:0.75,fee:0,zone:'B',p:22,cat:'hv',note:"Historic double-decker rail-cum-road bridge."},
- {id:23,n:"Arail Ghat",q:"Arail Ghat Prayagraj",c:[25.4200,81.8900],h:1,fee:0,zone:'A',p:23,cat:'v',note:"Quiet ghat across the Yamuna with a Sangam panorama."},
- {id:24,n:"Someshwar Mahadev Temple",q:"Someshwar Mahadev Temple Allahabad",c:[25.4500,81.9000],h:0.75,fee:0,zone:'A',p:24,cat:'r',note:"Ancient Shiva temple on the Ganga bank."},
- {id:25,n:"Draupadi Ghat & Hanuman Mandir, Jhusi",q:"Draupadi Ghat Allahabad",c:[25.4350,81.9100],h:1,fee:0,zone:'A',p:25,cat:'r',note:"Historic ghat in Jhusi."}
+ {name:"Netram Moolchand Kachori Wala",lat:25.4415,lng:81.8275,area:"Chowk",speciality:"Kachori Sabzi",desc:"100+ year old, crispy kachori + spicy aloo sabzi + jalebi",q:"Kachori sabzi Allahabad"},
+ {name:"Loknath Gali Chaat",lat:25.4410,lng:81.8280,area:"Loknath Gali",speciality:"Chaat / Tikki",desc:"Famous lane for tikki, golgappa, dahi bhalla",q:"Chaat India street food"},
+ {name:"Dehati Rasgulla Bhandar",lat:25.4420,lng:81.8290,area:"Chowk",speciality:"Rasgulla / Rasmalai",desc:"Soft rasgulla, kesar rasmalai",q:"Rasgulla Indian sweet"},
+ {name:"Hari Ram & Sons",lat:25.4535,lng:81.8385,area:"Civil Lines",speciality:"Imarti / Jalebi",desc:"Old shop for imarti, jalebi, rabri",q:"Imarti sweet India"},
+ {name:"El Chico Restaurant",lat:25.4540,lng:81.8395,area:"Civil Lines",speciality:"Butter Chicken / North Indian",desc:"Oldest restaurant, butter chicken, continental",q:"North Indian restaurant food"},
+ {name:"Tandoori Chai, Civil Lines",lat:25.4545,lng:81.8400,area:"Civil Lines",speciality:"Kulhad Chai",desc:"Tandoor kulhad chai + bun maska",q:"Kulhad chai India"},
+ {name:"Shree Baanke Bihari Misthan",lat:25.4565,lng:81.8455,area:"Katra",speciality:"Gulab Jamun / Peda",desc:"Gulab jamun, peda, lassi",q:"Gulab jamun Indian sweet"},
+ {name:"Sahu Restaurant, Katra",lat:25.4560,lng:81.8450,area:"Katra",speciality:"Veg Thali",desc:"Student favourite thali, dal fry, paneer",q:"North Indian thali"},
+ {name:"Gopal Sweets, Katra",lat:25.4568,lng:81.8460,area:"Katra",speciality:"Samosa / Kachori",desc:"Crispy samosa, kachori, chole bhature",q:"Samosa Indian snack"},
+ {name:"Hot Stuff, MG Marg",lat:25.4530,lng:81.8380,area:"MG Marg",speciality:"Patties / Bakery",desc:"Patties, pastries, burgers, cold coffee",q:"Bakery patties India"},
+ {name:"Nirala Sweets",lat:25.4538,lng:81.8390,area:"Civil Lines",speciality:"Rasmalai / Kaju Katli",desc:"Rasmalai, kaju katli, dry fruits",q:"Rasmalai Indian sweet"},
+ {name:"Pandit Ji Ki Lassi",lat:25.4418,lng:81.8285,area:"Chowk",speciality:"Lassi / Rabri",desc:"Thick malai lassi + rabri in kulhad",q:"Lassi India"},
+ {name:"Kamdhenu Sweets",lat:25.4600,lng:81.8550,area:"Allahapur",speciality:"Sandesh / Chena Sweets",desc:"Sandesh, chena sweets, rabri",q:"Sandesh Indian sweet"},
+ {name:"Pappu Chai Wala",lat:25.4562,lng:81.8445,area:"Katra",speciality:"Chai / Bun Maska",desc:"University adda, cutting chai",q:"Chai stall India"},
+ {name:"Shukla Chaat Bhandar",lat:25.4580,lng:81.8550,area:"Kamla Nehru Road",speciality:"Aloo Tikki / Dahi Puri",desc:"Aloo tikki with imli chutney",q:"Aloo tikki chaat"},
+ {name:"Royal Cafe",lat:25.4542,lng:81.8398,area:"Civil Lines",speciality:"Masala Dosa",desc:"Masala dosa, idli, filter coffee",q:"Masala dosa South Indian"},
+ {name:"Giani Ice Cream",lat:25.4548,lng:81.8405,area:"Civil Lines",speciality:"Kulfi Falooda",desc:"Kulfi falooda, ice cream, shakes",q:"Kulfi falooda India"},
+ {name:"Sangam Bhojanalaya",lat:25.4310,lng:81.8830,area:"Near Sangam",speciality:"Veg Thali / Poori Sabzi",desc:"Pure veg thali for pilgrims",q:"Poori sabzi Indian food"},
+ {name:"Ashok Sweets",lat:25.4200,lng:81.8650,area:"Naini",speciality:"Jalebi / Samosa",desc:"Morning jalebi-samosa",q:"Jalebi Indian sweet"},
+ {name:"Raju Tea Stall",lat:25.4570,lng:81.8470,area:"University Road",speciality:"Chai / Maggi",desc:"Famous chai-maggi point",q:"Maggi noodles India"},
+ {name:"Baba Biryani",lat:25.4350,lng:81.8200,area:"Kareli",speciality:"Chicken Biryani",desc:"Spicy dum biryani + raita",q:"Chicken biryani India"},
+ {name:"Sharma Bhoj",lat:25.4450,lng:81.8350,area:"Lukerganj",speciality:"Dal Baati Churma",desc:"Dal baati, gatte ki sabzi",q:"Dal baati churma"},
+ {name:"Vrindavan Restaurant",lat:25.4550,lng:81.8520,area:"Tagore Town",speciality:"Pure Veg / Paneer",desc:"Paneer butter masala, dosa",q:"Paneer butter masala"},
+ {name:"Makhan Lal Sweets",lat:25.4350,lng:81.9100,area:"Jhusi",speciality:"Peda / Balushahi",desc:"Peda, balushahi, namkeen",q:"Peda Indian sweet"},
+ {name:"Sangam Snacks",lat:25.4200,lng:81.8900,area:"Arail Ghat",speciality:"Pakode / Chai",desc:"Pakode, bhutta, chai with Sangam view",q:"Pakode Indian snack"},
+ {name:"El Chico Bakery",lat:25.4541,lng:81.8396,area:"Civil Lines",speciality:"Cakes / Pastries",desc:"Cakes, pastries, puffs",q:"Cake pastry bakery India"},
+ {name:"Chatore Chaat, Civil Lines",lat:25.4536,lng:81.8392,area:"Civil Lines",speciality:"Golgappa / Chaat",desc:"Golgappa, sev puri, bhel",q:"Golgappa pani puri"},
+ {name:"Annapurna Bhojanalaya",lat:25.4525,lng:81.8388,area:"Civil Lines",speciality:"Veg Thali / Dal Tadka",desc:"Homely veg thali, dal tadka",q:"Veg thali Indian"},
+ {name:"Milan Sweets, Naini",lat:25.4210,lng:81.8660,area:"Naini",speciality:"Kaju Katli / Ladoo",desc:"Kaju katli, motichoor ladoo",q:"Ladoo Indian sweet"},
+ {name:"Ganga Jamuna Lassi, Sangam",lat:25.4305,lng:81.8850,area:"Sangam Road",speciality:"Sweet Lassi / Mango Lassi",desc:"Mango lassi, sweet lassi after Sangam darshan",q:"Mango lassi India"}
 ];
-const rs=n=>'₹'+Math.round(n).toLocaleString('en-IN');
-const fmtH=h=>{const m=Math.round(h*60),hh=Math.floor(m/60),mm=m%60;return(hh?hh+' h ':'')+(mm?mm+' min':'')||'0 min';};
-function km(a,b){const R=6371,t=x=>x*Math.PI/180,dLa=t(b[0]-a[0]),dLo=t(b[1]-a[1]);
-  const h=Math.sin(dLa/2)**2+Math.cos(t(a[0]))*Math.cos(t(b[0]))*Math.sin(dLo/2)**2;return 2*R*Math.asin(Math.sqrt(h));}
-/* local travel from your stay (auto / e-rickshaw share), rounded to ₹10, minimum ₹40 */
-const localCost=p=>Math.max(40,Math.round((30+10*km(STAY,p.c))/10)*10);
-const perPerson=p=>p.fee+localCost(p);
-const dirUrl=p=>`https://www.google.com/maps/dir/?api=1&destination=${p.c[0]},${p.c[1]}&travelmode=driving`;
 
-/* ---------- map ---------- */
-let map=null;const planLayer=L.layerGroup(),markerById={};
-function initMap(){
-  if(map)return;
-  map=L.map('map').setView([25.4358,81.8463],12);
-  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'&copy; OpenStreetMap contributors'}).addTo(map);
-  planLayer.addTo(map);
-}
-function popupHtml(p,label){return `<b>${label||p.n}</b><br>${fmtH(p.h)} · ${rs(perPerson(p))} per person<br><a target="_blank" href="${dirUrl(p)}">🧭 Get directions</a>`;}
-function focusPlace(id){
-  document.getElementById('mapsec').scrollIntoView({behavior:'smooth'});
-  const p=places.find(x=>x.id===id);
-  setTimeout(()=>{map.setView(p.c,15);if(markerById[id])markerById[id].openPopup();},400);
-}
-function toggleMini(key,id){
-  const box=document.getElementById('mm-'+key),p=places.find(x=>x.id===id);
-  if(box.dataset.open==='1'){box.innerHTML='';box.className='hidden';box.dataset.open='0';return;}
-  const la=p.c[0],lo=p.c[1];
-  box.innerHTML=`<iframe title="${p.n} map" loading="lazy" class="w-full h-full border-0" src="https://www.openstreetmap.org/export/embed.html?bbox=${lo-0.012}%2C${la-0.007}%2C${lo+0.012}%2C${la+0.007}&layer=mapnik&marker=${la}%2C${lo}"></iframe>`;
-  box.className='mt-3 h-48 rounded-xl overflow-hidden border border-orange-900';box.dataset.open='1';
-}
-
-/* ---------- card ---------- */
-function placeCard(p,key,N,num){
-  const d=km(STAY,p.c);
-  return `<div class="bg-[#120a07] rounded-2xl shadow-lg overflow-hidden border border-orange-950">
-   <div class="h-40 overflow-hidden relative"><img data-q="${p.q}" alt="${p.n}" class="w-full h-full object-cover">
-    <span class="absolute top-3 left-3 num">${num}</span></div>
-   <div class="p-4">
-    <h4 class="text-xl font-bold">${p.n}</h4>
-    <div class="flex flex-wrap gap-2 mt-2"><span class="chip">⏱ ${fmtH(p.h)}</span><span class="chip">💰 ${rs(perPerson(p))} per person</span><span class="chip">👥 ${rs(perPerson(p)*N)} for group</span></div>
-    <p class="text-xs text-orange-100/70 mt-2">${p.note}</p>
-    <p class="text-xs text-amber-300/90 mt-2">📏 About ${d.toFixed(1)} km from your stay (straight line)</p>
-    <div class="flex flex-wrap gap-2 mt-3">
-      <button onclick="focusPlace(${p.id})" class="btn bg-orange-600 hover:bg-orange-500 text-white">📍 Show on map</button>
-      <a target="_blank" href="${dirUrl(p)}" class="btn bg-blue-600 hover:bg-blue-500 text-white">🧭 Directions</a>
-      <button onclick="toggleMini('${key}',${p.id})" class="btn border border-orange-500 text-orange-300 hover:bg-orange-950">🗺️ Mini map</button>
+const map=L.map('map').setView([25.4450,81.8400],13);
+L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'&copy; OpenStreetMap contributors'}).addTo(map);
+const markers=[];
+places.forEach((p,i)=>{
+  markers[i]=L.marker([p.lat,p.lng]).addTo(map).bindPopup(`<b>${p.name}</b><br>${p.speciality}<br><span data-pop-dist="${i}"></span><a target="_blank" href="https://www.google.com/maps/dir/?api=1&destination=${p.lat},${p.lng}">Get directions</a>`);
+  document.getElementById('places').insertAdjacentHTML('beforeend',`
+   <div class="group bg-[#120a07] rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition">
+    <div class="h-56 overflow-hidden"><img data-q="${p.q}" alt="${p.name}" class="w-full h-full object-cover group-hover:scale-110 transition duration-700"></div>
+    <div class="p-5">
+      <h3 class="text-xl font-bold">${p.name}</h3>
+      <span class="bg-orange-600 text-white text-xs px-3 py-1 rounded-full inline-block mt-2">${p.speciality}</span>
+      <p class="text-sm text-orange-300 mt-2">${p.area}</p>
+      <p class="text-sm text-orange-100/80 mt-1">${p.desc}</p>
+      <p class="text-sm font-semibold text-orange-400 mt-2" data-dist="${i}">Distance: turn on location to see</p>
+      <div class="flex gap-2 mt-4 text-sm">
+        <button onclick="showOnMap(${i})" class="bg-orange-600 hover:bg-orange-500 text-white px-4 py-2 rounded-full">View on map</button>
+        <a target="_blank" href="https://www.google.com/maps/dir/?api=1&destination=${p.lat},${p.lng}" class="border border-orange-500 text-orange-400 px-4 py-2 rounded-full hover:bg-orange-950">Directions</a>
+      </div>
     </div>
-    <div id="mm-${key}" class="hidden"></div>
-   </div></div>`;
-}
+   </div>`);
+});
+fillPhotos();
+function showOnMap(i){map.setView([places[i].lat,places[i].lng],15);markers[i].openPopup();document.getElementById('map').scrollIntoView({behavior:'smooth',block:'center'});}
 
-/* ---------- planner ---------- */
-function pack(list,D,H){
-  const s=[...list].sort((a,b)=>a.zone.localeCompare(b.zone)||a.p-b.p);
-  const days=[];let cur={items:[],used:0};
-  for(const p of s){
-    const need=p.h+(cur.items.length?TRAVEL:0);
-    if(cur.used+need<=H){cur.items.push(p);cur.used+=need;}
-    else{
-      if(p.h>H)return null;
-      if(cur.items.length)days.push(cur);
-      if(days.length>=D)return null;
-      cur={items:[p],used:p.h};
-    }
+/* ---------- distance from current location ---------- */
+let userMarker=null;
+function haversineKm(a,b,c,d){
+  const R=6371,r=x=>x*Math.PI/180,dLat=r(c-a),dLng=r(d-b);
+  const h=Math.sin(dLat/2)**2+Math.cos(r(a))*Math.cos(r(c))*Math.sin(dLng/2)**2;
+  return 2*R*Math.asin(Math.sqrt(h));
+}
+function fmtKm(km){return km<1?Math.round(km*1000)+' m':km.toFixed(1)+' km';}
+function fmtMin(s){const m=Math.round(s/60);return m<60?m+' min':Math.floor(m/60)+' h '+(m%60)+' min';}
+function setDist(i,text){
+  const el=document.querySelector(`[data-dist="${i}"]`);if(el)el.textContent=text;
+  const pop=document.querySelector(`[data-pop-dist="${i}"]`);
+  if(pop)pop.innerHTML=text+'<br>';
+  markers[i].setPopupContent(`<b>${places[i].name}</b><br>${places[i].speciality}<br>${text}<br><a target="_blank" href="https://www.google.com/maps/dir/?api=1&destination=${places[i].lat},${places[i].lng}">Get directions</a>`);
+}
+async function showDistances(uLat,uLng){
+  const status=document.getElementById('locStatus');
+  // 1) instant straight-line distance
+  places.forEach((p,i)=>setDist(i,'Distance: '+fmtKm(haversineKm(uLat,uLng,p.lat,p.lng))+' (straight line)'));
+  // 2) real road distance + driving time (OSRM)
+  try{
+    const coords=[uLng+','+uLat].concat(places.map(p=>p.lng+','+p.lat)).join(';');
+    const r=await(await fetch('https://router.project-osrm.org/table/v1/driving/'+coords+'?sources=0&annotations=distance,duration')).json();
+    if(r.code!=='Ok')throw new Error('osrm');
+    places.forEach((p,i)=>{
+      const m=r.distances[0][i+1],s=r.durations[0][i+1];
+      if(m!=null)setDist(i,'Distance: '+fmtKm(m/1000)+' by road, about '+fmtMin(s)+' drive');
+    });
+    status.textContent='Showing road distance from your current location.';
+  }catch(e){
+    status.textContent='Showing straight-line distance (road distance unavailable right now).';
   }
-  if(cur.items.length)days.push(cur);
-  return days.length>D?null:days;
 }
-
-document.getElementById('go').onclick=()=>{
-  const D=+document.getElementById('days').value,H=+document.getElementById('hours').value;
-  const N=Math.max(1,+document.getElementById('people').value||1);
-  const B=Math.max(0,+document.getElementById('budget').value||0);
-  const food=document.getElementById('food').checked;
-  const showAll=document.getElementById('showall').checked;
-  const mode=d
+function locate(){
+  const status=document.getElementById('locStatus');
+  if(!navigator.geolocation){status.textContent='Your browser does not support location.';return;}
+  status.textContent='Getting your location...';
+  navigator.geolocation.getCurrentPosition(pos=>{
+    const uLat=pos.coords.latitude,uLng=pos.coords.longitude;
+    if(userMarker)map.removeLayer(userMarker);
+    userMarker=L.circleMarker([uLat,uLng],{radius:8,color:'#fff',weight:2,fillColor:'#2563eb',fillOpacity:1}).addTo(map).bindPopup('<b>You are here</b>');
+    status.textContent='Calculating distances...';
+    showDistances(uLat,uLng);
+  },()=>{status.textContent='Location blocked. Allow location access in your browser and tap the button again.';},{enableHighAccuracy:true,timeout:10000});
+}
+locate();
+</script>
+</body>
+</html>
+```
